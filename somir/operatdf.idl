@@ -1,0 +1,101 @@
+#ifndef operatdf_idl
+#define operatdf_idl
+#include <containd.idl>
+#include <containr.idl>
+#include <paramdef.idl>
+#include <excptdef.idl>
+
+typedef string ContextIdentifier;
+
+#ifdef __PRIVATE__
+interface M_OperationDef : M_Contained
+{
+#ifdef __SOMIDL__
+	implementation
+	{
+		callstyle = idl;
+		majorversion = 2;
+		minorversion = 1;
+		dllname = "somir.dll";
+#ifdef __PRIVATE__
+	#ifdef SOMRefObject
+		somUninit : override;
+	#else
+		somDefaultInit: override;
+		somDestruct : override;
+	#endif
+		functionprefix = m_operatdf_;
+#endif
+	};
+#endif
+};
+#endif
+
+interface OperationDef : Contained,Container
+{
+	enum OperationMode {NORMAL,ONEWAY};
+
+	struct OperationDescription
+	{
+		Identifier name;
+		RepositoryId id;
+		RepositoryId defined_in;
+		TypeCode result;
+		OperationMode mode;
+		sequence<ContextIdentifier> contexts;
+		sequence<ParameterDef::ParameterDescription> parameter;
+		sequence<ExceptionDef::ExceptionDescription> exceptions;
+	};
+	attribute TypeCode result;
+	attribute OperationMode mode;
+	attribute sequence<ContextIdentifier> contexts;
+
+#ifdef __PRIVATE__
+	attribute sequence<RepositoryId> raiseSeq;
+#endif
+
+#ifdef __SOMIDL__
+	implementation
+	{
+#ifdef __PRIVATE__
+		result : nodata;
+		mode : nodata;
+		contexts : nodata;
+		raiseSeq: nodata;
+#endif
+		_set_result: caller_owns_parameters="result";
+		_set_contexts: caller_owns_parameters="contexts";
+		_get_contexts: dual_owned_result;
+		_get_result: dual_owned_result;
+		 
+		releaseorder : 
+			_get_result,
+			_set_result,
+			_get_mode,
+			_set_mode,
+			_get_contexts,
+			_set_contexts,
+			_get_raiseSeq,
+			_set_raiseSeq;
+		callstyle = idl;
+		majorversion = 2;
+		minorversion = 1;
+		filestem = operatdf;
+		dllname = "somir.dll";
+#ifdef __PRIVATE__
+		somInit : override;
+	#ifdef SOMRefObject
+		somUninit : override;
+	#else
+		somDestruct: override;
+	#endif
+		somDumpSelf : override;
+		somDumpSelfInt : override;
+		functionprefix = operatdf_;
+		metaclass=M_OperationDef;
+#endif
+	};
+#endif /* __SOMIDL__ */
+};
+
+#endif /* operatdf_idl */

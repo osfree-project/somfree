@@ -1,0 +1,34 @@
+#ifndef somtdm_idl
+#define somtdm_idl
+#include <somobj.idl>
+#include <principl.idl>
+interface TypecodeDataManipulator :
+	SOMObject
+{
+#ifdef __SOMIDL__
+	implementation
+	{
+		unsigned long buffer_size;
+		unsigned long buffer_remaining;
+		somToken somtdm_mutex;
+		callstyle = idl;
+		dllname = "somu2.dll";
+		releaseorder : 
+			tc_copy,
+			tc_copy_contents,
+			tc_decode,
+			tc_decode_contents,
+			tc_encode,
+			tc_equal,
+			tc_init,
+			tc_test,
+			tc_free,
+			tc_free_contents;
+#ifdef __PRIVATE__
+		override : somInit,somUninit;
+		functionprefix = somtdm_;
+#endif
+	};
+#endif /* __SOMIDL__ */
+};
+#endif /* somtdm_idl */

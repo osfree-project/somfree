@@ -1,0 +1,74 @@
+#ifndef fsagm_idl
+#define fsagm_idl
+#include <iogma.idl>
+#include <sompstad.idl>
+interface SOMPAscii;
+interface SOMPAscii :
+	SOMPIOGroupMgrAbstract
+{
+	struct stack_contents
+	{
+		string fileName;
+		long fileOffset;
+	};
+	typedef stack_contents SOMPTStackContents;
+	struct TOC_meta
+	{
+		unsigned long numObjects;
+		long lastOffset;
+	};
+	typedef TOC_meta SOMPTTOCmeta;
+	struct TOC_entry
+	{
+		long podOffset;
+		unsigned short flags;
+		long podPos;
+		long podLen;
+	};
+	typedef TOC_entry SOMPTTOCentry;
+#ifdef __SOMIDL__
+	implementation
+	{
+		callstyle = idl;
+		dllname = "somp.dll";
+		releaseorder : 
+			private0,
+			private1,
+			private2,
+			private3,
+			private4,
+			private5,
+			private6,
+			private7,
+			private8,
+			private9,
+			private10,
+			private11,
+			private12,
+			private13,
+			private14,
+			private15,
+			private16;
+		majorversion = 2;
+		minorversion = 1;
+		filestem = fsagm;
+#ifdef __PRIVATE__
+		sompNewMediaInterface : override;
+		sompGetMediaInterface : override;
+		sompFreeMediaInterface : override;
+		sompInstantiateMediaInterface : override;
+		sompWriteGroup : override;
+		sompReadGroup : override;
+		sompReadObjectData : override;
+		sompDeleteObjectFromGroup : override;
+		sompGroupExists : override;
+		sompObjectInGroup : override;
+		sompMediaFormatOk : override;
+		somInit : override;
+		somUninit : override;
+		functionprefix = fsagm_;
+#endif
+	};
+#endif /* __SOMIDL__ */
+};
+#endif /* fsagm_idl */

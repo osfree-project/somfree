@@ -1,0 +1,29 @@
+#ifdef __PRIVATE__
+
+#ifndef somddevm_idl
+#define somddevm_idl
+
+#include <somobj.idl>
+#include <eman.idl>
+
+	interface SOMDDEventMgr : SOMEEMan
+	{
+#ifdef __SOMIDL__
+		implementation
+		{
+			override:
+#ifdef _PLATFORM_MACINTOSH_
+				someWait,
+#endif
+				somInit,somUninit;
+#ifndef SOMRefObject
+			metaclass = SOMMSingleInstance;
+#endif
+			functionprefix = "somddeman_";
+		};
+#endif
+	};
+
+#endif /* somddevm_idl */
+
+#endif /* __PRIVATE__ */

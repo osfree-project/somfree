@@ -1,0 +1,6 @@
+/* Generated on CPU_VENDOR_OS=powerpc-ibm-aix5.1.0.0 */
+/* Fri Apr 18 09:23:45 2008 */
+#ifdef ENABLE_IPV6
+#define IPV6_WILL_BIND 33172
+#define IPV6_WILL_ACCEPT_IPV4 "00000000000000000000FFFF7F000001"
+#endif /* ENABLE_IPV6 */

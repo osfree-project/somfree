@@ -1,0 +1,64 @@
+#include <somobj.idl>
+
+#include <containd.idl>
+#include <containr.idl>
+#include <repostry.idl>
+#include <typedef.idl>
+#include <attribdf.idl>
+#include <paramdef.idl>
+#include <excptdef.idl>
+#include <operatdf.idl>
+#include <constdef.idl>
+#include <moduledf.idl>
+#include <intfacdf.idl>
+#include <principl.idl>
+#include <somdtype.idl>
+
+#ifdef __GENERATE_SOMTC__
+#pragma somemittypes on
+const TypeCode TC__string=string;
+const TypeCode TC__long=long;
+const TypeCode TC__TypeCode=TypeCode;
+const TypeCode TC__octet=octet;
+const TypeCode TC__boolean=boolean;
+const TypeCode TC__char=char;
+const TypeCode TC__ushort=unsigned short;
+const TypeCode TC__short=short;
+const TypeCode TC__ulong=unsigned long;
+const TypeCode TC__null=null;
+const TypeCode TC__void=void;
+const TypeCode TC__float=float;
+const TypeCode TC__double=double;
+const TypeCode TC__any=any;
+const TypeCode TC__Principal=Principal;
+const TypeCode TC__NamedValue=NamedValue;
+const TypeCode TC__InterfaceDescription=InterfaceDef::InterfaceDescription;
+const TypeCode TC__OperationDescription=OperationDef::OperationDescription;
+const TypeCode TC__AttributeDescription=AttributeDef::AttributeDescription;
+const TypeCode TC__ParameterDescription=ParameterDef::ParameterDescription;
+const TypeCode TC__RepositoryDescription=Repository::RepositoryDescription;
+const TypeCode TC__ModuleDescription=ModuleDef::ModuleDescription;
+const TypeCode TC__ConstDescription=ConstantDef::ConstantDescription;
+const TypeCode TC__ExceptionDescription=ExceptionDef::ExceptionDescription;
+const TypeCode TC__TypeDescription=TypeDef::TypeDescription;
+const TypeCode TC__FullInterfaceDescription=InterfaceDef::FullInterfaceDescription;
+
+#ifdef __SOMIDL__
+/* SOM tk_foreign type */
+const TypeCode TC__somId=somId;
+#endif
+
+/*module SOMTC
+{
+	struct my_wibble
+	{
+		long my_long;
+		string my_string;
+		sequence<my_wibble> my_wibbles;
+	};
+
+	const TypeCode TC__self=my_wibble;
+};*/
+
+#pragma somemittypes off
+#endif

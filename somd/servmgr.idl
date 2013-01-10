@@ -1,0 +1,61 @@
+#ifndef servmgr_idl
+#define servmgr_idl
+#ifdef __PRIVATE__
+#include <somref.idl>
+#else
+#include <somobj.idl>
+#endif
+#include <somdtype.idl>
+interface ImplementationDef;
+
+interface SOMDServerMgr :
+#ifdef __PRIVATE__
+	SOMRefObject
+#else
+	SOMObject
+#endif
+{
+	ORBStatus somdShutdownServer(
+		in string server_alias);
+	ORBStatus somdShutdownImpl(
+		in ImplementationDef impldef);
+	ORBStatus somdStartServer(
+		in string server_alias);
+	ORBStatus somdRestartServer(
+		in string server_alias);
+	ORBStatus somdListServer(
+		in string server_alias);
+	ORBStatus somdDisableServer(
+		in string server_alias);
+	ORBStatus somdEnableServer(
+		in string server_alias);
+	boolean somdIsServerEnabled(
+		in ImplementationDef impldef);
+#ifdef __PRIVATE__
+	readonly attribute SOMDServerMgr SOMDD_ServerMgrObject;
+	boolean somddDispatch(out somToken retValue,in string method,in va_list ap);
+#endif
+#ifdef __SOMIDL__
+	implementation
+	{
+		releaseorder : 
+			somdShutdownServer,
+			somdStartServer,
+			somdRestartServer,
+			somdListServer,
+			somdDisableServer,
+			somdEnableServer,
+			somdIsServerEnabled,
+			somdShutdownImpl;
+		callstyle = idl;
+		dllname = "somd.dll";
+		majorversion = 2;
+		minorversion = 1;
+#ifdef __PRIVATE__
+		functionprefix = "servmgr_";
+		SOMDD_ServerMgrObject: nodata;
+#endif
+	};
+#endif /* __SOMIDL__ */
+};
+#endif /* servmgr_idl */

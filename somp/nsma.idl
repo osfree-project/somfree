@@ -1,0 +1,41 @@
+#ifndef nsma_idl
+#define nsma_idl
+#include <somobj.idl>
+#include <snglicls.idl>
+#include <somp.idl>
+#include <somperrd.idl>
+interface Iterator;
+interface SOMPIOGroup;
+interface dictKeyInt;
+interface dictKeyChar;
+interface SOMPKeyedSet;
+interface SOMPPersistentId;
+interface SOMPPersistentObject;
+interface SOMPNameSpaceMgr;
+interface SOMPNameSpaceMgr :
+	SOMObject
+{
+#ifdef __SOMIDL__
+	implementation
+	{
+		callstyle = idl;
+		dllname = "somp.dll";
+		releaseorder : 
+			private0,
+			private1,
+			private2,
+			private3;
+		majorversion = 2;
+		minorversion = 1;
+		filestem = nsma;
+		metaclass = SOMMSingleInstance;
+#ifdef __PRIVATE__
+		somInit : override;
+		somUninit : override;
+		somDumpSelfInt : override;
+		functionprefix = nsma_;
+#endif
+	};
+#endif /* __SOMIDL__ */
+};
+#endif /* nsma_idl */

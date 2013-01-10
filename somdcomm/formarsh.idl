@@ -1,0 +1,39 @@
+#ifndef _SOMDForeignMarshaler_idl_
+#define _SOMDForeignMarshaler_idl_
+
+#ifdef __PRIVATE__
+#include <somref.idl>
+#else
+#include <somobj.idl>
+#endif
+#include <somdtype.idl>
+#include <somestio.idl>
+
+interface SOMDForeignMarshaler : 
+#ifdef __PRIVATE__
+	SOMRefObject 
+#else
+	SOMObject
+#endif
+{
+      void marshal (in string latent_param,
+                     in somToken dataPtr,
+                     in SOMD::marshaling_direction_t direction,
+                     in SOMD::marshaling_op_t function,
+                     in CosStream::StreamIO streamio);
+#ifdef __SOMIDL__
+	implementation 
+	{
+        	releaseorder: marshal;
+        	callstyle=idl;
+		dllname="somdcomm.dll";
+		majorversion=3;
+		minorversion=0;
+#ifdef __PRIVATE__
+		functionprefix="formarsh_";
+#endif
+	};
+#endif /* __SOMIDL__ */
+};
+
+#endif /* _SOMDForeignMarshaler_idl_ */

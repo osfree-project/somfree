@@ -1,0 +1,65 @@
+#ifndef iogma_idl
+#define iogma_idl
+#include <somp.idl>
+#include <somobj.idl>
+#include <somperrd.idl>
+interface SOMPMediaInterfaceAbstract;
+interface SOMPIOGroup;
+interface SOMPPersistentId;
+interface SOMPPersistentObject;
+interface SOMPIOGroupMgrAbstract;
+interface SOMPIOGroupMgrAbstract :
+	SOMObject
+{
+	void sompNewMediaInterface(
+		in string IOInfo)
+			raises (SOMPError::sompException);
+	SOMPMediaInterfaceAbstract sompGetMediaInterface();
+	void sompFreeMediaInterface();
+	SOMPMediaInterfaceAbstract sompInstantiateMediaInterface();
+	boolean sompWriteGroup(
+		in SOMPPersistentObject thisPo)
+			raises (SOMPError::sompException);
+	SOMPPersistentObject sompReadGroup(
+		in SOMPPersistentId objectID)
+			raises (SOMPError::sompException);
+	void sompReadObjectData(
+		in SOMPPersistentObject thisPo)
+			raises (SOMPError::sompException);
+	boolean sompGroupExists(
+		in string IOInfo);
+	boolean sompObjectInGroup(
+		in SOMPPersistentId objectID)
+			raises (SOMPError::sompException);
+	boolean sompMediaFormatOk(
+		in string mediaFormatName);
+	void sompDeleteObjectFromGroup(
+		in SOMPPersistentId objectID)
+			raises (SOMPError::sompException);
+#ifdef __SOMIDL__
+	implementation
+	{
+		callstyle = idl;
+		dllname = "somp.dll";
+		releaseorder : 
+			sompNewMediaInterface,
+			sompGetMediaInterface,
+			sompFreeMediaInterface,
+			sompInstantiateMediaInterface,
+			sompWriteGroup,
+			sompReadGroup,
+			sompReadObjectData,
+			sompGroupExists,
+			sompObjectInGroup,
+			sompMediaFormatOk,
+			sompDeleteObjectFromGroup;
+		majorversion = 2;
+		minorversion = 1;
+		filestem = iogma;
+#ifdef __PRIVATE__
+		functionprefix = iogma_;
+#endif
+	};
+#endif /* __SOMIDL__ */
+};
+#endif /* iogma_idl */

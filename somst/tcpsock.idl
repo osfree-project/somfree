@@ -1,0 +1,68 @@
+#ifndef tcpsock_idl
+#define tcpsock_idl
+#include <somssock.idl>
+#include <snglicls.idl>
+interface TCPIPSockets : Sockets
+{
+#ifdef __SOMIDL__
+    implementation
+    {
+        majorversion = 2;
+        minorversion = 1;
+	callstyle=idl;
+	dllname="somst.dll";
+	metaclass=SOMMSingleInstance;
+#ifdef __PRIVATE__
+	long tcpip_serrno;
+	somsAccept: override;
+	somsBind: override;
+	somsConnect: override;
+        somsGethostbyaddr: override;
+	somsGethostbyname: override;
+	somsGethostent: override;
+	somsGethostid: override;
+	somsGethostname: override;
+	somsGetpeername: override;
+	somsGetservbyname: override;
+	somsGetsockname: override;
+	somsGetsockopt: override;
+	somsHtonl: override;
+	somsHtons: override;
+	somsIoctl: override;
+	somsInet_addr: override;
+	somsInet_lnaof: override;
+	somsInet_makeaddr: override;
+	somsInet_netof: override;
+	somsInet_network: override;
+	somsInet_ntoa: override;
+	somsListen: override;
+	somsNtohl: override;
+	somsNtohs: override;
+	somsReadv: override;
+	somsRecv: override;
+	somsRecvfrom: override;
+	somsRecvmsg: override;
+	somsSelect: override;
+	somsSend: override;
+	somsSendmsg: override;
+	somsSendto: override;
+	somsSetsockopt: override;
+	somsShutdown: override;
+	somsSocket: override;
+	somsSoclose: override;
+	somsWritev: override;
+	_set_serrno: override;
+	_get_serrno: override;
+#ifdef SOMRefObject
+	somInit: override;
+	somUninit: override;
+#else
+	somDefaultInit: override;
+	somDestruct: override;
+#endif
+	functionprefix="tcpsock_";
+#endif
+    };
+#endif /* __SOMIDL__ */
+};
+#endif  /* tcpsock_idl */

@@ -1,0 +1,51 @@
+#ifndef somdom_idl
+#define somdom_idl
+#include <om.idl>
+interface SOMDServer;
+interface SOMDObjectMgr;
+interface SOMDObjectMgr :
+	ObjectMgr
+{
+	SOMDServer somdFindServer(
+		in ImplId serverid);
+	SOMDServer somdFindServerByName(
+		in string servername);
+	sequence<SOMDServer> somdFindServersByClass(
+		in Identifier objclass);
+	SOMDServer somdFindAnyServerByClass(
+		in Identifier objclass);
+	attribute boolean somd21somFree;
+#ifdef __SOMIDL__
+	implementation
+	{
+		releaseorder : 
+			somdFindServer,
+			somdFindServerByName,
+			somdFindServersByClass,
+			somdFindAnyServerByClass,
+			_get_somd21somFree,
+			_set_somd21somFree;
+		callstyle = idl;
+		dllname = "somd.dll";
+		majorversion = 2;
+		minorversion = 2;
+#ifdef __PRIVATE__
+		metaclass = SOMMSingleInstance;
+		functionprefix = "somdom_";
+	#ifdef SOMRefObject
+		somInit : override;
+		somUninit : override;
+	#else
+		somDefaultInit : override;
+		somDestruct: override;
+	#endif
+		somdNewObject : override;
+		somdGetIdFromObject : override;
+		somdGetObjectFromId : override;
+		somdReleaseObject : override;
+		somdDestroyObject : override;
+#endif
+	};
+#endif /* __SOMIDL__ */
+};
+#endif /* somdom_idl */

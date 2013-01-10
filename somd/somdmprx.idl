@@ -1,0 +1,23 @@
+#ifndef somdmprx_idl
+#define somdmprx_idl
+#include <somobj.idl>
+#include <somcls.idl>
+interface SOMDMetaproxy;
+interface SOMDMetaproxy :
+	SOMClass
+{
+#ifdef __SOMIDL__
+	implementation
+	{
+		filestem = somdmprx;
+		dllname="somd.dll";
+#ifdef __PRIVATE__
+		functionprefix = "somdmprx_";
+	#ifndef __MAC__
+		somInitMIClass : override;
+	#endif
+#endif
+	};
+#endif /* __SOMIDL__ */
+};
+#endif /* somdmprx_idl */

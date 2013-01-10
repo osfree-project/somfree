@@ -1,0 +1,24 @@
+#ifndef srkset_idl
+#define srkset_idl
+#include <somobj.idl>
+interface SOMPKeyedSet;
+interface SOMPKeyedSet :
+	SOMObject
+{
+	SOMObject sompGetFirstObject();
+#ifdef __SOMIDL__
+	implementation
+	{
+		callstyle = idl;
+		dllname = "somp.dll";
+		releaseorder : sompGetFirstObject;
+		majorversion = 2;
+		minorversion = 1;
+		filestem = srkset;
+#ifdef __PRIVATE__
+		functionprefix = srkset_;
+#endif
+	};
+#endif /* __SOMIDL__ */
+};
+#endif /* srkset_idl */

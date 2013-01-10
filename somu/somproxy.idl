@@ -1,0 +1,60 @@
+#ifndef somproxy_idl
+#define somproxy_idl
+#include <somcls.idl>
+#ifdef __PRIVATE__
+#include <somref.idl>
+#endif
+
+interface SOMMProxyFor : SOMClass
+{
+	SOMClass sommMakeProxyClass(
+		in SOMClass targetClass,
+		in string className);
+#ifdef __SOMIDL__
+	implementation
+	{
+		releaseorder : sommMakeProxyClass;
+		callstyle = oidl;
+		dllname = "somu.dll";
+#ifdef __PRIVATE__
+		functionprefix = "somproxyClass_";
+#endif
+	};
+#endif /* __SOMIDL__ */
+};
+
+interface SOMMProxyForObject : 
+#ifdef __PRIVATE__
+	SOMRefObject
+#else
+	SOMObject
+#endif
+{
+	attribute SOMObject sommProxyTarget;
+	struct sommProxyDispatchInfo
+	{
+		somMethodData md;
+		somMethodPtr dispatchFcn;
+	};
+	boolean sommProxyDispatch(
+		out somToken returnBufferPointer,
+		in sommProxyDispatchInfo dispatchInfo,
+		in va_list ap);
+
+#ifdef __SOMIDL__
+	implementation
+	{
+		releaseorder : 
+			_get_sommProxyTarget,
+			_set_sommProxyTarget,
+			sommProxyDispatch;
+		callstyle = oidl;
+		metaclass = SOMMProxyFor;
+		dllname = "somu.dll";
+#ifdef __PRIVATE__
+		functionprefix = "somproxy_";
+#endif
+	};
+#endif /* __SOMIDL__ */
+};
+#endif /* somproxy_idl */

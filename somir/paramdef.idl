@@ -1,0 +1,80 @@
+#ifndef paramdef_idl
+#define paramdef_idl
+#include <containd.idl>
+
+#ifdef __PRIVATE__
+interface M_ParameterDef : M_Contained
+{
+#ifdef __SOMIDL__
+	implementation
+	{
+		callstyle = idl;
+		majorversion = 2;
+		minorversion = 1;
+		dllname = "somir.dll";
+#ifdef __PRIVATE__
+	#ifdef SOMRefObject
+		somUninit : override;
+	#else
+		somDefaultInit: override;
+		somDestruct : override;
+	#endif
+		functionprefix = m_paramdef_;
+#endif
+	};
+#endif
+};
+#endif
+
+interface ParameterDef :
+	Contained
+{
+	enum ParameterMode {IN,OUT,INOUT};
+
+	struct ParameterDescription
+	{
+		Identifier name;
+		RepositoryId id;
+		RepositoryId defined_in;
+		TypeCode type;
+		ParameterMode mode;
+	};
+	attribute TypeCode type;
+	attribute ParameterMode mode;
+#ifdef __SOMIDL__
+	implementation
+	{
+#ifdef __PRIVATE__
+		type : nodata;
+		mode : nodata;
+#endif
+		_set_type : caller_owns_parameters="type";
+		_get_type: dual_owned_result;
+		releaseorder : 
+			_get_type,
+			_set_type,
+			_get_mode,
+			_set_mode;
+		callstyle = idl;
+		majorversion = 2;
+		minorversion = 1;
+		filestem = paramdef;
+		dllname = "somir.dll";
+#ifdef __PRIVATE__
+		override:
+	#ifdef SOMRefObject
+				somUninit,
+	#else
+				somDefaultInit,
+				somDestruct,
+	#endif
+				somDumpSelf,
+				somDumpSelfInt;
+		functionprefix = "paramdef_";
+		metaclass=M_ParameterDef;
+#endif
+	};
+#endif /* __SOMIDL__ */
+};
+
+#endif /* paramdef_idl */

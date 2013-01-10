@@ -1,0 +1,41 @@
+#ifndef omgidobj_idl
+#define omgidobj_idl
+#include <somobj.idl>
+
+#ifdef __PRIVATE__
+#include <somref.idl>
+#endif
+
+module CosObjectIdentity
+{
+	typedef unsigned long ObjectIdentifier;
+	interface IdentifiableObject :
+#ifdef __PRIVATE__
+		SOMRefObject
+#else
+		SOMObject
+#endif
+	{
+		readonly attribute ObjectIdentifier constant_random_id;
+		boolean is_identical(in IdentifiableObject other_object);
+#ifdef __SOMIDL__
+		implementation
+		{
+			dllname = "somabs1.dll";
+			majorversion = 3;
+			minorversion = 0;
+			memory_management = corba;
+			override : somInit,somUninit;
+			releaseorder : 
+				_get_constant_random_id,
+				private1,
+				is_identical;
+#ifdef __PRIVATE__
+			constant_random_id : nodata;
+			functionprefix = omgidobj_CosObjectIdentity_IdentifiableObject_;
+#endif
+		};
+#endif /* __SOMIDL__ */
+	};
+};
+#endif /* omgidobj_idl */

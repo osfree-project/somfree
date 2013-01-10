@@ -1,0 +1,22 @@
+#ifndef workprev_idl
+#define workprev_idl
+#include <event.idl>
+
+interface SOMEWorkProcEvent : SOMEEvent
+{
+#ifdef __SOMIDL__
+	implementation
+	{
+		majorversion = 2;
+		minorversion = 1;
+		callstyle = idl;
+		dllname = "somem.dll";
+#ifdef __PRIVATE__
+		somInit : override;
+		functionprefix = "workprev_";
+		filestem = workprev;
+#endif
+	};
+#endif /* __SOMIDL__ */
+};
+#endif /* workprev_idl */

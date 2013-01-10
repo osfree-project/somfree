@@ -1,0 +1,7 @@
+/* Generated on CPU_VENDOR_OS=mips-sgi-irix6.5 */
+/* Sat Apr 19 20:05:44 2008 */
+#ifdef ENABLE_IPV6
+#define IPV6_WILL_BIND 1207
+#define IPV6_WILL_ACCEPT_IPV4 "00000000000000000000FFFF7F000001"
+#define IPV6_AND_IPV4_BIND 1209
+#endif

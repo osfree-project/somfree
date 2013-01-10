@@ -1,0 +1,36 @@
+#ifndef lnamec_idl
+#define lnamec_idl
+#include <xnaming.idl>
+interface LNameComponent;
+interface LNameComponent :
+	SOMObject
+{
+	exception NotSet{};
+	string get_id()
+			raises (NotSet);
+	void set_id(
+		in string i);
+	string get_kind()
+			raises (NotSet);
+	void set_kind(
+		in string k);
+	void destroy();
+#ifdef __SOMIDL__
+	implementation
+	{
+		releaseorder : 
+			get_id,
+			set_id,
+			get_kind,
+			set_kind,
+			destroy;
+#ifdef __PRIVATE__
+		functionprefix = "lnamec_";
+#endif
+		dllname = "somnmf.dll";
+		majorversion = 3;
+		minorversion = 0;
+	};
+#endif /* __SOMIDL__ */
+};
+#endif /* lnamec_idl */

@@ -1,0 +1,44 @@
+#ifndef event_idl
+#define event_idl
+#ifdef __PRIVATE__
+#include <somref.idl>
+#else
+#include <somobj.idl>
+#endif
+
+interface SOMEEvent : 
+#ifdef __PRIVATE__
+SOMRefObject
+#else
+SOMObject
+#endif
+{
+	unsigned long somevGetEventTime();
+	unsigned long somevGetEventType();
+	void somevSetEventTime(in unsigned long time);
+	void somevSetEventType(in unsigned long type);
+#ifdef __SOMIDL__
+	implementation
+	{
+#ifdef __PRIVATE__
+		unsigned long event_type;
+		unsigned long event_time;
+#endif
+		releaseorder : 
+			somevGetEventTime,
+			somevGetEventType,
+			somevSetEventTime,
+			somevSetEventType;
+		majorversion = 2;
+		minorversion = 1;
+		callstyle = idl;
+		dllname = "somem.dll";
+#ifdef __PRIVATE__
+		filestem = event;
+		functionprefix = "event_";
+		somInit : override;
+#endif
+	};
+#endif /* __SOMIDL__ */
+};
+#endif /* event_idl */

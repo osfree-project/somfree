@@ -1,0 +1,68 @@
+#ifndef excptdef_idl
+#define excptdef_idl
+#include <containd.idl>
+
+#ifdef __PRIVATE__
+interface M_ExceptionDef : M_Contained
+{
+#ifdef __SOMIDL__
+	implementation
+	{
+		callstyle = idl;
+		majorversion = 2;
+		minorversion = 1;
+		dllname = "somir.dll";
+#ifdef __PRIVATE__
+	#ifdef SOMRefObject
+		somUninit : override;
+	#else
+		somDefaultInit: override;
+		somDestruct : override;
+	#endif
+		functionprefix = m_excptdef_;
+#endif
+	};
+#endif
+};
+#endif
+
+interface ExceptionDef :
+	Contained
+{
+	struct ExceptionDescription
+	{
+		Identifier name;
+		RepositoryId id;
+		RepositoryId defined_in;
+		TypeCode type;
+	};
+	attribute TypeCode type;
+#ifdef __SOMIDL__
+	implementation
+	{
+		_set_type : caller_owns_parameters="type";
+		_get_type: dual_owned_result;
+		releaseorder : _get_type,_set_type;
+		callstyle = idl;
+		majorversion = 2;
+		minorversion = 3;
+		filestem = excptdef;
+		dllname = "somir.dll";
+#ifdef __PRIVATE__
+		type : nodata;
+	#ifdef SOMRefObject
+		somUninit : override;
+	#else
+		somDestruct: override;
+	#endif
+		somDumpSelf : override;
+		somDumpSelfInt : override;
+		get_description_type: override;
+		functionprefix = "excptdef_";
+		metaclass=M_ExceptionDef;
+#endif
+	};
+#endif /* __SOMIDL__ */
+};
+
+#endif /* excptdef_idl */

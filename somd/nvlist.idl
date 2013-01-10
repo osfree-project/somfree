@@ -1,0 +1,57 @@
+#ifndef nvlist_idl
+#define nvlist_idl
+#ifdef __PRIVATE__
+#include <somref.idl>
+#else
+#include <somobj.idl>
+#endif
+#include <somdtype.idl>
+#include <containd.idl>
+
+interface NVList :
+#ifdef __PRIVATE__
+	SOMRefObject
+#else
+	SOMObject
+#endif
+{
+	ORBStatus add_item(in Identifier item_name,in TypeCode item_type,in void * value,in long value_len,in Flags item_flags);
+	ORBStatus free();
+	ORBStatus free_memory();
+	ORBStatus get_count(out long count);
+	ORBStatus set_item(in long item_number,in Identifier item_name,in TypeCode item_type,in void * value,in long value_len,in Flags item_flags);
+	ORBStatus get_item(in long item_number,out Identifier item_name,out TypeCode item_type,out void * value,out long value_len,out Flags item_flags);
+#ifdef __SOMIDL__
+	implementation
+	{
+#ifdef __PRIVATE__
+		sequence<NamedValue> contents;
+#endif
+		releaseorder : 
+			add_item,
+			remove_item,
+			free,
+			free_memory,
+			get_count,
+			set_item,
+			get_item,
+			get_item_by_name;
+		callstyle = idl;
+		dllname = "somd.dll";
+		majorversion = 2;
+		minorversion = 1;
+#ifdef __PRIVATE__
+		functionprefix = "nvlist_";
+	#ifdef SOMRefObject
+		somInit : override;
+		somUninit : override;
+	#else
+		somDefaultInit : override;
+		somDestruct: override;
+	#endif
+		somDumpSelfInt : override;
+#endif
+	};
+#endif /* __SOMIDL__ */
+};
+#endif /* nvlist_idl */

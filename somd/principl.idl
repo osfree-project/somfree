@@ -1,0 +1,61 @@
+#ifndef principl_idl
+#define principl_idl
+#ifdef __PRIVATE__
+#include <somref.idl>
+#include <rhbtypes.idl>
+#else
+#include <somobj.idl>
+#endif
+interface Principal;
+interface Principal :
+#ifdef __PRIVATE__
+	SOMRefObject
+#else
+	SOMObject
+#endif
+{
+	attribute string userName;
+	attribute string hostName;
+#ifdef __PRIVATE__
+	void read_Principal(in sequence<octet> packet);
+	sequence<octet> write_Principal();
+#endif
+#ifdef __SOMIDL__
+	implementation
+	{
+#ifdef __PRIVATE__
+		sequence<octet> packet;
+		unsigned short flags;
+		userName : noset,noget;
+		hostName : noset,noget;
+		read_Principal: procedure;
+		write_Principal: procedure;
+#	ifdef SOMRefObject
+		somInit : override;
+		somUninit : override;
+#	else
+		somDefaultInit : override;
+		somDestruct: override;
+#	endif
+		functionprefix = "principl_";
+#endif
+		_get_userName : dual_owned_result;
+		_get_hostName : dual_owned_result;
+		releaseorder : 
+			_set_userName,
+			_get_userName,
+			_set_hostName,
+			_get_hostName
+#ifdef __PRIVATE__
+			,read_octets,
+			write_octets
+#endif
+			;
+		callstyle = idl;
+		dllname = "somd.dll";
+		majorversion = 2;
+		minorversion = 2;
+	};
+#endif /* __SOMIDL__ */
+};
+#endif /* principl_idl */

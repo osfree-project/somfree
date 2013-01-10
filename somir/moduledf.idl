@@ -1,0 +1,62 @@
+#ifndef moduledf_idl
+#define moduledf_idl
+#include <containd.idl>
+#include <containr.idl>
+
+#ifdef __PRIVATE__
+interface M_ModuleDef : M_Contained
+{
+#ifdef __SOMIDL__
+	implementation
+	{
+		callstyle = idl;
+		majorversion = 2;
+		minorversion = 1;
+		dllname = "somir.dll";
+#ifdef __PRIVATE__
+	#ifdef SOMRefObject
+		somUninit : override;
+	#else
+		somDefaultInit: override;
+		somDestruct : override;
+	#endif
+		functionprefix = m_moduledf_;
+#endif
+	};
+#endif
+};
+#endif
+
+interface ModuleDef : Contained,Container
+{
+	struct ModuleDescription
+	{
+		Identifier name;
+		RepositoryId id;
+		RepositoryId defined_in;
+	};
+#ifdef __SOMIDL__
+	implementation
+	{
+		callstyle = idl;
+		majorversion = 2;
+		minorversion = 1;
+		filestem = moduledf;
+		dllname = "somir.dll";
+#ifdef __PRIVATE__
+		private_build : override;
+#ifdef SOMRefObject
+#else
+		somDestruct: override;
+#endif
+		somDumpSelf : override;
+		somDumpSelfInt : override;
+		get_description_type: override;
+		functionprefix = "moduledf_";
+		metaclass=M_ModuleDef;
+#endif
+	};
+#endif /* __SOMIDL__ */
+};
+
+#endif /* moduledf_idl */

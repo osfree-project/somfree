@@ -1,0 +1,27 @@
+#ifdef __PRIVATE__
+
+#ifndef rhbtypes_idl
+	#define rhbtypes_idl
+	#include <somobj.idl>
+
+	typedef SOMFOREIGN RHBORB;
+	#pragma modifier RHBORB: impctx=C;
+	typedef SOMFOREIGN RHBGIOPRequestStream;
+	#pragma modifier RHBGIOPRequestStream: impctx=C;
+	typedef SOMFOREIGN RHBInterfaceDef;
+	#pragma modifier RHBInterfaceDef: impctx=C;
+	typedef SOMFOREIGN RHBOperationDef;
+	#pragma modifier RHBOperationDef: impctx=C;
+	typedef SOMFOREIGN RHBObject;
+	#pragma modifier RHBObject: impctx=C;
+	typedef SOMFOREIGN RHBRequest;
+	#pragma modifier RHBRequest: impctx=C;
+	typedef SOMFOREIGN RHBServerRequest;
+	#pragma modifier RHBServerRequest: impctx=C;
+	typedef SOMFOREIGN RHBServerWaitingRoom;
+	#pragma modifier RHBServerWaitingRoom: impctx=C;
+	typedef SOMFOREIGN RHBProcessInfo;
+	#pragma modifier RHBProcessInfo: impctx=C;
+#endif /* rhbtypes_idl */
+
+#endif /* __PRIVATE__ */

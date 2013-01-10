@@ -1,0 +1,41 @@
+#ifndef somsid_idl
+#define somsid_idl
+#include <somida.idl>
+interface SOMUTStringId;
+interface SOMUTStringId :
+	SOMUTId
+{
+	long somutSetIdString(
+		in string IdString);
+	string somutGetIdString(
+		in string toBuffer);
+	long somutGetIdStringLen();
+	boolean somutEqualsString(
+		in string IdString);
+	short somutCompareString(
+		in string IdString);
+#ifdef __SOMIDL__
+	implementation
+	{
+		callstyle = idl;
+		releaseorder : 
+			somutSetIdString,
+			somutGetIdString,
+			somutGetIdStringLen,
+			somutEqualsString,
+			somutCompareString;
+		majorversion = 2;
+		minorversion = 1;
+		filestem = somsid;
+		dllname = "somu.dll";
+#ifdef __PRIVATE__
+		functionprefix = somsid_;
+		somutSetIdId : override;
+		somutEqualsId : override;
+		somutCompareId : override;
+		somutHashId : override;
+#endif
+	};
+#endif /* __SOMIDL__ */
+};
+#endif /* somsid_idl */
