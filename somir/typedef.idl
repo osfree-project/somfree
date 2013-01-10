@@ -1,0 +1,72 @@
+#ifndef typedef_idl
+#define typedef_idl
+#include <containd.idl>
+
+/* CORBA actually calls this 'TypedefDef' 
+	and is derived from IDLType, no matter... */
+
+#ifdef __PRIVATE__
+interface M_TypeDef : M_Contained
+{
+#ifdef __SOMIDL__
+	implementation
+	{
+		callstyle = idl;
+		majorversion = 2;
+		minorversion = 1;
+		dllname = "somir.dll";
+#ifdef __PRIVATE__
+	#ifdef SOMRefObject
+		somUninit : override;
+	#else
+		somDefaultInit: override;
+		somDestruct : override;
+	#endif
+		functionprefix = m_typedef_;
+#endif
+	};
+#endif
+};
+#endif
+
+interface TypeDef :
+	Contained
+{
+	struct TypeDescription
+	{
+		Identifier name;
+		RepositoryId id;
+		RepositoryId defined_in;
+		TypeCode type;
+	};
+	attribute TypeCode type;
+#ifdef __SOMIDL__
+	implementation
+	{
+		_set_type: caller_owns_parameters="type";
+		_get_type: dual_owned_result;
+		releaseorder : _get_type,_set_type;
+		callstyle = idl;
+		majorversion = 2;
+		minorversion = 1;
+		dllname = "somir.dll";
+#ifdef __PRIVATE__
+		type : nodata;
+		filestem = typedef;
+		somInit : override;
+	#ifdef SOMRefObject
+		somUninit : override;
+	#else
+		somDestruct: override;
+	#endif
+		somDumpSelf : override;
+		somDumpSelfInt : override;
+		get_description_type: override;
+		functionprefix = "typedef_";
+		metaclass=M_TypeDef;
+#endif
+	};
+#endif /* __SOMIDL__ */
+};
+
+#endif /* typedef_idl */

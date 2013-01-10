@@ -1,0 +1,12 @@
+#ifndef SOMNM_XH
+#define SOMNM_XH
+
+#include <naming.xh>
+#include <xnaming.xh>
+#include <lnamec.xh>
+#include <lname.xh>
+#include <biter.xh>
+
+#include <somnmext.h>
+
+#endif /* SOMNM_XH */

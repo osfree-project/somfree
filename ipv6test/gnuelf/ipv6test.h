@@ -1,0 +1,6 @@
+/* Generated on CPU_VENDOR_OS=x86_64-unknown-linux-gnu */
+/* Fri Dec 17 16:28:44 2010 */
+#ifdef ENABLE_IPV6
+#define IPV6_WILL_BIND 50792
+#define IPV6_WILL_ACCEPT_IPV4 "00000000000000000000FFFF7F000001"
+#endif

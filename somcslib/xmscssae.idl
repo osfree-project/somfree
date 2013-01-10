@@ -1,0 +1,110 @@
+#ifndef xmscssae_idl
+#define xmscssae_idl
+#include <somobj.idl>
+#ifdef __PRIVATE__
+#include <somref.idl>
+#endif
+
+interface SysAdminException :
+#ifdef __PRIVATE__
+	SOMRefObject
+#else
+	SOMObject
+#endif
+{
+	exception Exception
+	{
+		somToken dummy;
+	};
+	typedef sequence<octet> MsgContext;
+	exception ExException
+	{
+		string type_name;
+		string catalog;
+		long key;
+		string default_msg;
+		long time_stamp;
+		MsgContext msg_context;
+	};
+	exception ExFailed
+	{
+		string type_name;
+		string catalog;
+		long key;
+		string default_msg;
+		long time_stamp;
+		MsgContext msg_context;
+		string operation_name;
+	};
+	exception ExInvalid
+	{
+		string type_name;
+		string catalog;
+		long key;
+		string default_msg;
+		long time_stamp;
+		MsgContext msg_context;
+		string resource_name;
+	};
+	exception ExNotFound
+	{
+		string type_name;
+		string catalog;
+		long key;
+		string default_msg;
+		long time_stamp;
+		MsgContext msg_context;
+		string resource_name;
+	};
+	exception ExExists
+	{
+		string type_name;
+		string catalog;
+		long key;
+		string default_msg;
+		long time_stamp;
+		MsgContext msg_context;
+		string resource_name;
+	};
+	exception ExFileIO
+	{
+		string type_name;
+		string catalog;
+		long key;
+		string default_msg;
+		long time_stamp;
+		MsgContext msg_context;
+		string resource_name;
+	};
+	exception ExObjNotFound
+	{
+		string type_name;
+		string catalog;
+		long key;
+		string default_msg;
+		long time_stamp;
+		MsgContext msg_context;
+		string resource_name;
+	};
+	exception ExNoMoreMemory
+	{
+		string type_name;
+		string catalog;
+		long key;
+		string default_msg;
+		long time_stamp;
+		MsgContext msg_context;
+		string message;
+		long size;
+	};
+#ifdef __SOMIDL__
+	implementation
+	{
+		callstyle = idl;
+		majorversion = 3;
+		minorversion = 0;
+		dllname = "somcslib.dll";
+	};
+#endif /* __SOMIDL__ */
+};
+#endif /* xmscssae_idl */

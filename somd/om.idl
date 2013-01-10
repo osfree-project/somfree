@@ -1,0 +1,49 @@
+#ifndef om_idl
+#define om_idl
+#ifdef __PRIVATE__
+#include <somref.idl>
+#else
+#include <somobj.idl>
+#endif
+#include <somdtype.idl>
+#include <snglicls.idl>
+#include <containd.idl>
+interface ObjectMgr :
+#ifdef __PRIVATE__
+	SOMRefObject
+#else
+	SOMObject
+#endif
+{
+	SOMObject somdNewObject(
+		in Identifier objclass,
+		in string hints);
+	string somdGetIdFromObject(
+		in SOMObject obj);
+	SOMObject somdGetObjectFromId(
+		in string id);
+	void somdReleaseObject(
+		in SOMObject obj);
+	void somdDestroyObject(
+		in SOMObject obj);
+#ifdef __SOMIDL__
+	implementation
+	{
+		releaseorder : 
+			somdNewObject,
+			somdGetIdFromObject,
+			somdGetObjectFromId,
+			somdReleaseObject,
+			somdDestroyObject;
+		callstyle = idl;
+/*		metaclass = SOMMSingleInstance;*/
+		dllname = "somd.dll";
+		majorversion = 2;
+		minorversion = 2;
+#ifdef __PRIVATE__
+		functionprefix = "om_";
+#endif
+	};
+#endif /* __SOMIDL__ */
+};
+#endif /* om_idl */

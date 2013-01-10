@@ -1,0 +1,137 @@
+#ifndef po_idl
+#define po_idl
+#include <somobj.idl>
+#include <somcls.idl>
+#include <somperrd.idl>
+
+interface SOMPPersistentId;
+interface SOMPPersistentObject;
+interface SOMPIOGroup;
+interface SOMPIdAssigner;
+interface SOMPEncoderDecoderAbstract;
+
+interface M_SOMPPersistentObject :
+	SOMClass
+{
+	void sompSetClassLevelEncoderDecoderName(
+		in string myName);
+	string sompGetClassLevelEncoderDecoderName();
+#ifdef __SOMIDL__
+	implementation
+	{
+		callstyle = idl;
+		dllname = "somp.dll";
+		releaseorder : 
+			private0,
+			private1,
+			private2,
+			private3,
+			sompSetClassLevelEncoderDecoderName,
+			sompGetClassLevelEncoderDecoderName;
+		majorversion = 2;
+		minorversion = 1;
+		filestem=po;
+#ifdef __PRIVATE__
+		functionprefix = m_po_;
+		somInit : override;
+#endif
+	};
+#endif /* __SOMIDL__ */
+};
+interface SOMPPersistentObject :
+	SOMObject
+{
+	const unsigned short SOMP_STATE_UNDEFINED=32768;
+	const unsigned short SOMP_STATE_UNSTABLE=16384;
+	const unsigned short SOMP_STATE_STABLE=4096;
+	const unsigned short SOMP_STATE_DIRTY=2048;
+	const unsigned short SOMP_STATE_COMPACT=1024;
+	void sompInitNextAvail(
+		in SOMPIdAssigner thisAssigner)
+			raises (SOMPError::sompException);
+	void sompInitNearObject(
+		in SOMPPersistentObject nearObject)
+			raises (SOMPError::sompException);
+	void sompInitGivenId(
+		in SOMPPersistentId thisId)
+			raises (SOMPError::sompException);
+	SOMPPersistentId sompGetPersistentId();
+	string sompGetPersistentIdString(
+		in string outBuff);
+	void sompSetEncoderDecoderName(
+		in string myName);
+	string sompGetEncoderDecoderName();
+	boolean sompEquals(
+		in SOMPPersistentId otherId);
+	void sompPassivate();
+	void sompActivated();
+	string sompGetRelativeIdString(
+		in SOMObject ifNearThisObject,
+		in string relativeIdString);
+	SOMPIOGroup sompInitIOGroup(
+		in SOMObject nearPersistentObj);
+	void sompSetDirty();
+	boolean sompIsDirty();
+	boolean sompGetDirty();
+	void sompMarkForCompaction();
+	void sompSetState(
+		in unsigned short state);
+	boolean sompCheckState(
+		in unsigned short state);
+	void sompClearState(
+		in unsigned short state);
+	SOMPEncoderDecoderAbstract sompGetEncoderDecoder();
+	void sompFreeEncoderDecoder();
+	SOMPIOGroup sompGetIOGroup();
+#ifdef __SOMIDL__
+	implementation
+	{
+		callstyle = idl;
+		dllname = "somp.dll";
+		releaseorder : 
+			sompInitNextAvail,
+			sompInitNearObject,
+			sompInitGivenId,
+			sompGetPersistentId,
+			sompGetPersistentIdString,
+			sompSetEncoderDecoderName,
+			sompGetEncoderDecoderName,
+			private7,
+			private8,
+			private9,
+			private10,
+			sompEquals,
+			sompPassivate,
+			sompActivated,
+			sompGetRelativeIdString,
+			private15,
+			sompSetDirty,
+			sompMarkForCompaction,
+			sompSetState,
+			sompCheckState,
+			sompClearState,
+			sompInitIOGroup,
+			sompGetEncoderDecoder,
+			sompFreeEncoderDecoder,
+			sompGetIOGroup,
+			private25,
+			private26,
+			private27,
+			private28,
+			private29,
+			sompIsDirty,
+			sompGetDirty;
+		majorversion = 2;
+		minorversion = 1;
+		filestem = po;
+		metaclass = M_SOMPPersistentObject;
+#ifdef __PRIVATE__
+		somDumpSelfInt : override;
+		somInit : override;
+		somUninit : override;
+		functionprefix = po_;
+#endif
+	};
+#endif /* __SOMIDL__ */
+};
+#endif /* po_idl */

@@ -1,0 +1,16 @@
+#ifndef somp_idl
+#define somp_idl
+typedef unsigned short SOMPTError;
+const unsigned short MAXTHREADS=256;
+
+interface SOMPPersistentId;
+interface SOMPPersistentObject;
+interface SOMPIOGroup;
+interface SOMPIdAssigner;
+interface SOMPEncoderDecoderAbstract;
+
+#include <po.idl>
+#include <psma.idl>
+#include <pid.idl>
+
+#endif /* somp_idl */

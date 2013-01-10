@@ -1,0 +1,37 @@
+#ifndef sombacls_idl
+#define sombacls_idl
+#include <somobj.idl>
+#include <somcls.idl>
+
+interface SOMMBeforeAfter :
+	SOMClass
+{
+	boolean sommBeforeMethod(
+		in SOMObject object,
+		in somId methodId,
+		in va_list ap);
+	void sommAfterMethod(
+		in SOMObject object,
+		in somId methodId,
+		in somToken returnedvalue,
+		in va_list ap);
+#ifdef __SOMIDL__
+	implementation
+	{
+#ifdef __PRIVATE__
+		sequence<somMethodData> jump_table;
+#endif
+		releaseorder : sommBeforeMethod,sommAfterMethod;
+		majorversion = 2;
+		minorversion = 2;
+		filestem = sombacls;
+		callstyle = idl;
+		dllname = "somu.dll";
+#ifdef __PRIVATE__
+		override : somClassReady,somUninit,somInit;
+		functionprefix=sombacls_;
+#endif
+	};
+#endif /* __SOMIDL__ */
+};
+#endif /* sombacls_idl */

@@ -1,0 +1,47 @@
+#ifndef snglicls_idl
+#define snglicls_idl
+#include <somobj.idl>
+#include <somcls.idl>
+
+#ifdef __PRIVATE__
+typedef SOMFOREIGN   snglicls_private;
+#pragma modifier snglicls_private: impctx=C;
+#endif
+
+interface SOMMSingleInstance :
+	SOMClass
+{
+	SOMObject sommGetSingleInstance();
+	void sommFreeSingleInstance();
+	void sommSingleInstanceFreed(in SOMObject obj);
+#ifdef __SOMIDL__
+	implementation
+	{
+#ifdef __PRIVATE__
+		snglicls_private private_data;
+		somMethodPtr old_somFree;
+		somMethodPtr old_somUninitPtr;
+		somToken mutex;
+#endif
+		sommSingleInstanceFreed : procedure;
+		callstyle = idl;
+		dllname = "somu.dll";
+		releaseorder : sommGetSingleInstance,sommFreeSingleInstance,sommSingleInstanceFreed;
+		majorversion = 2;
+		minorversion = 2;
+		filestem = snglicls;
+#ifdef __PRIVATE__
+		somNew : override;
+		somNewNoInit : override;
+		somInit : override;
+		somUninit : override;
+		somClassReady : override;
+	#ifndef __MAC__
+		somDeallocate: override;
+	#endif
+		functionprefix = "snglicls_";
+#endif
+	};
+#endif /* __SOMIDL__ */
+};
+#endif /* snglicls_idl */

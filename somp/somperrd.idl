@@ -1,0 +1,8 @@
+#ifndef somperrd_idl
+#define somperrd_idl
+#include <somobj.idl>
+module SOMPError
+{
+#include <somperr.idl>
+};
+#endif /* somperrd_idl */

@@ -1,0 +1,53 @@
+#ifndef objset_idl
+#define objset_idl
+#include <somp.idl>
+#include <somobj.idl>
+interface SOMBuf;
+interface SOMPPersistentId;
+interface SOMPObjectSet;
+interface SOMPObjectSet :
+	SOMObject
+{
+	SOMObject sompSetGetNth(
+		in unsigned long n);
+	SOMObject sompFindByID(
+		in SOMPPersistentId lookfor);
+	long sompFindByAddress(
+		in SOMObject lookfor);
+	void sompAddToSet(
+		in SOMObject thisObject);
+	void sompSetDeleteNth(
+		in unsigned long n);
+	long sompGetSetSize();
+	boolean sompObjEqualsID(
+		in SOMObject cmpObj,
+		in SOMPPersistentId lookfor);
+#ifdef __SOMIDL__
+	implementation
+	{
+#ifdef __PRIVATE__
+		SOMBuf storage;
+#endif
+		callstyle = idl;
+		dllname = "somp.dll";
+		releaseorder : 
+			sompSetGetNth,
+			sompFindByID,
+			sompFindByAddress,
+			sompAddToSet,
+			sompSetDeleteNth,
+			sompGetSetSize,
+			sompObjEqualsID;
+		majorversion = 2;
+		minorversion = 1;
+		filestem = objset;
+#ifdef __PRIVATE__
+		somInit : override;
+		somUninit : override;
+		somDumpSelfInt : override;
+		functionprefix = objset_;
+#endif
+	};
+#endif /* __SOMIDL__ */
+};
+#endif /* objset_idl */

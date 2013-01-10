@@ -1,0 +1,30 @@
+#ifdef __PRIVATE__
+#ifndef rhbsomuk_idl
+#define rhbsomuk_idl
+#include <somobj.idl>
+
+#ifdef __SOMIDL__
+typedef somToken RHBSOMUT_KeyDataSetVtbl;
+typedef somToken RHBSOMUT_CriticalSection;
+#endif
+
+module RHBSOMUT
+{
+	typedef sequence<octet> Key;
+	struct KeyData
+	{
+		Key key;
+		any data;
+		long count;
+	};
+	typedef KeyData * KeyDataPtr;
+
+	struct KeyDataSet
+	{
+		RHBSOMUT_KeyDataSetVtbl *lpVtbl;
+		sequence<KeyDataPtr> dataset;
+		RHBSOMUT_CriticalSection guardian;
+	};
+};
+#endif /* rhbsomuk_idl */
+#endif

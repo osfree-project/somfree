@@ -1,0 +1,29 @@
+#ifndef sinkev_idl
+#define sinkev_idl
+#include <event.idl>
+
+interface SOMESinkEvent : SOMEEvent
+{
+	long somevGetEventSink();
+	void somevSetEventSink(in long sink);
+#ifdef __SOMIDL__
+	implementation
+	{
+#ifdef __PRIVATE__
+		long sink_fd;
+#endif
+		releaseorder : somevGetEventSink,somevSetEventSink;
+		majorversion = 2;
+		minorversion = 1;
+		callstyle = idl;
+		dllname = "somem.dll";
+#ifdef __PRIVATE__
+		functionprefix = "sinkev_";
+		filestem = sinkev;
+		somInit : override;
+		somDumpSelfInt : override;
+#endif
+	};
+#endif /* __SOMIDL__ */
+};
+#endif /* sinkev_idl */

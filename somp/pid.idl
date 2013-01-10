@@ -1,0 +1,64 @@
+#ifndef pid_idl
+#define pid_idl
+#include <somsid.idl>
+#include <somperrd.idl>
+interface SOMPPersistentId;
+interface SOMPPersistentId :
+	SOMUTStringId
+{
+	void sompSetIOGroupMgrClassName(
+		in string newName)
+			raises (SOMPError::sompException);
+	string sompGetIOGroupMgrClassName(
+		in string toBuffer);
+	short sompGetIOGroupMgrClassNameLen();
+	void sompSetIOGroupName(
+		in string newName)
+			raises (SOMPError::sompException);
+	string sompGetIOGroupName(
+		in string toBuffer);
+	short sompGetIOGroupNameLen();
+	void sompSetGroupOffset(
+		in long offset)
+			raises (SOMPError::sompException);
+	long sompGetGroupOffset();
+	boolean sompEqualsIOGroupName(
+		in SOMPPersistentId id);
+#ifdef __SOMIDL__
+	implementation
+	{
+		callstyle = idl;
+		dllname = "somp.dll";
+		releaseorder : 
+			sompSetIOGroupMgrClassName,
+			sompGetIOGroupMgrClassName,
+			sompGetIOGroupMgrClassNameLen,
+			sompSetIOGroupName,
+			sompGetIOGroupName,
+			sompGetIOGroupNameLen,
+			sompSetGroupOffset,
+			sompGetGroupOffset,
+			sompEqualsIOGroupName,
+			private9;
+		majorversion = 2;
+		minorversion = 1;
+		filestem = pid;
+#ifdef __PRIVATE__
+		somInit : override;
+		somUninit : override;
+		somDumpSelfInt : override;
+		somutSetIdString : override;
+		somutSetIdId : override;
+		somutGetIdString : override;
+		somutGetIdStringLen : override;
+		somutEqualsId : override;
+		somutEqualsString : override;
+		somutCompareId : override;
+		somutCompareString : override;
+		somutHashId : override;
+		functionprefix = "pid_";
+#endif
+	};
+#endif /* __SOMIDL__ */
+};
+#endif /* pid_idl */

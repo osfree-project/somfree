@@ -1,0 +1,36 @@
+#ifndef somdfenc_idl
+#define somdfenc_idl
+
+#include <xnamingf.idl>
+
+module FENC
+{
+	interface FactoryENC : FileXNaming::FileENC
+	{
+		SOMObject find_any_from_proxy(in SOMObject proxy);
+		SOMObject resolve_from_proxy(in SOMObject proxy);
+	#ifdef __SOMIDL__
+		implementation
+		{
+			majorversion=2;
+			minorversion=2;
+			dllname="somd.dll";
+			#ifdef __PRIVATE__
+			functionprefix="somdfenc_";
+			override: 
+				bind,
+				rebind,
+				bind_context,
+				resolve,
+				unbind,
+				new_context,
+				bind_new_context,
+				destroy,
+				list;
+			#endif
+		};
+	#endif
+	};
+};
+
+#endif

@@ -1,0 +1,53 @@
+#ifndef lname_idl
+#define lname_idl
+#include <lnamec.idl>
+interface LName;
+interface LName :
+	SOMObject
+{
+	exception NoComponent{};
+	exception OverFlow{};
+	exception InvalidName{};
+	LName insert_component(
+		in unsigned long i,
+		in LNameComponent n)
+			raises (NoComponent,OverFlow);
+	LNameComponent get_component(
+		in unsigned long i)
+			raises (NoComponent);
+	LNameComponent delete_component(
+		in unsigned long i)
+			raises (NoComponent);
+	unsigned long num_components();
+	boolean equal(
+		in LName ln);
+	boolean less_than(
+		in LName ln);
+	CosNaming::Name to_idl_form()
+			raises (InvalidName);
+	void from_idl_form(
+		in CosNaming::Name n);
+	void destroy();
+#ifdef __SOMIDL__
+	implementation
+	{
+		releaseorder : 
+			to_idl_form,
+			insert_component,
+			get_component,
+			delete_component,
+			num_components,
+			equal,
+			less_than,
+			from_idl_form,
+			destroy;
+#ifdef __PRIVATE__
+		functionprefix = "lname_";
+#endif
+		dllname = "somnmf.dll";
+		majorversion = 3;
+		minorversion = 0;
+	};
+#endif /* __SOMIDL__ */
+};
+#endif /* lname_idl */

@@ -1,0 +1,39 @@
+#ifndef fmib_idl
+#define fmib_idl
+#include <fmi.idl>
+interface SOMPBinaryFileMedia;
+interface SOMPBinaryFileMedia :
+	SOMPAsciiMediaInterface
+{
+#ifdef __SOMIDL__
+	implementation
+	{
+		callstyle = idl;
+		dllname = "somp.dll";
+		majorversion = 2;
+		minorversion = 1;
+		filestem = fmib;
+#ifdef __PRIVATE__
+		sompWriteOctet : override;
+		sompWriteShort : override;
+		sompWriteUnsignedShort : override;
+		sompWriteLong : override;
+		sompWriteUnsignedLong : override;
+		sompWriteDouble : override;
+		sompWriteFloat : override;
+		sompWriteString : override;
+		sompReadOctet : override;
+		sompReadShort : override;
+		sompReadUnsignedShort : override;
+		sompReadLong : override;
+		sompReadUnsignedLong : override;
+		sompReadDouble : override;
+		sompReadFloat : override;
+		sompReadString : override;
+		sompReadStringToBuffer : override;
+		functionprefix = fmib_;
+#endif
+	};
+#endif /* __SOMIDL__ */
+};
+#endif /* fmib_idl */

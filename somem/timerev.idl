@@ -1,0 +1,29 @@
+#ifndef timerev_idl
+#define timerev_idl
+#include <event.idl>
+
+interface SOMETimerEvent : SOMEEvent
+{
+	long somevGetEventInterval();
+	void somevSetEventInterval(in long interval);
+#ifdef __SOMIDL__
+	implementation
+	{
+#ifdef __PRIVATE__
+		long timer_interval;
+#endif
+		releaseorder : somevGetEventInterval,somevSetEventInterval;
+		majorversion = 2;
+		minorversion = 1;
+		callstyle = idl;
+		dllname = "somem.dll";
+#ifdef __PRIVATE__
+		filestem = timerev;
+		functionprefix = "timerev_";
+		somInit : override;
+		somDumpSelfInt : override;
+#endif
+	};
+#endif /* __SOMIDL__ */
+};
+#endif /* timerev_idl */

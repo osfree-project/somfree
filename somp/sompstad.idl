@@ -1,0 +1,30 @@
+#ifndef sompstad_idl
+#define sompstad_idl
+#include <somobj.idl>
+module SOMPStatDef
+{
+	struct somp_stat
+	{
+		unsigned long st_dev;
+		unsigned long st_ino;
+		unsigned long st_mode;
+		short st_nlink;
+		unsigned long st_uid;
+		unsigned long st_gid;
+		unsigned long st_rdev;
+		long st_size;
+		long st_atime;
+		long st_spare1;
+		long st_mtime;
+		long st_spare2;
+		long st_ctime;
+		long st_spare3;
+		unsigned long st_blksize;
+		unsigned long st_blocks;
+		unsigned long st_vfstype;
+		unsigned long st_vfs;
+		unsigned long st_type;
+	};
+	typedef somp_stat sompstat;
+};
+#endif /* sompstad_idl */

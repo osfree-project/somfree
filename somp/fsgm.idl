@@ -1,0 +1,23 @@
+#ifndef fsgm_idl
+#define fsgm_idl
+#include <fsagm.idl>
+interface SOMPBinary;
+interface SOMPBinary :
+	SOMPAscii
+{
+#ifdef __SOMIDL__
+	implementation
+	{
+		callstyle = idl;
+		dllname = "somp.dll";
+		majorversion = 2;
+		minorversion = 1;
+		filestem = fsgm;
+#ifdef __PRIVATE__
+		sompInstantiateMediaInterface : override;
+		functionprefix = fsgm_;
+#endif
+	};
+#endif /* __SOMIDL__ */
+};
+#endif /* fsgm_idl */

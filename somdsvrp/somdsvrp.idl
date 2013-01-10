@@ -1,0 +1,18 @@
+#include <somdserv.idl>
+
+interface SOMDServerP : SOMDServer
+{
+#ifdef __SOMIDL__
+	implementation
+	{
+		majorversion=1;
+		minorversion=0;
+		dllname="somdsvrp";
+#ifdef __PRIVATE__
+		functionprefix="somdsvrp_";
+		somdRefFromSOMObj: override;
+		somdSOMObjFromRef: override;
+#endif
+	};
+#endif
+};

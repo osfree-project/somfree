@@ -1,0 +1,64 @@
+#ifdef __PRIVATE__
+#ifndef dynimpl_idl
+#define dynimpl_idl
+
+#include <poa.idl>
+
+#ifdef __BLAH_BLAH__
+interface DynamicTest: PortableServer::DynamicImpl
+{
+	void something();
+
+	#ifdef __SOMIDL__
+	implementation
+	{
+		majorversion=1;
+		minorversion=0;
+		releaseorder: 
+				something;
+
+		functionprefix=dyntest_;
+		invoke: override;
+		primary_interface: override;
+	};
+	#endif
+};
+#endif
+
+interface SOMDServer;
+
+interface SOMDServerStub: PortableServer::DynamicImpl
+{
+	attribute SOMDServer somdServer;
+	attribute SOMObject somdServant;
+
+	#ifdef __SOMIDL__
+	implementation
+	{
+		majorversion=1;
+		minorversion=0;
+		releaseorder: 
+				_get_somdServer,
+				_set_somdServer,
+				_get_somdServant,
+				_set_somdServant;
+
+		functionprefix=dynimpl_;
+		invoke: override;
+		primary_interface: override;
+	#ifdef SOMRefObject
+		somInit : override;
+		somUninit : override;
+	#else
+		somDefaultInit : override;
+		somDestruct: override;
+	#endif
+		somdServer: noset,noget;
+		somdServant: noset,noget;
+	};
+	#endif
+};
+
+#endif
+
+#endif
