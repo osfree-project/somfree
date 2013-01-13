@@ -249,6 +249,6 @@ find "$INTDIR/dist" | xargs ls -ld
 	tar cf - *
 ) > $INTDIR/somtk.tardist
 
-mv "$INTDIR/somtk.tardist" "$OUTDIR_DIST/somtk.tardist"
+mv "$INTDIR/somtk.tardist" "$OUTDIR_DIST/somtk-$VERSION.tardist"
 					
 rm -rf "$INTDIR/dist" "$INTDIR/somtk.idb" "$INTDIR/somtk.spec"

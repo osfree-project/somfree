@@ -50,11 +50,11 @@ clean:
 			$@; \
 		if test "$$?" != "0"; then exit 1; fi \
 	fi
-	../pkg/clean.sh "$(INTDIR)"
+	MAKE="$(MAKE)" ../pkg/clean.sh "$(INTDIR)"
 
 dist:
 	if test -x ../pkg/$(PLATFORM_PROTO).sh; then \
-		../pkg/$(PLATFORM_PROTO).sh -r "$(OUTDIR)" -d "$(OUTDIR_DIST)" -t "$(INTDIR)"; \
+		MAKE="$(MAKE)" ../pkg/$(PLATFORM_PROTO).sh -r "$(OUTDIR)" -d "$(OUTDIR_DIST)" -t "$(INTDIR)"; \
 	fi
 
 install:

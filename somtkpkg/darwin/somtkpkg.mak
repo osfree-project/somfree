@@ -31,7 +31,7 @@ SHARED=-dynamiclib -Wl,-single_module
 BUNDLE=-bundle
 OBJDIR=$(INTDIR)/obj
 SRCDIR=../src
-BINDIR=$(INTDIR)/bin
+BINDIR=$(FRAMEWORKS)/SOMTK.framework/Versions/A/bin
 STDLIB=-lpthread -lc -L$(BUILD)/products/$(PLATFORM)/$(BUILDTYPE)/lib -lrhbmtuta $(DLLIBS)
 
 all: uuid-$(HAVE_LIBUUID) SOMTK $(BINDIR) $(PLUGINS) $(BINDIR)/irdump $(PLUGINS)/somir.dll $(PLUGINS)/somref.dll $(PLUGINS)/somu.dll $(PLUGINS)/somu2.dll $(PLUGINS)/somestrm.dll $(PLUGINS)/somnmf.dll $(PLUGINS)/somdcomm.dll $(PLUGINS)/somcorba.dll $(PLUGINS)/somany.dll $(PLUGINS)/somcdr.dll $(PLUGINS)/somd.dll $(PLUGINS)/somos.dll $(BINDIR)/somdd $(BINDIR)/regimpl $(BINDIR)/somdsvr $(BINDIR)/dsom $(BINDIR)/somossvr $(BINDIR)/somipc $(BINDIR)/somdchk
