@@ -83,7 +83,6 @@ mkdir -p "$ROOTDIR/Library/Frameworks/SOMTK.framework" "$ROOTDIR/usr/bin"
  				ln -s "$LAST_D" Current
  		)
  	done
-	mkdir Versions/Current/bin
 	mkdir Versions/Current/Headers
 	mkdir Versions/Current/Resources
 	ln -s Versions/Current/Headers .
@@ -145,17 +144,6 @@ then
 		fi	
 	done
 fi
-
-for d in irdump somdd dsom somossvr somdsvr regimpl somipc somdchk
-do
-	if test "$BUILDLIST_COUNT" -gt 1
-	then
-		lipo */bin/$d -create -output "$ROOTDIR/Library/Frameworks/SOMTK.framework/Versions/Current/bin/$d"
-		lipo -info "$ROOTDIR/Library/Frameworks/SOMTK.framework/Versions/Current/bin/$d"
-	else
-		cp "$BUILDTYPE/bin/$d" "$ROOTDIR/Library/Frameworks/SOMTK.framework/Versions/Current/bin/$d"
-	fi
-done
 
 for d in sc
 do
@@ -255,26 +243,34 @@ EOF
 
 )
 
-if ../../toolbox/pkgtool.sh gtar
-then
-	GTAR=`../../toolbox/pkgtool.sh gtar`
-
-	if test "$GTAR" != ""
-	then
-		(
-			cd "$ROOTDIR"
-			$GTAR --owner=0 --group=0 --mode=-w --create --file - *
-		) | (
-			gzip >"$OUTDIR_DIST/somtk.tar.gz"
-		)
-	fi
-else
+case "$MACOSX_DEPLOYMENT_TARGET" in
+10.2 )
 		(
 			cd "$ROOTDIR"
 			tar cf - *
 		) | (
 			gzip >"$OUTDIR_DIST/somtk.tar.gz"
 		)
-fi
+	;;
+10.3 | 10.4 | 10.5 )
+	if ../../toolbox/pkgtool.sh gtar
+	then
+		GTAR=`../../toolbox/pkgtool.sh gtar`
+
+		if test "$GTAR" != ""
+		then
+			(
+				cd "$ROOTDIR"
+				$GTAR --owner=0 --group=0 --mode=-w --create --file - *
+			) | (
+				gzip >"$OUTDIR_DIST/somtk.tar.gz"
+			)
+		fi
+	fi
+	;;
+* )
+	productbuild --component "$ROOTDIR/Library/Frameworks/SOMTK.framework" /Library/Frameworks "$OUTDIR_DIST/SOMTK.pkg" 
+	;;
+esac
 
 echo done

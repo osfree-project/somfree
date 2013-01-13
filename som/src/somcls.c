@@ -1718,7 +1718,7 @@ static void SOMClass_unregistered(
 		if (somSelf->mtab != &somThis->cimtabs->mtab)
 		{
 			SOMKERN_clear_somMethodTabPtr(&somThis->cimtabs->mtab);
-			SOMFree(somThis->cimtabs);
+			SOMFreeEx(somThis->cimtabs);
 		}
 
 		somThis->cimtabs=NULL;

@@ -151,6 +151,27 @@ static void SOMClassList_add(SOMClassMgrData *somThis,Environment *ev,somMethodT
 static void SOMClassList_destroy(SOMClassMgrData *somThis);
 static void SOMKERN_AllocateInstanceSize(struct somClassInfoMethodTab *);
 
+
+#ifdef SOM_METHOD_THUNKS
+static somToken SOMMallocEx(size_t t)
+{
+	return VirtualAlloc(NULL,t,MEM_COMMIT,PAGE_EXECUTE_READWRITE);
+}
+static void SOMFreeEx(somToken pv)
+{
+	if (pv)
+	{
+		if (!VirtualFree(pv,0,MEM_RELEASE))
+		{
+			__asm int 3
+		}
+	}
+}
+#else
+#	define SOMMallocEx(x)		SOMMalloc(x)
+#	define SOMFreeEx(x)		SOMFree(x)
+#endif
+
 /* end of recently made static routines */
 
 SOM_SEQUENCE_TYPEDEF(somCClassDataStructurePtr);
@@ -1239,8 +1260,10 @@ static struct somClassInfoMethodTab * SOMKERN_allocate_somMethodTab(
 	_SOMKERN_suballoc(&alloc,(maxCtrlMask << 1)+maxCtrlMask+name_len+1,octet);
 
 	alloc._maximum=alloc._length;
-	alloc._buffer=SOMCalloc(alloc._length,1);
+	alloc._buffer=SOMMallocEx(alloc._length);
+	memset(alloc._buffer,0,alloc._length);
 	alloc._length=0;
+
 						
 	classInfoMtab=
 		SOMKERN_suballoc(&alloc,

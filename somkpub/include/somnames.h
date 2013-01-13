@@ -26,12 +26,14 @@
 /****************************************************
  * contains thunking definitions
  * and traditionally contains mapping to short names
+ *
+ * thunking seems to break from Visual Studio 2010 onwards
  */
 
 #ifndef somnames_h
 #define somnames_h
 
-#if defined(_WIN32) && !defined(_WIN64) && !defined(_DEBUG) && defined(_MSC_VER) && defined(_M_IX86)
+#if defined(_WIN32) && defined(_MSC_VER) && defined(_M_IX86) && !defined(_WIN64)
 #	if (_MSC_VER < 1600)
 #		ifndef SOM_METHOD_THUNKS
 #			define SOM_METHOD_THUNKS	1
