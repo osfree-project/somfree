@@ -34,7 +34,7 @@ SRCDIR=../src
 BINDIR=$(FRAMEWORKS)/SOMTK.framework/Versions/A/bin
 STDLIB=-lpthread -lc -L$(BUILD)/products/$(PLATFORM)/$(BUILDTYPE)/lib -lrhbmtuta $(DLLIBS)
 
-all: uuid-$(HAVE_LIBUUID) SOMTK $(BINDIR) $(PLUGINS) $(BINDIR)/irdump $(PLUGINS)/somir.dll $(PLUGINS)/somref.dll $(PLUGINS)/somu.dll $(PLUGINS)/somu2.dll $(PLUGINS)/somestrm.dll $(PLUGINS)/somnmf.dll $(PLUGINS)/somdcomm.dll $(PLUGINS)/somcorba.dll $(PLUGINS)/somany.dll $(PLUGINS)/somcdr.dll $(PLUGINS)/somd.dll $(PLUGINS)/somos.dll $(BINDIR)/somdd $(BINDIR)/regimpl $(BINDIR)/somdsvr $(BINDIR)/dsom $(BINDIR)/somossvr $(BINDIR)/somipc $(BINDIR)/somdchk
+all: uuid-$(HAVE_LIBUUID) SOMTK $(BINDIR) $(PLUGINS) $(BINDIR)/irdump $(PLUGINS)/somir.dll $(PLUGINS)/somref.dll $(PLUGINS)/somcslib.dll $(PLUGINS)/somu.dll $(PLUGINS)/somu2.dll $(PLUGINS)/somestrm.dll $(PLUGINS)/somnmf.dll $(PLUGINS)/somdcomm.dll $(PLUGINS)/somcorba.dll $(PLUGINS)/somany.dll $(PLUGINS)/somcdr.dll $(PLUGINS)/somd.dll $(PLUGINS)/somos.dll $(BINDIR)/somdd $(BINDIR)/regimpl $(BINDIR)/somdsvr $(BINDIR)/dsom $(BINDIR)/somossvr $(BINDIR)/somipc $(BINDIR)/somdchk
 
 uuid-true:
 
@@ -58,6 +58,7 @@ $(SUBFRAMEWORKS)/SOMDCOMM.framework/Versions/A \
 $(SUBFRAMEWORKS)/SOMANY.framework/Versions/A \
 $(SUBFRAMEWORKS)/SOMCORBA.framework/Versions/A \
 $(SUBFRAMEWORKS)/SOMCDR.framework/Versions/A \
+$(SUBFRAMEWORKS)/SOMCSLIB.framework/Versions/A \
 $(SUBFRAMEWORKS)/UUID.framework/Versions/A \
 $(IMPLIBS)/SOMESTRM.framework/Versions/A \
 $(IMPLIBS)/SOMOS.framework/Versions/A \
@@ -70,6 +71,8 @@ SOMTK: $(FRAMEWORKS)/SOMTK.framework/Versions/A/SOMTK $(FRAMEWORKS)/SOMTK.framew
 UUID: $(SUBFRAMEWORKS)/UUID.framework/Versions/A/UUID $(SUBFRAMEWORKS)/UUID.framework/UUID
 
 SOM: $(SUBFRAMEWORKS)/SOM.framework/Versions/A/SOM $(SUBFRAMEWORKS)/SOM.framework/SOM
+
+SOMCSLIB: $(SUBFRAMEWORKS)/SOMCSLIB.framework/Versions/A/SOMCSLIB $(SUBFRAMEWORKS)/SOMCSLIB.framework/SOMCSLIB
 
 SOMTC: $(SUBFRAMEWORKS)/SOMTC.framework/Versions/A/SOMTC $(SUBFRAMEWORKS)/SOMTC.framework/SOMTC
 
@@ -101,7 +104,7 @@ SOMU2: $(SUBFRAMEWORKS)/SOMU2.framework/Versions/A/SOMU2 $(SUBFRAMEWORKS)/SOMU2.
 
 implibs: $(IMPLIBS)/SOMESTRM.framework/SOMESTRM $(IMPLIBS)/SOMOS.framework/SOMOS $(IMPLIBS)/SOMNMF.framework/SOMNMF
 
-$(FRAMEWORKS)/SOMTK.framework/Versions/A/SOMTK: SOM SOMREF SOMTC SOMIR SOMU SOMU2 SOMABS1 SOMANY SOMCORBA implibs SOMCDR SOMNMF SOMESTRM SOMDCOMM SOMD SOMOS
+$(FRAMEWORKS)/SOMTK.framework/Versions/A/SOMTK: SOM SOMREF SOMTC SOMIR SOMU SOMU2 SOMABS1 SOMANY SOMCORBA implibs SOMCDR SOMNMF SOMESTRM SOMDCOMM SOMD SOMOS SOMCSLIB
 	rm -rf $@.*
 	for d in `../../toolbox/lipoarch.sh $(SUBFRAMEWORKS)/SOM.framework/SOM`; do \
 	echo "const char somtk_arch[]=\"$$d\";" >$(INTDIR)/SOMTK.arch.c; \
@@ -125,6 +128,7 @@ $(FRAMEWORKS)/SOMTK.framework/Versions/A/SOMTK: SOM SOMREF SOMTC SOMIR SOMU SOMU
 		-sub_umbrella SOMOS	\
 		-sub_umbrella SOMD		\
 		-sub_umbrella SOMCDR 	\
+		-sub_umbrella SOMCSLIB	\
 		-F$(SUBFRAMEWORKS)		\
 		-framework SOM			\
 		-framework SOMREF		\
@@ -140,6 +144,7 @@ $(FRAMEWORKS)/SOMTK.framework/Versions/A/SOMTK: SOM SOMREF SOMTC SOMIR SOMU SOMU
 		-framework SOMCDR		\
 		-framework SOMCORBA		\
 		-framework SOMANY		\
+		-framework SOMCSLIB		\
 		`if test -f $(SUBFRAMEWORKS)/UUID.framework/UUID; then echo -framework UUID; fi` \
 		$(UUIDLIBS)				\
 		-framework SOMTC;		\
@@ -160,6 +165,8 @@ SOM_OBJS=$(BUILD)/som/$(PLATFORM)/$(BUILDTYPE)/somalloc.o	\
 		$(OBJDIR)/somkpath.o
 
 SOMREF_OBJS=$(BUILD)/somref/$(PLATFORM)/$(BUILDTYPE)/somref.o		
+
+SOMCSLIB_OBJS=$(BUILD)/somcslib/$(PLATFORM)/$(BUILDTYPE)/xmscssae.o		
 
 UUID_OBJS=$(BUILD)/uuid/$(PLATFORM)/$(BUILDTYPE)/uuid.o	\
 			$(BUILD)/uuid/$(PLATFORM)/$(BUILDTYPE)/rhbenet.o
@@ -297,6 +304,9 @@ $(SUBFRAMEWORKS)/SOM.framework/SOM: $(SUBFRAMEWORKS)/SOM.framework/Versions/A/SO
 $(SUBFRAMEWORKS)/SOMREF.framework/SOMREF: $(SUBFRAMEWORKS)/SOMREF.framework/Versions/A/SOMREF
 	cd $(SUBFRAMEWORKS)/SOMREF.framework; ln -s Versions/A/SOMREF SOMREF
 
+$(SUBFRAMEWORKS)/SOMCSLIB.framework/SOMCSLIB: $(SUBFRAMEWORKS)/SOMCSLIB.framework/Versions/A/SOMCSLIB
+	cd $(SUBFRAMEWORKS)/SOMCSLIB.framework; ln -s Versions/A/SOMCSLIB SOMCSLIB
+
 $(SUBFRAMEWORKS)/SOMTC.framework/SOMTC: $(SUBFRAMEWORKS)/SOMTC.framework/Versions/A/SOMTC
 	cd $(SUBFRAMEWORKS)/SOMTC.framework; ln -s Versions/A/SOMTC SOMTC
 
@@ -370,6 +380,14 @@ $(SUBFRAMEWORKS)/SOMREF.framework/Versions/A/SOMREF: $(SOMREF_OBJS) $(SUBFRAMEWO
 		-Wl,-exported_symbols_list,$(BUILD)/somref/$(PLATFORM)/$(BUILDTYPE)/somref.exp.def \
 		-Wl,-install_name,/Library/Frameworks/SOMTK.framework/Versions/A/Frameworks/SOMREF.framework/Versions/A/SOMREF \
 		$(STDLIB) -F$(SUBFRAMEWORKS) -framework SOM
+
+$(SUBFRAMEWORKS)/SOMCSLIB.framework/Versions/A/SOMCSLIB: $(SOMCSLIB_OBJS) $(SUBFRAMEWORKS)/SOMCSLIB.framework/Versions/A
+	$(CC) $(CFLAGS) $(SHARED) -o $@ \
+		$(SOMCSLIB_OBJS) \
+		-umbrella SOMTK \
+		-Wl,-exported_symbols_list,$(BUILD)/somcslib/$(PLATFORM)/$(BUILDTYPE)/somcslib.exp.def \
+		-Wl,-install_name,/Library/Frameworks/SOMTK.framework/Versions/A/Frameworks/SOMCSLIB.framework/Versions/A/SOMCSLIB \
+		$(STDLIB) -F$(SUBFRAMEWORKS) -framework SOM -framework SOMREF
 
 $(SUBFRAMEWORKS)/SOMANY.framework/Versions/A/SOMANY: $(SOMANY_OBJS) $(SUBFRAMEWORKS)/SOMANY.framework/Versions/A
 	$(CC) $(CFLAGS) $(SHARED) -o $@ \
@@ -534,6 +552,12 @@ $(PLUGINS)/somref.dll: SOMTK
 	$(CC) $(CFLAGS) $(BUNDLE) -o $@ \
 		$(BUILD)/somref/$(PLATFORM)/$(BUILDTYPE)/bundle.somref.SOMInitModule.c \
 		-Wl,-exported_symbols_list,$(BUILD)/somref/$(PLATFORM)/$(BUILDTYPE)/bundle.somref.def \
+		-F$(FRAMEWORKS) -F$(SUBFRAMEWORKS) -framework SOMTK
+
+$(PLUGINS)/somcslib.dll: SOMTK
+	$(CC) $(CFLAGS) $(BUNDLE) -o $@ \
+		$(BUILD)/somcslib/$(PLATFORM)/$(BUILDTYPE)/bundle.somcslib.SOMInitModule.c \
+		-Wl,-exported_symbols_list,$(BUILD)/somcslib/$(PLATFORM)/$(BUILDTYPE)/bundle.somcslib.def \
 		-F$(FRAMEWORKS) -F$(SUBFRAMEWORKS) -framework SOMTK
 
 $(PLUGINS)/somir.dll: SOMTK

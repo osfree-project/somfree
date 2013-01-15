@@ -104,6 +104,24 @@ mkdir -p "$ROOTDIR/Library/Frameworks/SOMTK.framework" "$ROOTDIR/usr/bin"
 			fi
 		done
 	)
+
+	for d in `echo Versions/Current/Frameworks/*.framework/*`
+	do
+		BN=`basename $d`
+		DN=`dirname $d`
+		case "$BN" in
+		SOM* )
+			mkdir -p "$DN/Versions/Current/Headers"
+			(
+				cd "$DN"
+				ln -s "Versions/Current/Headers"
+			)
+			;;
+		* )
+			;;
+		esac
+	done
+
 )
 
 BUILDLIST=`echo *`
@@ -165,23 +183,65 @@ done
 	done
 )
 
-for d in somobj somcls somcm containd containr repostry typedef intfacdf operatdf orb somoa boa somdobj somdcprx
+while read P F
 do
-	cp ../../somidl/$d.idl "$ROOTDIR/Library/Frameworks/SOMTK.framework/Headers"
-
-	for e in h xh
+	for d in $F
 	do
-		if test -f ../../somidl/$PLATFORM/$d.$e
+		if test -f ../../somidl/$d.idl
 		then
-			cp ../../somidl/$PLATFORM/$d.$e "$ROOTDIR/Library/Frameworks/SOMTK.framework/Headers"
+			cp ../../somidl/$d.idl "$ROOTDIR/Library/Frameworks/SOMTK.framework/Versions/Current/Frameworks/$P.framework/Headers"
 		fi
+
+		for e in api h xh
+		do
+			if test -f ../../somidl/$PLATFORM/$d.$e
+			then
+				cp ../../somidl/$PLATFORM/$d.$e "$ROOTDIR/Library/Frameworks/SOMTK.framework/Versions/Current/Frameworks/$P.framework/Headers"
+			fi
+		done
 	done
+done <<EOF
+SOM somcls somobj somcm
+SOMD somdobj somdcprx somdom orb somdom request cntxt nvlist somdtype somdserv stexcep unotypes somoa principl om impldef implrep boa servmgr somdmprx
+SOMIR repostry intfacdf containd containr operatdf moduledf attribdf typedef paramdef excptdef constdef 
+SOMNMF naming biter xnaming xnamingf lname lnamec
+SOMESTRM omgestio somestio
+SOMREF somref
+SOMU snglicls sombacls somida somproxy somsid
+SOMU2 somtdm
+SOMABS1 omgidobj
+SOMOS somos somap
+SOMCSLIB xmscssae
+EOF
+
+for d in h xh
+do
+	cp ../../somkpub/include/*.$d "$ROOTDIR/Library/Frameworks/SOMTK.framework/Versions/Current/Frameworks/SOM.framework/Headers"
+	cp ../../somtk/include/somd*.$d "$ROOTDIR/Library/Frameworks/SOMTK.framework/Versions/Current/Frameworks/SOMD.framework/Headers"
+	cp ../../somtk/include/somtc*.$d "$ROOTDIR/Library/Frameworks/SOMTK.framework/Versions/Current/Frameworks/SOMTC.framework/Headers"
+	cp ../../somtk/include/somir*.$d "$ROOTDIR/Library/Frameworks/SOMTK.framework/Versions/Current/Frameworks/SOMIR.framework/Headers"
+	cp ../../somtk/include/somos*.$d "$ROOTDIR/Library/Frameworks/SOMTK.framework/Versions/Current/Frameworks/SOMOS.framework/Headers"
+	cp ../../somtk/include/somnm*.$d "$ROOTDIR/Library/Frameworks/SOMTK.framework/Versions/Current/Frameworks/SOMNMF.framework/Headers"
 done
 
-cp ../../somkpub/include/*.h "$ROOTDIR/Library/Frameworks/SOMTK.framework/Headers"
-cp ../../somkpub/include/*.xh "$ROOTDIR/Library/Frameworks/SOMTK.framework/Headers"
-cp ../../somtk/include/*.h "$ROOTDIR/Library/Frameworks/SOMTK.framework/Headers"
-cp ../../somtk/include/*.xh "$ROOTDIR/Library/Frameworks/SOMTK.framework/Headers"
+cp ../../somtk/include/somthrd.h "$ROOTDIR/Library/Frameworks/SOMTK.framework/Versions/Current/Frameworks/SOMU.framework/Headers"
+cp ../../somtk/include/somuutil.h "$ROOTDIR/Library/Frameworks/SOMTK.framework/Versions/Current/Frameworks/SOMU.framework/Headers"
+
+for d in h xh idl api
+do
+	(
+		cd "$ROOTDIR/Library/Frameworks/SOMTK.framework/Versions/Current/Headers"
+
+		pwd
+		ls -l ../../..
+	
+#		find ../../../Versions/Current/Frameworks/SOM*.framework/Versions/Current/Headers -type f -name "*.$d" | while read N
+		find ../Frameworks/SOM*.framework/Versions/Current/Headers -type f -name "*.$d" | while read N
+		do
+			ln -s "$N"
+		done
+	)
+done
 
 cp "$OUTDIR"/etc/somnew.ir "$ROOTDIR/Library/Frameworks/SOMTK.framework/Resources/"
 cp "$OUTDIR"/etc/somenv.ini "$ROOTDIR/Library/Frameworks/SOMTK.framework/Resources/"
@@ -270,6 +330,7 @@ case "$MACOSX_DEPLOYMENT_TARGET" in
 	;;
 * )
 	productbuild --component "$ROOTDIR/Library/Frameworks/SOMTK.framework" /Library/Frameworks "$OUTDIR_DIST/SOMTK.pkg" 
+	mv "$OUTDIR_DIST/SOMTK.pkg" "$OUTDIR_DIST/SOMTK-$MACOSX_DEPLOYMENT_TARGET-$VERSION.pkg"
 	;;
 esac
 
