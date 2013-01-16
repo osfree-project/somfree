@@ -528,6 +528,23 @@ public:
 
 		if (readOnlyMTokens)
 		{
+			emitter->out_printf(out,"#ifdef SOM_DATA_THUNKS\n");
+			emitter->out_printf(out,"static struct somDTokenData %s_somDToken=\n",iface->id);
+			emitter->out_printf(out,"{ somDToken_jump (struct somMethodTabStruct *)(void *)&_%s_somMTabs,\n",iface->id);
+
+			if (iface->instanceData->children())
+			{
+				emitter->out_printf(out,"(short)(int)(size_t)&(((struct %s_SOMAny *)NULL)->%s_data)\n",iface->id,iface->id); 
+			}
+			else
+			{
+				emitter->out_printf(out,"0\n");
+			}
+			emitter->out_printf(out,"};\n");
+
+			emitter->out_printf(out,"#endif /* SOM_DATA_THUNKS */\n");
+
+
 			emitter->out_printf(out,"#ifdef _WIN32\n"); 
 			emitter->out_printf(out,"#pragma data_seg()\n"); 
 			emitter->out_printf(out,"#endif /* _WIN32 */\n"); 
@@ -570,7 +587,12 @@ public:
 
 		emitter->out_printf(out,"%sCClassDataStructure SOMDLINK %sCClassData={\n",n,n);
 
-		emitter->out_printf(out,"(struct somMethodTabList *)(void *)&%s_somClassInfo.parents,&%s_somClassInfo.data_token",n,n);
+		emitter->out_printf(out,"(struct somMethodTabList *)(void *)&%s_somClassInfo.parents,\n",n);
+		emitter->out_printf(out,"#ifdef SOM_DATA_THUNKS\n",n);
+		emitter->out_printf(out,"&%s_somDToken\n",n);
+		emitter->out_printf(out,"#else /* SOM_DATA_THUNKS */\n",n);
+		emitter->out_printf(out,"&%s_somClassInfo.data_token\n",n);
+		emitter->out_printf(out,"#endif /* SOM_DATA_THUNKS */\n",n);
 
 		if (num_vaops)
 		{

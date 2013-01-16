@@ -65,19 +65,6 @@ typedef unsigned long SOMKERN_data_index_t;
 #define SOMKERN_offsetof(x,y)	((long)((char *)&(((x *)0)->y)))
 #define SOMKERN_alignof(x)		(short)(long)(&((struct { octet _x; x _d; } *)NULL)->_d)
 
-#if defined(_WIN32) && !defined(_WIN64) && 0
-	#ifndef SOM_METHOD_THUNKS
-		#define SOM_METHOD_THUNKS		1
-	#endif
-	#ifndef SOM_DATA_THUNKS
-		#define SOM_DATA_THUNKS			1
-	#endif
-	#ifndef SOM_METHOD_STUBS
-		#define SOM_METHOD_STUBS		1
-	#endif
-	#define SOM_METHOD_THUNKS_READONLY
-#endif
-
 /* need to pack this as this is used to generate a assembler jump of the form:
 
 		jmp dword ptr [address]
