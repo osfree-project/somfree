@@ -88,6 +88,7 @@ mkdir -p "$ROOTDIR/Library/Frameworks/SOMTK.framework" "$ROOTDIR/usr/bin"
 	ln -s Versions/Current/Headers .
 	ln -s Versions/Current/Resources .
 	ln -s Versions/Current/SOMTK .
+	ln -s Versions/Current/bin .
 
 	(
 		cd Versions/Current/Frameworks
