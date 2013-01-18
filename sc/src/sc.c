@@ -22,6 +22,18 @@ typedef struct
 	char *_buffer;
 } _IDL_SEQUENCE_char;
 
+static int has_spaces(const char *p,size_t len)
+{
+	while (len--)
+	{
+		char c=*p++;
+
+		if ((c=='\t')||(c==' ')) return 1;
+	}
+
+	return 0;
+}
+
 static void add_seq(_IDL_SEQUENCE_char *seq,_IDL_SEQUENCE_char *more)
 {
 	if (more->_length)
@@ -414,8 +426,12 @@ int main(int argc,char **argv)
 
 				while (t)
 				{
-					add_str(&cpp," -I");
+					int x=has_spaces(t->data._buffer,t->data._length);
+					add_str(&cpp," ");
+					if (x) add_str(&cpp,"\"");
+					add_str(&cpp,"-I");
 					add_seq(&cpp,&t->data);
+					if (x) add_str(&cpp,"\"");
 
 					t=t->next;
 				}

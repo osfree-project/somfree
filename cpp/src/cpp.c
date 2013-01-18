@@ -91,6 +91,18 @@ static HANDLE hCreateTemp(void)
 	return h;
 }
 
+static int has_spaces(const char *p,size_t len)
+{
+	while (len--)
+	{
+		char c=*p++;
+
+		if ((c=='\t')||(c==' ')) return 1;
+	}
+
+	return 0;
+}
+
 static void add_chars(_IDL_SEQUENCE_char *seq,const char *more_buffer,size_t more_length)
 {
 	if (more_length)
@@ -490,7 +502,9 @@ int main(int argc,char **argv)
 		}
 		else
 		{
+
 			item *t=itemNew(p,strlen(p));
+
 			if (src)
 			{
 				item *p=src;
@@ -523,8 +537,15 @@ int main(int argc,char **argv)
 		item *t=includes;
 		while (t)
 		{
-			add_str(&cmdline," /I");
+			int x=has_spaces(t->data._buffer,t->data._length);
+
+			add_str(&cmdline," ");
+
+			if (x) add_str(&cmdline,"\"");
+			add_str(&cmdline,"/I");
 			add_seq(&cmdline,&t->data);
+			if (x) add_str(&cmdline,"\"");
+
 			t=t->next;
 		}
 	}
