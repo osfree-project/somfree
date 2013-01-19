@@ -40,7 +40,6 @@ all: $(DIRS) $(IPV6TEST_H) $(SOMIR)
 clean:
 	$(CLEAN) $(RHBGIOP1_IH)
 	$(CLEAN) $(IPV6TEST_H)
-	$(CLEAN) $(SOMIR)
 
 SOMIR_1=	$(SOMIDL_IDL)/somobj.idl		\
 			$(SOMIDL_IDL)/somcls.idl		\
