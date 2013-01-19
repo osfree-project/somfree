@@ -25,7 +25,7 @@ TARGET=$(OUTDIR_BIN)/$(NAME)$(EXESUFFIX)
 OBJS=$(INTDIR)/$(NAME).o
 PARTOPTS=$(STDOPT) $(STDINCL)
 
-all: $(TARGET)
+all: $(TARGET) config
 
 clean:
 	$(CLEAN) $(OBJS) $(TARGET)
@@ -41,3 +41,9 @@ $(TARGET): $(OBJS)
 
 dist install:
 
+
+config:
+	if test "$(PDL)" = ""; \
+	then \
+		echo "PDL=$(HOSTDIR_BIN)/$(EXEPREFIX)pdl$(EXESUFFIX)" >>"$(MAKEDEFS)"; \
+	fi

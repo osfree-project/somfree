@@ -244,7 +244,7 @@ do
 	case $PKGNAME in
 	somtk.dsom )
 		mkdir "$INTDIR/$PKGNAME/$PKGROOT/etc/dsom"
-		copyLib somd somdcomm somos somnmf somestrm somem
+		copyLib somd somdcomm somos somnmf somestrm 
 		copyIdl somdobj somdcprx orb somoa boa nvlist om cntxt impldef implrep \
 				principl request servmgr somdom somdtype stexcep unotypes somproxy \
 				omgestio xmscssae somdserv \
@@ -297,12 +297,14 @@ do
 		copyIncFile ../../somtk/include/somir*.h ../../somtk/include/somir*.xh
 		;;
 	somtk.util )
-		copyLib soms somst somu somu2 somcdr somany somabs1 somcorba
+		copyLib soms somst somu somu2 somcdr somany somabs1 somcorba somem
 		copyIdl \
 			somssock tcpsock \
 			workprev timerev somsid eman sinkev clientev emregdat event \
 			snglicls somida	\
 			omgidobj
+		copyIncFile ../../somtk/include/eventmsk.h ../../somtk/include/emtypes.h
+		copyIncFile ../../somtk/include/eventmsk.xh ../../somtk/include/emtypes.xh
 		;;
 	* )
 		;;

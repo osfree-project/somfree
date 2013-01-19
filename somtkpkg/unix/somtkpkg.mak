@@ -36,6 +36,14 @@ all:
 			$@; \
 		if test "$$?" != "0"; then exit 1; fi \
 	fi
+	if test "$(SOMTK_IDL)" = ""; \
+	then \
+		echo "SOMTK_IDL=../../somidl" >>"$(MAKEDEFS)"; \
+	fi
+	if test "$(SOMTKLIBS)" = ""; \
+	then \
+		echo SOMTKLIBS=`$(SHLB_REF) somem somem` `$(SHLB_REF) somu somu` `$(SHLB_REF) som som` >>"$(MAKEDEFS)"; \
+	fi
 
 clean:
 	if test -f "$(PART_MAK)"; then \
