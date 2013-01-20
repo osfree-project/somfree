@@ -25,4 +25,3 @@
 interface Robin : Animal, FlyingObject
 {
 };
-

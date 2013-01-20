@@ -20,9 +20,10 @@
  */
 
 #include "error.xh"
-#include <iostream.h>
+#include <iostream>
+using namespace std;
 
-main()
+int main()
 {
   Environment   *ev;
   ErrorExample  *ex1;
@@ -59,4 +60,3 @@ main()
        break;
   } 
 }
-

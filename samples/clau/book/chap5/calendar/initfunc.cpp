@@ -40,4 +40,3 @@ SOMEXTERN void SOMLINK SOMInitModule(long majorVersion,
    CalendarDirNewClass(CalendarDir_MajorVersion, 
                        CalendarDir_MinorVersion);
 }
-

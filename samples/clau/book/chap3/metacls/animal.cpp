@@ -64,4 +64,3 @@ SOM_Scope Animal*  SOMLINK createAnimal(MetaAnimal *somSelf,
 
     return animal;
 }
-

@@ -69,4 +69,3 @@ SOM_Scope void  SOMLINK somUninit(Employee *somSelf)
     Employee_parent_SOMObject_somUninit(somSelf);
 }
 
-

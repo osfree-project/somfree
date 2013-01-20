@@ -27,7 +27,8 @@
 
 #define Hello_Class_Source
 #include <hello.xih>
-#include <iostream.h>
+#include <iostream>
+using namespace std;
 
 SOM_Scope void  SOMLINK printHello(Hello *somSelf,  Environment *ev)
 {
@@ -36,5 +37,3 @@ SOM_Scope void  SOMLINK printHello(Hello *somSelf,  Environment *ev)
 
     cout << somThis->msg << "\n";
 }
-
-

@@ -47,4 +47,3 @@ interface WorkItem : SOMObject
   #endif
 };
 #endif
-

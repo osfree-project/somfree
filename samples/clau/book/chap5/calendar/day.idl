@@ -48,4 +48,3 @@ interface Day : SOMObject
   #endif
 };
 #endif
-

@@ -33,16 +33,16 @@ Environment *ev;
 //****************************************
 // Prototypes
 //****************************************
-displayInterfaceDef(InterfaceDef *);
-displayTypeDef(TypeDef *);
-displayConstantDef(ConstantDef *);
-displayTypeCode(TypeCode);
-printType(TypeCode);
+void displayInterfaceDef(InterfaceDef *);
+void displayTypeDef(TypeDef *);
+void displayConstantDef(ConstantDef *);
+void displayTypeCode(TypeCode);
+void printType(TypeCode);
 
 //******************************************************
 //  Simple Interface Repository Browser
 //******************************************************
-main(int argc, char *argv[], char *envp[])                                   
+int main(int argc, char *argv[], char *envp[])                                   
 {                                                                            
    Repository              *repo;                                            
    _IDL_SEQUENCE_Contained allObj;                                           
@@ -68,7 +68,7 @@ main(int argc, char *argv[], char *envp[])
    }                                                                         
 }                                                                            
 
-displayInterfaceDef(InterfaceDef *intdef)
+void displayInterfaceDef(InterfaceDef *intdef)
 {
    short                    i, j;
    FullInterfaceDescription fid;
@@ -170,7 +170,7 @@ displayInterfaceDef(InterfaceDef *intdef)
    printf("\n*************************************************\n");
 }
 
-displayTypeDef(TypeDef *typdef)
+void displayTypeDef(TypeDef *typdef)
 {
    Description      desc;
    TypeDescription  *td;
@@ -183,7 +183,7 @@ displayTypeDef(TypeDef *typdef)
    printf("\n");
 }
 
-displayConstantDef(ConstantDef *condef)
+void displayConstantDef(ConstantDef *condef)
 {
    Description         desc;
    ConstantDescription *cd;
@@ -215,7 +215,7 @@ displayConstantDef(ConstantDef *condef)
    printf("\n");
 }
 
-printType(TypeCode tc)
+void printType(TypeCode tc)
 {
   switch (TypeCode_kind(tc, ev))                             
   {
@@ -300,7 +300,7 @@ printType(TypeCode tc)
 //********************************************************* 
 // Navigate TypeCode to display complex data types
 //*********************************************************
-displayTypeCode(TypeCode tc)
+void displayTypeCode(TypeCode tc)
 {
   TypeCode membertc, seqtc;
   short    i;
@@ -476,4 +476,3 @@ displayTypeCode(TypeCode tc)
         break;
   }
 }
-

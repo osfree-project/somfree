@@ -23,13 +23,14 @@
 #include "leftcar.xh"
 #include "rightcar.xh"
 #include <stdio.h>
+#include <somtc.xh>
 
 Environment *ev = somGetGlobalEnvironment();
 
 //****************************************
 // Using offset resolution
 //****************************************
-offset_res()
+void offset_res()
 {
   MetaCar *mcar;
   Car     *car;
@@ -46,7 +47,7 @@ offset_res()
 // Generic procedure to invoke a generic method "printCarSpec"
 // that is defined in subclasses
 //**************************************************************
-generic(Car *target)
+void generic(Car *target)
 {
    somTD_Car_printCarSpec carMethodPtr;
 
@@ -71,7 +72,7 @@ generic(Car *target)
 // Create a LeftSteeringCar and a RightSteeringCar object and
 // invoke the corresponding printCarSpec using a generic procedure
 //*****************************************************************
-callgeneric()
+void callgeneric()
 {
    LeftSteeringCar  *lscar;
    RightSteeringCar *rscar;
@@ -91,7 +92,7 @@ callgeneric()
 //***************************************** 
 // Using namelookup resolution
 //******************************************
-namelookup_res()
+void namelookup_res()
 {
    Car                     *car;
    MetaCar                 *mcar;
@@ -120,11 +121,12 @@ namelookup_res()
 //************************************************
 // Using Dispatch function resolution
 //************************************************
-dispatch_res()
+void dispatch_res()
 {
   MetaCar *mcar;
   Car     *car;
-  va_list startArg, arg, arg2;
+  va_list startArg;
+  somVaBuf arg, arg2;
   long    total;
 
   printf("Use dispatch-function resolution\n");
@@ -133,29 +135,31 @@ dispatch_res()
   total = strlen("Honda")+1 + strlen("Prelude")+1 +
           sizeof(long) + sizeof(MetaCar*) + sizeof(Environment*);
 
-  arg = (char*) SOMMalloc(total);
-  startArg = arg;
-
-  va_arg(arg, MetaCar*)     = mcar;
-  va_arg(arg, Environment*) = ev;
-  va_arg(arg, string)      = "Honda";
-  va_arg(arg, string)      = "Prelude";
-  va_arg(arg, long)        = 20000;
+  const char *honda="Honda",*prelude="Prelude";
+  long price=2000;
+  arg=somVaBuf_create(0,0);
+  somVaBuf_add(arg,&mcar,tk_pointer);
+  somVaBuf_add(arg,&ev,tk_pointer);
+  somVaBuf_add(arg,&honda,tk_pointer);
+  somVaBuf_add(arg,&prelude,tk_pointer);
+  somVaBuf_add(arg,&price,tk_long);
+  somVaBuf_get_valist(arg,&startArg);
 
   mcar->SOMObject_somDispatch((somToken*)&car,
                                somIdFromString("createCar"),
                                startArg);
 
-  arg2 = (char*) SOMMalloc(8);
-  startArg = arg2;
-  va_arg(arg2, Car*)         = car;
-  va_arg(arg2, Environment*) = ev;
+  arg=somVaBuf_create(0,0);
+  somVaBuf_add(arg,&car,tk_pointer);
+  somVaBuf_add(arg,&ev,tk_pointer);
+  somVaBuf_get_valist(arg,&startArg);
+
   car->SOMObject_somDispatch((somToken*)0,
                              somIdFromString("printCarSpec"),
                              startArg);
 }
 
-main(int argc, char *argv[], char *envp[])
+int main(int argc, char *argv[], char *envp[])
 {
    offset_res();        // offset resolution
    namelookup_res();    // name lookup resolution
@@ -163,4 +167,3 @@ main(int argc, char *argv[], char *envp[])
 
    callgeneric();       // shows generic procedure
 }
-

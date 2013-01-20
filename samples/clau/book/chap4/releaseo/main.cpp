@@ -21,7 +21,7 @@
 
 #include "a.xh"
 
-main(int argc, char *argv[], char *envp[])
+int main(int argc, char *argv[], char *envp[])
 {
    Environment *ev;
    A *myObj;
@@ -34,4 +34,3 @@ main(int argc, char *argv[], char *envp[])
 
    myObj->display(ev);
 }
-

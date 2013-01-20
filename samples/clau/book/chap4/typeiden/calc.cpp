@@ -19,11 +19,13 @@
  *
  */
 
-#include <iostream.h>
+#include <iostream>
 #include "mgr.xh"
 #include "prg.xh"
 
-calc(Employee *emp)
+using namespace std;
+
+void calc(Employee *emp)
 {
    SOMClass    *mgrClass;
    SOMClass    *empClass;
@@ -54,7 +56,7 @@ calc(Employee *emp)
    cout << "\n";
 }
 
-main(int argc, char *argv[], char *envp[])
+int main(int argc, char *argv[], char *envp[])
 {
    Manager    *mgr;
    Programmer *prg;
@@ -65,4 +67,3 @@ main(int argc, char *argv[], char *envp[])
    calc(mgr);
    calc(prg);
 }
-

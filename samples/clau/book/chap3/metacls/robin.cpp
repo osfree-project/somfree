@@ -28,4 +28,3 @@
 #define Robin_Class_Source
 #define SOMClass_Class_Source
 #include <robin.xih>
-

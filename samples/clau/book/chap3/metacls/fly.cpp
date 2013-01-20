@@ -57,4 +57,3 @@ SOM_Scope FlyingObject*  SOMLINK createFlyingObject(MetaFlyingObject *somSelf,
     return flyobj;
 }
 
-

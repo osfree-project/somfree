@@ -56,4 +56,3 @@ SOM_Scope Car*  SOMLINK createCar(MetaCar *somSelf,  Environment *ev,
     return car;
 }
 
-

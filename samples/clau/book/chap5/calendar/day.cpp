@@ -103,4 +103,3 @@ SOM_Scope void  SOMLINK somUninit(Day *somSelf)
     Day_parent_SOMObject_somUninit(somSelf);
 }
 
-

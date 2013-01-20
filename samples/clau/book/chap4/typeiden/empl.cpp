@@ -37,4 +37,3 @@ SOM_Scope short  SOMLINK salary(Employee *somSelf,  Environment *ev)
     return (5000);
 }
 
-

@@ -23,7 +23,7 @@
 #include "robin.xh"
 #include <stdio.h>
 
-main(int argc, char *argv[], char *envp[])
+int main(int argc, char *argv[], char *envp[])
 {
    Animal      *cat, *dog;
    Robin       *bird;
@@ -63,4 +63,3 @@ main(int argc, char *argv[], char *envp[])
    birdClass = bird->somGetClass();
    somPrintf("Robin meta class is: %s\n", birdClass->somGetClassName());
 }
-

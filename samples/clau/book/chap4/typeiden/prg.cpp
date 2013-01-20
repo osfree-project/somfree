@@ -36,4 +36,3 @@ SOM_Scope short  SOMLINK overtime(Programmer *somSelf,  Environment *ev)
     return (1000);
 }
 
-

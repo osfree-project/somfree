@@ -70,4 +70,3 @@ SOM_Scope void  SOMLINK somUninit(Company *somSelf)
     }
     Company_parent_SOMObject_somUninit(somSelf);
 }
-

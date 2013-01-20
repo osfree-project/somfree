@@ -36,4 +36,3 @@ SOM_Scope short  SOMLINK bonus(Manager *somSelf,  Environment *ev)
     return(500);
 }
 
-

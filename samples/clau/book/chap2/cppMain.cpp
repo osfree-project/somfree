@@ -21,7 +21,7 @@
 
 #include "hello.xh"
 
-main(int argc, char *argv[], char *envp[])
+int main(int argc, char *argv[], char *envp[])
 {
    Hello       *myhello;
    Environment *ev;
@@ -34,4 +34,3 @@ main(int argc, char *argv[], char *envp[])
 
    delete myhello;
 }
-

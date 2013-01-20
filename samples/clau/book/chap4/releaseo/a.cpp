@@ -36,4 +36,3 @@ SOM_Scope void  SOMLINK display(A *somSelf,  Environment *ev)
 
    printf("%d %d\n", somThis->val1, somThis->val2);
 }
-

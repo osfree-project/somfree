@@ -82,4 +82,3 @@ SOM_Scope void  SOMLINK somUninit(CalendarDir *somSelf)
     CalendarDir_parent_SOMObject_somUninit(somSelf);
 }
 
-

@@ -40,4 +40,3 @@ interface Company : SOMObject
   };
   #endif
 };
-
