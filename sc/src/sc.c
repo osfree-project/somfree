@@ -372,13 +372,14 @@ int main(int argc,char **argv)
 
 			while (emitter)
 			{
-				_IDL_SEQUENCE_char cpp={0,0,NULL};
+				_IDL_SEQUENCE_char somcpp={0,0,NULL};
 				_IDL_SEQUENCE_char somipc={0,0,NULL};
 				_IDL_SEQUENCE_char idlname={0,0,NULL};
 				char buf[512];
 				long len=GetModuleFileName(NULL,buf,sizeof(buf));
 				item *t;
 				size_t ul=0,ul2=0;
+				int appPathSpaces=has_spaces(buf,len);
 
 				/* get to start of file name */
 
@@ -395,13 +396,25 @@ int main(int argc,char **argv)
 					}
 				}
 
+				if (appPathSpaces)
+				{
+					add_str(&somipc,"\"");
+					add_str(&somcpp,"\"");
+				}
+
 				strncpy(buf+len,"somipc.exe",sizeof(buf)-len);
 
 				add_str(&somipc,buf);
 
 				strncpy(buf+len,"somcpp.exe",sizeof(buf)-len);
 
-				add_str(&cpp,buf);
+				add_str(&somcpp,buf);
+
+				if (appPathSpaces)
+				{
+					add_str(&somipc,"\"");
+					add_str(&somcpp,"\"");
+				}
 
 				ul=idl->data._length;
 
@@ -441,8 +454,8 @@ int main(int argc,char **argv)
 
 				while (t)
 				{
-					add_str(&cpp," -D");
-					add_seq(&cpp,&t->data);
+					add_str(&somcpp," -D");
+					add_seq(&somcpp,&t->data);
 
 					t=t->next;
 				}
@@ -452,11 +465,11 @@ int main(int argc,char **argv)
 				while (t)
 				{
 					int x=has_spaces(t->data._buffer,t->data._length);
-					add_str(&cpp," ");
-					if (x) add_str(&cpp,"\"");
-					add_str(&cpp,"-I");
-					add_seq(&cpp,&t->data);
-					if (x) add_str(&cpp,"\"");
+					add_str(&somcpp," ");
+					if (x) add_str(&somcpp,"\"");
+					add_str(&somcpp,"-I");
+					add_seq(&somcpp,&t->data);
+					if (x) add_str(&somcpp,"\"");
 
 					t=t->next;
 				}
@@ -528,12 +541,14 @@ int main(int argc,char **argv)
 					t=t->next;
 				}
 
-				add_seq(&cpp,&zero);
+				add_seq(&somcpp,&zero);
 				add_seq(&somipc,&zero);
 
-/*				printf("cpp: %s\n",cpp._buffer);
+#if 1
+				printf("somcpp: %s\n",somcpp._buffer);
 				printf("somipc: %s\n",somipc._buffer);
-*/
+#endif
+
 				{
 					STARTUPINFO cpp_startup,somipc_startup;
 					PROCESS_INFORMATION cpp_pinfo={0,0,0,0},somipc_pinfo={0,0,0,0};
@@ -570,7 +585,7 @@ int main(int argc,char **argv)
 					b=shareable(&cpp_startup.hStdInput);
 					b=shareable(&cpp_startup.hStdOutput);
 
-					b=CreateProcess(NULL,cpp._buffer,NULL,NULL,TRUE,0,NULL,NULL,
+					b=CreateProcess(NULL,somcpp._buffer,NULL,NULL,TRUE,0,NULL,NULL,
 								&cpp_startup,&cpp_pinfo);
 
 					if (!b)
@@ -586,7 +601,7 @@ int main(int argc,char **argv)
 						CloseHandle(hSource);
 						CloseHandle(somipc_startup.hStdInput);
 
-						fprintf(stderr,"%s: exec(%s) failed\n",app,cpp._buffer);
+						fprintf(stderr,"%s: exec(%s) failed\n",app,somcpp._buffer);
 						return 1;
 					}
 
