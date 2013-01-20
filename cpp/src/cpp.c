@@ -417,6 +417,7 @@ static char escape,quote;
 			DWORD dw;
 			WriteFile(hOutput,p,i,&dw,NULL);
 
+#if 0
 			{
 				int k=i;
 				while (k--)
@@ -433,6 +434,7 @@ static char escape,quote;
 					}
 				}
 			}
+#endif
 		}
 	}
 }

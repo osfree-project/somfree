@@ -534,23 +534,24 @@ int RHBPreprocessor::get_token(char *buf,size_t buflen)
 
 				if (argc > 1)
 				{
-#ifdef _WIN32
+#if defined(_WIN32) && 0
 					char *p=filename;
 
 					while (*p)
 					{
 						if (*p=='~') 
 						{
-							bomb("tilde found");
-							break;
+							fprintf(stderr,"tilde found in filename\n");
+/*							bomb("tilde found");
+							break;*/
 						}
 						p++;
 					}
 
-/*					fprintf(stderr,"#### line \"%s\" file \"%s\" opt=\"%s\" ####\n",
+					fprintf(stderr,"#### line \"%s\" file \"%s\" opt=\"%s\" ####\n",
 							linenumber,
 							filename,
-							optarg);*/
+							optarg);
 #endif
 
 					RHBinclude_file *current=NULL;

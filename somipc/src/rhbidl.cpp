@@ -1554,6 +1554,8 @@ void RHBelement::add(RHBPreprocessor *pp,RHBelement *child)
 	{
 		if (child->id[0]!='_')
 		{
+			pp->err("element not alpha-numeric",child->id);
+
 			bomb("RHBelement::add::!isalpha()");
 		}
 	}
@@ -2604,7 +2606,16 @@ void RHBinterface::read_implementation(RHBPreprocessor *pp,char *buf,size_t bufl
 								pp->get_token(buf,buflen);
 							}
 						}
-					
+
+#if defined(_DEBUG) && defined(_WIN32) && 0
+						printf("debugging: implementation token: %s\n",buf);
+
+						if (!isalpha(buf[0]))
+						{
+							__asm int 3
+						}
+#endif
+						
 						e2=new RHBstruct_element(pp,buf);
 
 						e2->element_type=t2;
