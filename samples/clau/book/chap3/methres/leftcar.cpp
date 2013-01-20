@@ -39,4 +39,3 @@ SOM_Scope void  SOMLINK printCarSpec(LeftSteeringCar *somSelf,
     LeftSteeringCar_parent_Car_printCarSpec(somSelf, ev);
 }
 
-

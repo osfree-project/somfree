@@ -36,4 +36,3 @@ interface Employee: SOMObject
   };
   #endif
 };
-

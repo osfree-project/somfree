@@ -46,4 +46,3 @@ interface A : SOMObject
     };
     #endif
 };
-

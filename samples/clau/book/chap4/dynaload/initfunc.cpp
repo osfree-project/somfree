@@ -38,4 +38,3 @@ SOMEXTERN void SOMLINK SOMInitModule(long majorVersion,
    DogNewClass(Dog_MajorVersion, Dog_MinorVersion);
 
 }
-

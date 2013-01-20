@@ -22,7 +22,7 @@
 #include <somtcnst.xh>
 #include <stdio.h>
 
-main(int argc, char *argv[], char *envp[])
+int main(int argc, char *argv[], char *envp[])
 {
    any myany;
    float val = 1.2;
@@ -32,4 +32,3 @@ main(int argc, char *argv[], char *envp[])
 
    printf("%f\n", *((float *) myany._value));
 }
-

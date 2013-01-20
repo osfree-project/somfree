@@ -36,4 +36,3 @@ SOM_Scope void  SOMLINK display(Cat *somSelf,  Environment *ev)
 
     printf("I am a Cat\n");
 }
-

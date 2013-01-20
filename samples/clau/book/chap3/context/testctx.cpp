@@ -22,9 +22,9 @@
 #include <somd.xh>
 #include <cntxt.xh>
 #include "context.xh"
-#include <iostream.h>
+#include <iostream>
 #include <stdio.h>
-main()
+int main()
 {
   Environment     *ev;
   ContextExample  *ex1;
@@ -39,4 +39,3 @@ main()
   ex1->startup(ev,ctx);
 
 }
-

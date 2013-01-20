@@ -125,4 +125,3 @@ void cleanup(Environment *ev)
     SOM_UninitEnvironment(ev);
     return;
 }
-

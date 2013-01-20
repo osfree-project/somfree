@@ -34,4 +34,3 @@ main(int argc, char *argv[], char *envp[])
 
    _somFree(myhello);
 }
-

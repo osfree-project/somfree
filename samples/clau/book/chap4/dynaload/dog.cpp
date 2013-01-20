@@ -37,4 +37,3 @@ SOM_Scope void  SOMLINK display(Dog *somSelf,  Environment *ev)
     printf("I am a Dog\n");
 }
 
-

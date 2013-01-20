@@ -21,9 +21,10 @@
 
 #include "employee.xh"
 #include "company.xh"
-#include <iostream.h>
+#include <iostream>
+using namespace std;
 
-testSequence()
+void testSequence()
 {
   Environment *ev = somGetGlobalEnvironment();    
   Employee *emp1, *emp2;
@@ -49,8 +50,7 @@ testSequence()
   }
 }
 
-main(int argc, char *argv[], char *envp[])
+int main(int argc, char *argv[], char *envp[])
 {
    testSequence();
 }
-

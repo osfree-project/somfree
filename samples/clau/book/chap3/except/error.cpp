@@ -51,4 +51,3 @@ SOM_Scope void  SOMLINK execute(ErrorExample *somSelf,  Environment *ev)
                     (void *) badRc);
 }
 
-

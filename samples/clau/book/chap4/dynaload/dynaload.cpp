@@ -19,12 +19,14 @@
  *
  */
 
-#include <iostream.h>
+#include <iostream>
 #include <som.xh>    
 #include <somobj.xh>
 #include <somcm.xh>
 
-main(int argc, char *argv[], char *envp[])
+using namespace std;
+
+int main(int argc, char *argv[], char *envp[])
 {
    SOMClass      *myClass;
    somId         classId;
@@ -38,7 +40,7 @@ main(int argc, char *argv[], char *envp[])
    //******************************************************
    myClass = SOMClassMgrObject->somFindClsInFile(classId,
                                    0,0,
-                                   "C:\\CLAU\\BOOK\\CHAP4\\DYNALOAD\\DOMESTIC.DLL");
+                                   "domestic.dll");
 
    if (myClass)
    {
@@ -63,4 +65,3 @@ main(int argc, char *argv[], char *envp[])
       cout << "Can't load class " << argv[1] << "\n";
    } 
 }
-

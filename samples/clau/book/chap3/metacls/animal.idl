@@ -53,4 +53,3 @@ interface Animal : SOMObject
     };
     #endif
 };
-

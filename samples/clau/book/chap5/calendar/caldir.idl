@@ -48,4 +48,3 @@ interface CalendarDir : SOMObject
   #endif
 };
 #endif
-

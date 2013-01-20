@@ -64,5 +64,3 @@ SOM_Scope void  SOMLINK startup(ContextExample *somSelf,  Environment *ev,
     }
     val->free(ev);
 }
-
-

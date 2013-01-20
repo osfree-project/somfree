@@ -50,4 +50,3 @@ interface FlyingObject : SOMObject
     };
     #endif
 };
-

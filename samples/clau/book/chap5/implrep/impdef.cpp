@@ -25,7 +25,7 @@
 #include <implrep.xh>
 #include <stdio.h>
 
-main(int argc, char **argv)
+int main(int argc, char **argv)
 {
   Environment       *ev;
   ImplementationDef *implDef;
@@ -35,7 +35,7 @@ main(int argc, char **argv)
   if (argc != 2) 
   {
      printf("You must specify an Implementation alias (e.g. Chris)\n");
-     return;
+     return 1;
   } 
   
   ev = SOM_CreateLocalEnvironment();
@@ -65,6 +65,5 @@ main(int argc, char **argv)
 
   SOMD_Uninit(ev);
   SOM_UninitEnvironment(ev);
-  return;
+  return 0;
 }
-

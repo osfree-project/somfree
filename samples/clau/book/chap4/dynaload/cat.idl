@@ -36,4 +36,3 @@ interface Cat : SOMObject
     };
     #endif
 };
-
