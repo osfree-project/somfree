@@ -5608,6 +5608,9 @@ void RHBheader_emitter::generate_parameter_list(
 		{
 			RHBtype *type=NULL;
 			int by_ref;
+			char name[256];
+
+			name[0]=0;
 
 			if (first_param)
 			{
@@ -5630,14 +5633,14 @@ void RHBheader_emitter::generate_parameter_list(
 
 			if (!type) type=param->parameter_type;
 
-			use_type(out,type,0);
-
 			if (by_ref)
 			{
-				out_printf(out,"*");
+				strcat(name,"*");
 			}
 
-			out_printf(out,"%s",param->id);
+			strcat(name,param->id);
+
+			use_type(out,type,name);
 		}
 
 		e=e->next();

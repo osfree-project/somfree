@@ -250,14 +250,19 @@ static int do_emit(
 
 void bomb(const char *p)
 {
+	if (!p) p="unknown error";
 #ifdef _WIN32
-	printf("SC: bomb: %s\n",p);
+	printf("SC: fatal: %s\n",p);
 	fflush(stdout);
 	fflush(stderr);
-#	ifdef _M_IX86
-		__asm int 3;
+#	ifdef _DEBUG
+#		ifdef _M_IX86
+			__asm int 3;
+#		else
+			((int *)0)[0]=0;
+#		endif
 #	else
-		((int *)0)[0]=0;
+		exit(1);
 #	endif
 #else
 #ifdef _PLATFORM_MACINTOSH_xxx
@@ -273,7 +278,7 @@ void bomb(const char *p)
 		DebugStr("\p");
 	}
 #else
-	printf("SC: bomb: %s\n",p);
+	printf("SC: fatal: %s\n",p);
 	fflush(stdout);
 	fflush(stderr);
 	exit(1);
