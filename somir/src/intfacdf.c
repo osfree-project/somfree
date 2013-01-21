@@ -87,9 +87,14 @@ SOM_Scope InterfaceDef_FullInterfaceDescription SOMLINK intfacdf_describe_interf
 
 	if (cnd)
 	{
+		SOMIR_LOCK
+
 		retVal=cnd->lpVtbl->describe_interface(cnd,ev);
 
+		SOMIR_UNLOCK
+
 		cnd->lpVtbl->Release(cnd);
+
 	}
 
 	return retVal;
