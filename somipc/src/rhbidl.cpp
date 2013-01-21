@@ -2363,6 +2363,17 @@ buf[0]=0;
 			break;
 		}
 
+		while (0==strcmp(buf,"["))
+		{
+			param->parameter_type=wrap_as_array(pp,buf,sizeof(buf),
+					param->parameter_type);
+
+			if (!buf[0])
+			{
+				pp->get_token(buf,sizeof(buf));
+			}
+		}
+
 		if (strcmp(buf,","))
 		{
 			pp->err("parameters should be separated by ,",buf);
