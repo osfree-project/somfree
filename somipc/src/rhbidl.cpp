@@ -2649,6 +2649,8 @@ void RHBinterface::read_implementation(RHBPreprocessor *pp,char *buf,size_t bufl
 
 							break;
 						}
+
+						buf[0]=0;
 					}
 
 					continue;
