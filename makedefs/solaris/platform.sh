@@ -137,7 +137,7 @@ else
 		;;
 	esac
 	LINKAPP_HEAD="-Wl,-zignore"
-	LINKDLL_TAIL="-lCrun -lc"
+	LINKDLL_TAIL="-lCstd -lCrun -lc"
 	CC_LINK_EXPORT="-Wl,-M"
 	CC_LINK_SONAME="-Wl,-h"
 	CC_LINK_ENTRY="-Wl,-e"
