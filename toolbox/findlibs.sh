@@ -34,6 +34,7 @@ fi
 
 X11LIBS=
 XTLIBS=
+XMLIBS=
 X11LIBPATH=
 X11APP=
 X11INCL=
@@ -361,6 +362,44 @@ EOF
    fi
 done
 
+# now look for Xpm
+
+for d in "" $X11CONTENDERS
+do
+    if test "$d"
+    then
+       d="$d/lib"
+    fi
+    for e in "" -lXpm
+    do
+      try_cc $X11INCL `arglist -L $d $X11LIBPATH` $e $X11LIBS $SOCKLIBS <<EOF
+#include <stdio.h>
+#include <X11/Xlib.h>
+#include <X11/xpm.h>
+$FINDLIBS_REQUIRED_GLOBALS
+int main(int argc,char **argv) {
+return argc && argv && XpmGetErrorString(0); }
+EOF
+      RC="$?"
+      if test "$RC" = "0"
+      then
+          if test "$e" != ""
+          then
+             X11LIBS="$e $X11LIBS"
+          fi
+          if test "$d" != ""
+          then
+             X11LIBPATH="$d $X11LIBPATH"           
+          fi
+          break
+      fi
+   done
+   if test "$RC" = "0"
+   then
+      break
+   fi
+done
+
 # now look for Xp
 
 for d in "" $X11CONTENDERS
@@ -491,6 +530,7 @@ do
 $FINDLIBS_REQUIRED_GLOBALS
 int main(int argc,char **argv) {
 XmString str=NULL;
+XtCreateApplicationContext(); 
 XmStringFree(str);
 return argc && argv; }
 EOF
@@ -499,7 +539,7 @@ EOF
       	then
           	if test "$e" != ""
           	then
-             	XTLIBS="$e $XTLIBS"
+             	XMLIBS="$e $XMLIBS"
           	fi
           	if test "$d" != ""
           	then
@@ -714,6 +754,7 @@ echo X11LIBPATH=\"$X11LIBPATH\"\;
 echo X11LIBS=\"$X11LIBS\"\;
 echo X11APP=\"$X11APP\"\;
 echo XTLIBS=\"$XTLIBS\"\;
+echo XMLIBS=\"$XMLIBS\"\;
 echo USBLIBS=\"$USBLIBS\"\;
 echo PCSCLIBS=\"$PCSCLIBS\"\;
 echo UUIDLIBS=\"$UUIDLIBS\"\;

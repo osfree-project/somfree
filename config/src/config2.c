@@ -123,6 +123,8 @@ HAVE_READER_H						"Looking for <reader.h>"
 HAVE_X11_XLIB_H						"Looking for <X11/Xlib.h>"
 HAVE_X11_EXTENSIONS_PRINT_H			"Looking for <X11/extensions/Print.h>"
 HAVE_X11_EXTENSIONS_SHAPE_H			"Looking for <X11/extensions/shape.h>"
+HAVE_X11_XPM_H						"Looking for <X11/xpm.h>"
+HAVE_X11_SGISCHEME_H				"Looking for <X11/SGIScheme.h>"
 HAVE_XM_XM_H						"Looking for <Xm/Xm.h>"
 HAVE_XM_XMALL_H						"Looking for <Xm/XmAll.h>"
 HAVE_COREFOUNDATION_CFSTRING_H		"Looking for <CoreFoundation/CFString.h>"
@@ -629,6 +631,13 @@ USE_IN6ADDR_ANY_INIT_BRACES2		"Looking for {{IN6ADDR_ANY_INIT}}"
 #elif defined(TRY_HAVE_X11_EXTENSIONS_SHAPE_H)
 #	include <X11/Intrinsic.h>
 #	include <X11/extensions/shape.h>
+	COMPLETE_PROGRAM
+#elif defined(TRY_HAVE_X11_XPM_H)
+#	include <X11/xpm.h>
+	COMPLETE_PROGRAM
+#elif defined(TRY_HAVE_X11_SGISCHEME_H)
+#	include <X11/Xresource.h>
+#	include <X11/SGIScheme.h>
 	COMPLETE_PROGRAM
 #elif defined(TRY_HAVE_XM_XM_H)
 #	include <Xm/Xm.h>

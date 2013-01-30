@@ -3297,13 +3297,41 @@ void RHBheader_emitter::generate_interface(RHBoutput *out,RHBinterface *iface,in
 		generate_dts_macros(out,iface);
 	}
 
+	if (cplusplus)
+    {
+        if (internal)
+        {
+            RHBelement_sequence seq;
+            unsigned long j=0;
+            
+            iface->list_all_operations(&seq);
+            
+			dump_nest(out,nest);
+            out_printf(out,"#ifdef METHOD_MACROS\n");
+            
+            while (j < seq.length())
+            {
+                RHBelement *op=seq.get(j++);
+                const char *p=op->id;
+                dump_nest(out,nest+1);
+                out_printf(out,"#ifndef _%s\n",p);
+                
+                dump_nest(out,nest+2);
+                out_printf(out,"#define _%s somSelf->%s\n",p,p);
+                dump_nest(out,nest+1);
+                out_printf(out,"#endif /* _%s */\n",p);
+            }
+			dump_nest(out,nest);
+            out_printf(out,"#endif /*METHOD_MACROS */\n");
+        }
+    }
+    
 	if (internal)
 	{
 		generate_class_guard(out,nest,iface,0);
 	}
-
-
-	if (!cplusplus)
+    
+    if (!cplusplus)
 	{
 		if (!internal)
 		{
@@ -7408,6 +7436,32 @@ void RHBheader_emitter::generate_parent_macro(
 			dump_nest(out,nest+4);
 			generate_name_only_parameter_list(out,iface,op,cplusplus);
 			out_printf(out,"\n");
+
+            {
+                dump_nest(out,nest);
+                out_printf(out,"#ifndef SOM_DONT_USE_SHORT_NAMES\n");
+                    dump_nest(out,nest+1);
+                    out_printf(out,"#ifndef SOMGD_parent_%s\n",op->id);
+                        dump_nest(out,nest+2);
+                        out_printf(out,"#ifdef parent_%s\n",op->id);
+                            dump_nest(out,nest+3);
+                            out_printf(out,"#undef parent_%s\n",op->id);
+                            dump_nest(out,nest+3);
+                            out_printf(out,"#define SOMGD_parent_%s\n",op->id);
+                        dump_nest(out,nest+2);
+                        out_printf(out,"#else /* parent_%s */\n",op->id);
+                            dump_nest(out,nest+3);
+                            get_c_name(iface,n,sizeof(n));
+                            out_printf(out,"#define parent_%s %s_parent_",op->id,n);
+                            get_c_name(parent,n,sizeof(n));
+                            out_printf(out,"%s_%s\n",n,op->id);
+                        dump_nest(out,nest+2);
+                        out_printf(out,"#endif /* parent_%s */\n",op->id);
+                    dump_nest(out,nest+1);
+                    out_printf(out,"#endif /* SOMGD_parent_%s */\n",op->id);
+                dump_nest(out,nest);
+                out_printf(out,"#endif /* SOM_DONT_USE_SHORT_NAMES */\n");
+            }
 		}
 	}
 }
