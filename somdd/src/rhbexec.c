@@ -171,11 +171,11 @@ static boolean confirm_program(char *program,size_t proglen)
 					getcwd(buf,sizeof(buf));
 				}
 #ifdef _WIN32
-				strncat(buf,"\\",sizeof(buf));
+				strncat(buf,"\\",sizeof(buf)-1);
 #else
-				strncat(buf,"/",sizeof(buf));
+				strncat(buf,"/",sizeof(buf)-1);
 #endif
-				strncat(buf,program,sizeof(buf));
+				strncat(buf,program,sizeof(buf)-1);
 
 				if (-1 != access(buf,X_OK))
 				{
@@ -204,12 +204,12 @@ static boolean confirm_program(char *program,size_t proglen)
 				*p=0; break;
 			}
 		}
-		strncat(buf,"\\",sizeof(buf));
+		strncat(buf,"\\",sizeof(buf)-1);
 #else
 		getcwd(buf,sizeof(buf));
-		strncat(buf,"/",sizeof(buf));
+		strncat(buf,"/",sizeof(buf)-1);
 #endif
-		strncat(buf,program,sizeof(buf));
+		strncat(buf,program,sizeof(buf)-1);
 		if (-1 != access(buf,X_OK))
 		{
 			strncpy(program,buf,proglen);

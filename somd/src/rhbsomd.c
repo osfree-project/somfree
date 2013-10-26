@@ -1142,7 +1142,7 @@ SOMD_EXPORT_DATA(long,DebugFlag)
 SOMD_EXPORT_DATA(long,RecvBufferSize)
 #endif
 
-#if defined( _WIN32) 
+#if defined( _WIN32) && !defined(HAVE_INET_PTON)
 const char * __stdcall inet_ntop(int af, const void *src, char *dst, int size)
 {
 	switch (af)

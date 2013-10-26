@@ -206,7 +206,7 @@ char *SOMDD_get_repos_filename(int argc,char **argv)
 
 	if (somutgetpath(buf)) return NULL;
 
-	strncat(buf,"impl.db",sizeof(buf));
+	strncat(buf,"impl.db",sizeof(buf)-1);
 
 	RHBSOM_Trace(buf);
 
