@@ -1196,7 +1196,7 @@ void RHBinterface::build(RHBPreprocessor *pp)
 
 		append_name(buf,sizeof(buf),this);
 
-		strncat(buf,"Data",sizeof(buf));
+		strncat(buf,"Data",sizeof(buf)-1);
 
 		instanceData=new RHBstruct(pp,buf);
 	}
@@ -2200,8 +2200,8 @@ void RHBelement::dump_ids(const char *p)
 
 	if (id)
 	{
-		strncat(buf,"::",sizeof(buf));
-		strncat(buf,id,sizeof(buf));
+		strncat(buf,"::",sizeof(buf)-1);
+		strncat(buf,id,sizeof(buf)-1);
 	}
 
 /*	printf("%s [%s]",buf,class_name);*/
@@ -3553,7 +3553,7 @@ void RHBattribute::generate_accessors(RHBPreprocessor *pp,RHBinterface *iface)
 	{
 		RHBparameter *param;
 		strncpy(buf,"_set_",sizeof(buf));
-		strncat(buf,id,sizeof(buf));
+		strncat(buf,id,sizeof(buf)-1);
 		aa=new RHBattribute_accessor(pp,buf);
 		aa->for_attribute=this;
 		iface->add(pp,aa);
@@ -3584,7 +3584,7 @@ void RHBattribute::generate_accessors(RHBPreprocessor *pp,RHBinterface *iface)
 		aa->return_type=el->is_type();
 	}
 	strncpy(buf,"_get_",sizeof(buf));
-	strncat(buf,id,sizeof(buf));
+	strncat(buf,id,sizeof(buf)-1);
 	aa=new RHBattribute_accessor(pp,buf);
 	aa->for_attribute=this;
 	iface->add(pp,aa);
@@ -4464,17 +4464,17 @@ void RHBelement::gen_global_id()
 
 		if (te->prefix)
 		{
-			if (p) strncat(buf,"/",sizeof(buf));
+			if (p) strncat(buf,"/",sizeof(buf)-1);
 			p=te->prefix;
-			strncat(buf,p,sizeof(buf));
+			strncat(buf,p,sizeof(buf)-1);
 		}
 		else
 		{
 			if (te->id)
 			{
-				if (p) strncat(buf,"/",sizeof(buf));
+				if (p) strncat(buf,"/",sizeof(buf)-1);
 				p=te->id;
-				strncat(buf,p,sizeof(buf));
+				strncat(buf,p,sizeof(buf)-1);
 			}
 		}
 	}
@@ -4486,8 +4486,8 @@ void RHBelement::gen_global_id()
 		p="1.0";
 	}
 
-	strncat(buf,":",sizeof(buf));
-	strncat(buf,p,sizeof(buf));
+	strncat(buf,":",sizeof(buf)-1);
+	strncat(buf,p,sizeof(buf)-1);
 
 /*	printf("%s\n",buf);*/
 

@@ -832,8 +832,8 @@ void RHBtc_emitter::generate_length(RHBoutput *out,RHBtype *type)
 				{
 					if (type->is_qualified())
 					{
-						strncat(n," ",sizeof(n));
-						strncat(n,type->is_qualified()->base_type->id,sizeof(n));
+						strncat(n," ",sizeof(n)-1);
+						strncat(n,type->is_qualified()->base_type->id,sizeof(n)-1);
 						out_printf(out,"sizeof(%s)",n);
 					}
 					else
@@ -898,8 +898,8 @@ static void get_alignment(RHBemitter *em,RHBtype *type,char *buf,size_t buflen)
 							while (type->is_qualified())
 							{
 								type=type->is_qualified()->base_type;
-								strncat(n," ",sizeof(n));
-								strncat(n,type->id,sizeof(n));
+								strncat(n," ",sizeof(n)-1);
+								strncat(n,type->id,sizeof(n)-1);
 							}
 
 							align_inline2(n,buf,buflen);
@@ -1947,7 +1947,7 @@ void generate_TypeCode(RHBemitter *em,RHBoutput *out,RHBtype *type,const char *n
 	}
 
 	strncpy(tname,"" /*"__somC_TC__"*/,sizeof(tname));
-	strncat(tname,name,sizeof(tname));
+	strncat(tname,name,sizeof(tname)-1);
 
 	dseg_bucket my_struct(tname,NULL);
 

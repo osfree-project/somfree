@@ -876,8 +876,8 @@ SOM_Scope void SOMLINK impldef_somDumpSelfInt(
 
 		dump_somPrintf((": "));
 
-		strncpy(buf,"_get_",sizeof(buf));
-		strncat(buf,p,sizeof(buf));
+		strncpy(buf,"_get_",sizeof(buf)-1);
+		strncat(buf,p,sizeof(buf)-1);
 
 		p=NULL;
 	

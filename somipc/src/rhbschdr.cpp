@@ -940,7 +940,7 @@ void RHBheader_emitter::generate_enum(RHBenum *en,RHBoutput *out,int nest)
 
 				dump_nest(out,nest+1);
 
-				if (n[0]) strncat(n,"_",sizeof(n));
+				if (n[0]) strncat(n,"_",sizeof(n)-1);
 
 				out_printf(out,"#ifndef %s%s\n",n,el->id);
 
@@ -1784,7 +1784,7 @@ void RHBheader_emitter::generate_instance_data(RHBoutput *out,RHBinterface *ifac
 
 			get_c_name(iface,n,sizeof(n));
 
-			strncat(n,"Data",sizeof(n));
+			strncat(n,"Data",sizeof(n)-1);
 
 			if (iface->instanceData->children())
 			{
@@ -1827,7 +1827,7 @@ void RHBheader_emitter::generate_class_data(RHBoutput *out,RHBinterface *iface,i
 		RHBtype *token;
 
 		get_c_name(iface,buf,sizeof(buf));
-		strncat(buf,"ClassDataStructure",sizeof(buf));
+		strncat(buf,"ClassDataStructure",sizeof(buf)-1);
 		iface->classData=new RHBstruct(0,buf);
 
 		buf[0]=0;
@@ -1960,7 +1960,7 @@ void RHBheader_emitter::generate_class_data(RHBoutput *out,RHBinterface *iface,i
 		RHBstruct_element *se;
 
 		get_c_name(iface,buf,sizeof(buf));
-		strncat(buf,"CClassDataStructure",sizeof(buf));
+		strncat(buf,"CClassDataStructure",sizeof(buf)-1);
 
 		iface->cclassData=new RHBstruct(0,buf);
 
@@ -2293,7 +2293,7 @@ void RHBheader_emitter::ifdef_import_export(RHBoutput *out,RHBinterface *iface,i
 		char n[256];
 
 		get_c_name(iface,n,sizeof(n));
-		strncat(n,"_Class_Source",sizeof(n));
+		strncat(n,"_Class_Source",sizeof(n)-1);
 
 		dump_nest(out,nest);
 		out_printf(out,"#if defined(%s) || defined(%s)\n",idl_conditional,n);
@@ -2374,8 +2374,8 @@ void RHBheader_emitter::generate_sizeof_va_list_param(RHBoutput *out,RHBparamete
 						while (bt->is_qualified())
 						{
 							bt=bt->is_qualified()->base_type;
-							strncat(n,"_",sizeof(n));
-							strncat(n,bt->id,sizeof(n));
+							strncat(n,"_",sizeof(n)-1);
+							strncat(n,bt->id,sizeof(n)-1);
 						}
 
 						if (!strcmp(n,"unsigned_long"))
@@ -2619,7 +2619,7 @@ void RHBheader_emitter::generate_somMethodInfo(
 		{
 			char n2[256];
 			strncpy(n2,"somMethodInfo_",sizeof(n2));
-			strncat(n2,n,sizeof(n2));
+			strncat(n2,n,sizeof(n2)-1);
 			undoublebar(out,n2);
 		}
 
@@ -2639,8 +2639,8 @@ void RHBheader_emitter::generate_somMethodInfo(
 				while (ret_type->is_qualified())
 				{
 					ret_type=ret_type->is_qualified()->base_type;
-					strncat(buf,"_",sizeof(buf));
-					strncat(buf,ret_type->id,sizeof(buf));
+					strncat(buf,"_",sizeof(buf)-1);
+					strncat(buf,ret_type->id,sizeof(buf)-1);
 				}
 
 				while (k--)
@@ -2780,7 +2780,7 @@ void RHBheader_emitter::generate_somMethodInfo(
 	{
 		char n2[256];
 		strncpy(n2,"somApRdInfo_",sizeof(n2));
-		strncat(n2,n,sizeof(n2));
+		strncat(n2,n,sizeof(n2)-1);
 		undoublebar(out,n2);
 	}
 
@@ -3379,7 +3379,7 @@ void RHBheader_emitter::generate_new_class(RHBoutput *out,RHBinterface *iface,RH
 
 			get_c_name(iface,n2,sizeof(n2));
 			strncpy(buf,"somPCN_",sizeof(buf));
-			strncat(buf,n2,sizeof(buf));
+			strncat(buf,n2,sizeof(buf)-1);
 
 			generate_somId(out,nest,el,buf,0,0,1);
 
@@ -5459,18 +5459,18 @@ void RHBheader_emitter::generate_somTD(RHBoutput *out,RHBinterface *iface,RHBope
 		char buf[256];
 		get_c_name(iface,buf,sizeof(buf));
 		strncpy(somTP_name,"somTP_",sizeof(somTP_name));
-		strncat(somTP_name,buf,sizeof(somTP_name));
-		strncat(somTP_name,"_",sizeof(somTP_name));
-		strncat(somTP_name,op->id,sizeof(somTP_name));
+		strncat(somTP_name,buf,sizeof(somTP_name)-1);
+		strncat(somTP_name,"_",sizeof(somTP_name)-1);
+		strncat(somTP_name,op->id,sizeof(somTP_name)-1);
 	}
 
 	{
 		char buf[256];
 		get_c_name(iface,buf,sizeof(buf));
 		strncpy(somTD_name,"somTD_",sizeof(somTD_name));
-		strncat(somTD_name,buf,sizeof(somTD_name));
-		strncat(somTD_name,"_",sizeof(somTD_name));
-		strncat(somTD_name,op->id,sizeof(somTD_name));
+		strncat(somTD_name,buf,sizeof(somTD_name)-1);
+		strncat(somTD_name,"_",sizeof(somTD_name)-1);
+		strncat(somTD_name,op->id,sizeof(somTD_name)-1);
 	}
 
 	dump_nest(out,nest);
@@ -7134,7 +7134,7 @@ void RHBheader_emitter::generate_operation_proto(RHBoutput *out,RHBinterface *if
 		extern_c_proto_t scoping(this,out,nest);
 
 		get_function_prefix(iface,n,sizeof(n));
-		strncat(n,op->id,sizeof(n));
+		strncat(n,op->id,sizeof(n)-1);
 		undoublebar(out,n);
 
 		dump_nest(out,nest);
@@ -7364,11 +7364,11 @@ void RHBheader_emitter::generate_parent_macro(
 		(!strcmp(buf,"SOMObject_somUninit")))
 	{
 			get_c_name(iface,n,sizeof(n));
-			strncat(n,"_parent_",sizeof(n));
+			strncat(n,"_parent_",sizeof(n)-1);
 			get_c_name(parent,buf,sizeof(buf));
-			strncat(n,buf,sizeof(n));
-			strncat(n,"_",sizeof(n));
-			strncat(n,op->id,sizeof(n));
+			strncat(n,buf,sizeof(n)-1);
+			strncat(n,"_",sizeof(n)-1);
+			strncat(n,op->id,sizeof(n)-1);
 
 			dump_nest(out,nest);
 			out_printf(out,"#ifndef %s\n",n);
@@ -7403,8 +7403,8 @@ void RHBheader_emitter::generate_parent_macro(
 			if (cplusplus)
 			{
 				get_c_name(iface,n,sizeof(n));
-				strncat(n,"_",sizeof(n));
-				strncat(n,op->id,sizeof(n));
+				strncat(n,"_",sizeof(n)-1);
+				strncat(n,op->id,sizeof(n)-1);
 			}
 			else
 			{
