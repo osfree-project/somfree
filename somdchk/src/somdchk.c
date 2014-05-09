@@ -29,7 +29,10 @@
 #include <som.h>
 #include <somuutil.h>
 
-#define null_if_null(x)    ((x) ? (x) : "(null)")
+static const char *null_if_null(const char *p)
+{
+	return p ? p : "(null)";
+}
 
 int main(int argc,char **argv)
 {
