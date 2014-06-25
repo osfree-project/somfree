@@ -76,7 +76,7 @@ done
 	echo "2.0" >debian-binary
 	gzip data.tar
 	gzip control.tar
-	ar r "$PACKAGE_NAME" debian-binary data.tar.gz control.tar.gz
+	ar r "$PACKAGE_NAME" debian-binary control.tar.gz data.tar.gz
 	rm -rf data.tar.gz control.tar.gz debian-binary
 )
 
