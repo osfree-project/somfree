@@ -1,1 +1,1 @@
-dosShell: Open source OpenDoc replacement. (License: LGPLv3)
+somFree: Open source SOM replacement. (License: LGPLv3)
