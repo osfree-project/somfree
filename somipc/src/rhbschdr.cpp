@@ -2547,7 +2547,8 @@ void RHBheader_emitter::generate_somMethodInfo(
 
 			{
 				char n5[256];
-				snprintf(n5,sizeof(n5),"somFloatMap_%s",n);
+				int rc=snprintf(n5,sizeof(n5),"somFloatMap_%s",n);
+				if (rc < 0) { bomb("snprintf"); }
 				undoublebar(out,n5);
 			}
 
@@ -2957,7 +2958,8 @@ void RHBheader_emitter::generate_interface(RHBoutput *out,RHBinterface *iface,in
 			{
 				char args[256];
 
-				snprintf(args,sizeof(args),"*(%sCClassData.parentMtab->mtab)",n);
+				int rc=snprintf(args,sizeof(args),"*(%sCClassData.parentMtab->mtab)",n);
+                if (rc < 0) { bomb("snprintf"); }
 
 				{
 					/* generate new operation */
@@ -4183,14 +4185,18 @@ void RHBheader_emitter::generate_new_class(RHBoutput *out,RHBinterface *iface,RH
 
 	if (strcmp(n,"SOMClass"))
 	{
+		int rc;
+
 		if (cplusplus)
 		{
-			snprintf(meta,sizeof(meta),"(%s *)(void *)",n);
+			rc=snprintf(meta,sizeof(meta),"(%s *)(void *)",n);
 		}
 		else
 		{
-			snprintf(meta,sizeof(meta),"(%s SOMSTAR)(void *)",n);
+			rc=snprintf(meta,sizeof(meta),"(%s SOMSTAR)(void *)",n);
 		}
+
+        if (rc < 0) { bomb("snprintf"); }
 	}
 
 	get_c_name(iface,n,sizeof(n));
@@ -5326,9 +5332,10 @@ void RHBheader_emitter::generate_somId(RHBoutput *out,int nest,
 	{
 		char strName[256];
 
-		snprintf(strName,sizeof(strName),"%s_%s",strPrefix,var);
+		int rc=snprintf(strName,sizeof(strName),"%s_%s",strPrefix,var);
 
 		begin_generate_static(out,strName,nest);
+        if (rc < 0) { bomb("snprintf"); }
 		undoublebar(out,strName);
 		dump_nest(out,nest+1);
 
@@ -5343,13 +5350,18 @@ void RHBheader_emitter::generate_somId(RHBoutput *out,int nest,
 		if (*idPrefix)
 		{
 			char idName[256];
-			snprintf(idName,sizeof(idName),"%s_%s",idPrefix,var);
+			int rc=snprintf(idName,sizeof(idName),"%s_%s",idPrefix,var);
+            if (rc < 0) 
+			{
+				bomb("snprintf");
+			}
+
 			begin_generate_static(out,idName,nest);
 			undoublebar(out,idName);
 			dump_nest(out,nest+1);
 			out_printf(out,"static const somConstId %s=",idName);
 			out_printf(out,"&%s_%s;\n",strPrefix,var);
-
+		
 			end_generate_static(out,idName,nest);
 		}
 	}

@@ -252,7 +252,7 @@ void bomb(const char *p)
 {
 	if (!p) p="unknown error";
 #ifdef _WIN32
-	printf("SC: fatal: %s\n",p);
+	fprintf(stderr,"SC: fatal: %s\n",p);
 	fflush(stdout);
 	fflush(stderr);
 #	ifdef _DEBUG
@@ -278,7 +278,7 @@ void bomb(const char *p)
 		DebugStr("\p");
 	}
 #else
-	printf("SC: fatal: %s\n",p);
+	fprintf(stderr,"SC: fatal: %s\n",p);
 	fflush(stdout);
 	fflush(stderr);
 	exit(1);

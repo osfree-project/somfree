@@ -559,8 +559,8 @@ void RHBtc_emitter::need_type(RHBtype *type)
 
 			if (type->is_sequence())
 			{
-				snprintf(newbuf,sizeof(newbuf),"TC_seq_%s",n);
-
+				int rc=snprintf(newbuf,sizeof(newbuf),"TC_seq_%s",n);
+				if (rc < 0) { bomb("snprintf"); }
 				RHBtype *t2=type->is_sequence()->sequence_of;
 
 				need_type(unwind_typedef(t2));
@@ -572,8 +572,8 @@ void RHBtc_emitter::need_type(RHBtype *type)
 					char m[256];
 					RHBtype *t2=type->is_array()->array_of;
 					get_c_name(t2,m,sizeof(m));
-					snprintf(newbuf,sizeof(newbuf),"TC_array_%s_%s",m,n);
-
+					int rc=snprintf(newbuf,sizeof(newbuf),"TC_array_%s_%s",m,n);
+					if (rc < 0) { bomb("snprintf"); }
 					need_type(unwind_typedef(t2));
 				}
 				else
@@ -586,7 +586,8 @@ void RHBtc_emitter::need_type(RHBtype *type)
 					}
 					else
 					{
-						snprintf(newbuf,sizeof(newbuf),"TC__%s",n);
+						int rc=snprintf(newbuf,sizeof(newbuf),"TC__%s",n);
+						if (rc < 0) { bomb("snprintf"); }
 					}
 				}
 			}
@@ -1656,7 +1657,8 @@ static void build_typecode(dseg_bucket *tc,RHBtype *type,RHBemitter *em,struct R
 			char ifname[256];
 			char ir_name[256];
 			em->get_ir_name(iface,ir_name,sizeof(ir_name));
-			snprintf(ifname,sizeof(ifname),"\"%s\"",ir_name);
+			int rc=snprintf(ifname,sizeof(ifname),"\"%s\"",ir_name);
+			if (rc < 0) { bomb("snprintf"); }
 			tc->add(new dseg_bucket_type_name_value("char const * const","interfaceId",ifname));
 		}
 
@@ -1848,7 +1850,8 @@ static void build_typecode(dseg_bucket *tc,RHBtype *type,RHBemitter *em,struct R
 			char c_buf[256];
 			char value[256];
 			em->get_c_name(foreigner,c_buf,sizeof(c_buf));
-			snprintf(value,sizeof(value),"sizeof(%s)",c_buf);
+			int rc=snprintf(value,sizeof(value),"sizeof(%s)",c_buf);
+			if (rc < 0) { bomb("snprintf"); }
 			tc->add(new dseg_bucket_type_name_value("long","length",value));
 		}
 

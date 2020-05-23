@@ -615,7 +615,7 @@ int RHBPreprocessor::get_token(char *buf,size_t buflen)
 			}
 		}
 
-	} while (this);
+	} while (1);
 
 	return 0;
 }
