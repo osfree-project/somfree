@@ -1452,7 +1452,7 @@ void RHBheader_emitter::use_type(RHBoutput *out,RHBtype *typ,const char *name)
 
 /*		out_printf(out,"[%ld]",val);*/
 
-		delete n2;
+		delete [] n2;
 
 		return;
 	}
