@@ -74,6 +74,7 @@
 		defined(__i386) || \
 		defined(__alpha) || \
 		defined(__arm__) || \
+		defined(__aarch64__) || \
 		defined(_M_IX86) || \
 		defined(__x86_64__) || \
 		((defined(__mips__)||defined(__mips))&&(defined(__MIPSEL__)||defined(MIPSEL))) || \

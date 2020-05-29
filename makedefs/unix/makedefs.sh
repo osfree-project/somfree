@@ -21,7 +21,12 @@
 #
 
 CHMOD_EXECUTABLE="u+x"
-CONFIG_GUESS=../../config/unix/config.guess
+if test -x  /usr/share/misc/config.guess
+then
+	CONFIG_GUESS=/usr/share/misc/config.guess
+else
+	CONFIG_GUESS=../../config/unix/config.guess
+fi
 DEPENDS_SH=../../toolbox/depends.sh
 
 for d in ../../toolbox/*.sh \
