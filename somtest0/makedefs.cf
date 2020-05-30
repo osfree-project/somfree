@@ -1,0 +1,3 @@
+NAME somtest0
+DEPENDS somref somtc
+PROVIDES somtest0

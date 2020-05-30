@@ -1,0 +1,8 @@
+.TH somtest0 1 "4 January 2012"
+.SH NAME
+somtest0(1) \- First SOM test tool
+.SH SYNOPSIS
+.B somtest0
+.SH DESCRIPTION
+.B somtest0
+is a tool to test the integrity of the build of SOM. The two main tests it performs are on thread handling in the SOM kernel and the handling of constructed variable argument lists in SOMTC. To execute the program set up the environment so that it can find the shared libraries then run the program with no arguments from a command shell. The program will print results of the tests.
