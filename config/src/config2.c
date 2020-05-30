@@ -172,6 +172,11 @@ HAVE_VA_LIST___VA_GP_OFFSET			"Looking for va_list.__va_gp_offset"
 HAVE_VA_LIST___VA_FP_OFFSET			"Looking for va_list.__va_fp_offset"
 HAVE_VA_LIST___VA_OVERFLOW_ARG_AREA	"Looking for va_list.__va_overflow_arg_area"
 HAVE_VA_LIST___VA_REG_SVE_AREA		"Looking for va_list.__va_reg_sve_area"
+HAVE_VA_LIST___STACK				"Looking for va_list.__stack"
+HAVE_VA_LIST___GR_TOP				"Looking for va_list.__gr_top"
+HAVE_VA_LIST___VR_TOP				"Looking for va_list.__vr_top"
+HAVE_VA_LIST___GR_OFFS				"Looking for va_list.__gr_offs"
+HAVE_VA_LIST___VR_OFFS				"Looking for va_list.__vr_offs"
 HAVE___VA_REGSAVE_T					"Looking for typedef struct __va_regsave_t"
 HAVE_VA_END_EMPTY					"Looking for va_end(ignored)"
 HAVE_VA_ARG_ASSIGN					"Looking for va_arg assign"
@@ -1909,6 +1914,46 @@ static volatile LONG l=-2;
 #	endif
 	MAINLINE
 	{ static va_list ap; return (argc && argv && ap[0].__va_reg_sve_area) ? 1 : 0;}
+#elif defined(TRY_HAVE_VA_LIST___STACK)
+#	ifdef HAVE_STDARG_H
+#		include <stdarg.h>
+#	else
+#		include <varargs.h>
+#	endif
+	MAINLINE
+	{ static va_list ap; return (argc && argv && ap.__stack) ? 1 : 0;}
+#elif defined(TRY_HAVE_VA_LIST___GR_TOP)
+#	ifdef HAVE_STDARG_H
+#		include <stdarg.h>
+#	else
+#		include <varargs.h>
+#	endif
+	MAINLINE
+	{ static va_list ap; return (argc && argv && ap.__gr_top) ? 1 : 0;}
+#elif defined(TRY_HAVE_VA_LIST___VR_TOP)
+#	ifdef HAVE_STDARG_H
+#		include <stdarg.h>
+#	else
+#		include <varargs.h>
+#	endif
+	MAINLINE
+	{ static va_list ap; return (argc && argv && ap.__vr_top) ? 1 : 0;}
+#elif defined(TRY_HAVE_VA_LIST___GR_OFFS)
+#	ifdef HAVE_STDARG_H
+#		include <stdarg.h>
+#	else
+#		include <varargs.h>
+#	endif
+	MAINLINE
+	{ static va_list ap; return (argc && argv && ap.__gr_offs) ? 1 : 0;}
+#elif defined(TRY_HAVE_VA_LIST___VR_OFFS)
+#	ifdef HAVE_STDARG_H
+#		include <stdarg.h>
+#	else
+#		include <varargs.h>
+#	endif
+	MAINLINE
+	{ static va_list ap; return (argc && argv && ap.__vr_offs) ? 1 : 0;}
 #elif defined(TRY_HAVE___VA_REGSAVE_T)
 #	ifdef HAVE_STDARG_H
 #		include <stdarg.h>

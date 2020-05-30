@@ -91,6 +91,18 @@
  *
  */
 
+/*******************************************
+ * GNU/aarch64 looks like ...
+ * struct __va_list
+ * {
+ *   void *__stack;
+ *   void *__gr_top;
+ *   void *__vr_top;
+ *   int   __gr_offs;
+ *   int   __vr_offs;
+ * };
+ */
+
 #if defined(__mips) && !defined(__mips__)
 #	if __mips
 #		define __mips__    __mips
@@ -133,7 +145,7 @@ typedef struct RHBVARGS
 		and 32 bit HPUX on Itanium */
 #		define RHBVARGS_REG_T		long long
 #	else
-#		if defined(_LP64) || defined(__alpha__)
+#		if defined(_LP64) || defined(__alpha__) || defined(__aarch64__)
 			/* 64-bit Solaris, DEC-Alpha etc ... */
 #			define RHBVARGS_REG_T		long
 #		else
@@ -280,7 +292,11 @@ typedef struct RHBVARGS
 	#ifdef HAVE_VA_LIST___AP
 		#define RHBVARGS_VA_LIST_PTR(x)		(x).__ap
 	#else
-		#define RHBVARGS_VA_LIST_PTR(x)		(x)
+		#ifdef HAVE_VA_LIST___STACK
+			#define RHBVARGS_VA_LIST_PTR(x)	(x).__stack
+		#else
+			#define RHBVARGS_VA_LIST_PTR(x)	(x)
+		#endif
 	#endif
 
 	#ifdef RHBVARGS_REVERSE_ORDER

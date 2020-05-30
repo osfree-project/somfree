@@ -342,6 +342,13 @@ SOMEXTERN void   SOMLINK somvalistSetTarget(va_list args, void* tgt)
 	#endif
 	vargs.push[0]=args[0];
 #else
+	#ifdef HAVE_VA_LIST___GR_OFFS
+		if (args.__gr_offs < 0)
+		{
+			((void **)(((octet *)args.__gr_top)+args.__gr_offs))[0]=tgt;
+			return;
+		}
+	#endif
 	vargs.push=args;
 #endif
 
