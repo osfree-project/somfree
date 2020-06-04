@@ -31,7 +31,7 @@
 #ifndef somnames_h
 #define somnames_h
 
-#if defined(_WIN32) && defined(_MSC_VER) && defined(_M_IX86) && !defined(_WIN64)
+#if defined(_WIN32) && defined(_MSC_VER) && defined(_M_IX86) && !defined(_WIN64) && (_MSC_VER < 1800)
 #	ifndef SOM_METHOD_THUNKS
 #		define SOM_METHOD_THUNKS	1
 #	endif

@@ -152,23 +152,25 @@ static void SOMClassList_destroy(SOMClassMgrData *somThis);
 static void SOMKERN_AllocateInstanceSize(struct somClassInfoMethodTab *);
 
 
-#ifdef SOM_METHOD_THUNKS
+#if defined(SOM_METHOD_THUNKS) && defined(_WIN32) && defined(HEAP_CREATE_ENABLE_EXECUTE)
+#define SOM_METHOD_THUNKS_HEAP
+static HANDLE somkernHeap;
 static somToken SOMMallocEx(size_t t)
 {
-	return VirtualAlloc(NULL,t,MEM_COMMIT,PAGE_EXECUTE_READWRITE);
+	return HeapAlloc(somkernHeap,HEAP_ZERO_MEMORY,t);
 }
 static void SOMFreeEx(somToken pv)
 {
 	if (pv)
 	{
-		if (!VirtualFree(pv,0,MEM_RELEASE))
+		if (!HeapFree(somkernHeap,0,pv))
 		{
 			__asm int 3
 		}
 	}
 }
 #else
-#	define SOMMallocEx(x)		SOMMalloc(x)
+#	define SOMMallocEx(x)	SOMMalloc(x)
 #	define SOMFreeEx(x)		SOMFree(x)
 #endif
 
@@ -636,7 +638,7 @@ SOMClass SOMSTAR SOMLINK somBuildClass (
 								long dataAlignment=(sci->layoutVersion > 1) ?
 									sci->dataAlignment
 									:
-									(long)&(((struct { octet _d; octet _v; } *)0)->_v);
+									(SOM_LONG_PTR)&(((struct { octet _d; octet _v; } *)0)->_v);
 
 /*			somPrintf("somBuildClass(%s) - begin\n",somStringFromId((somId)sci->classId));*/
 
@@ -2829,6 +2831,9 @@ __declspec(dllexport) BOOL CALLBACK DllMain(HMODULE hInst,DWORD reason,LPVOID ex
  	switch (reason)
     {
     case DLL_PROCESS_ATTACH:
+#ifdef SOM_METHOD_THUNKS_HEAP
+		somkernHeap=HeapCreate(HEAP_CREATE_ENABLE_EXECUTE,0,0);
+#endif
 #ifdef SOMClassMgrObject_CRITICAL_SECTION
 		InitializeCriticalSection(SOMClassMgrObject_CRITICAL_SECTION);
 #endif
@@ -2843,6 +2848,13 @@ __declspec(dllexport) BOOL CALLBACK DllMain(HMODULE hInst,DWORD reason,LPVOID ex
 		rhbsomkd_term();
 #ifdef SOMClassMgrObject_CRITICAL_SECTION
 		DeleteCriticalSection(SOMClassMgrObject_CRITICAL_SECTION);
+#endif
+#ifdef SOM_METHOD_THUNKS_HEAP
+		if (somkernHeap)
+		{
+			HeapDestroy(somkernHeap);
+			somkernHeap=NULL;
+		}
 #endif
        	return 1;
 	case DLL_THREAD_DETACH:

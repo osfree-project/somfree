@@ -87,8 +87,14 @@
 typedef unsigned short SOMKERN_mtoken_index_t;
 typedef unsigned long SOMKERN_data_index_t;
 
-#define SOMKERN_offsetof(x,y)	((long)((char *)&(((x *)0)->y)))
-#define SOMKERN_alignof(x)		(short)(long)(&((struct { octet _x; x _d; } *)NULL)->_d)
+#if defined(_WIN64)
+#	define SOM_LONG_PTR	__int64
+#else
+#	define SOM_LONG_PTR	long
+#endif 
+
+#define SOMKERN_offsetof(x,y)	((SOM_LONG_PTR)((char *)&(((x *)0)->y)))
+#define SOMKERN_alignof(x)		(short)(SOM_LONG_PTR)(&((struct { octet _x; x _d; } *)NULL)->_d)
 
 /* need to pack this as this is used to generate a assembler jump of the form:
 
@@ -354,9 +360,9 @@ typedef struct somClassInfoMethodTab somClassInfoMethodTab;
 	#define MUST_BE_MTAB(x)				(x)
 #endif
 
-#define somClassInfoFromMtab(x)			((somClassInfo)(((char *)(MUST_BE_MTAB(x)))-(long)(&((struct somClassInfoMethodTab *)0)->mtab)))
+#define somClassInfoFromMtab(x)			((somClassInfo)(((char *)(MUST_BE_MTAB(x)))-(SOM_LONG_PTR)(&((struct somClassInfoMethodTab *)0)->mtab)))
 #define somMtabFromClassInfo(x)			((somMethodTabPtr)(&(((struct somClassInfoMethodTab *)(MUST_BE_CLASSINFO(x)))->mtab)))
-#define somClassInfoFromParentMtabs(x)	((somClassInfo)(((char *)(MUST_BE_PARENTMTABS(x)))-(long)(&((struct somClassInfoMethodTab *)0)->classInfo.parents)))
+#define somClassInfoFromParentMtabs(x)	((somClassInfo)(((char *)(MUST_BE_PARENTMTABS(x)))-(SOM_LONG_PTR)(&((struct somClassInfoMethodTab *)0)->classInfo.parents)))
 
 #define somMtabFromParentMtabs(x)		(somMtabFromClassInfo(somClassInfoFromParentMtabs(x)))
 

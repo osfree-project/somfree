@@ -318,7 +318,7 @@ typedef struct RHBVARGS
 			#ifdef RHBVARGS_REG_T
 				#define RHBVARGS_push(arg,type,val)  \
 					if (sizeof(type) < sizeof(RHBVARGS_REG_T)) { \
-					*((RHBVARGS_REG_T *)(RHBVARGS_VA_LIST_PTR(arg.push)))=(RHBVARGS_REG_T)(long)val; \
+					*((RHBVARGS_REG_T *)(RHBVARGS_VA_LIST_PTR(arg.push)))=(RHBVARGS_REG_T)val; \
 					RHBVARGS_VA_LIST_PTR(arg.push)=(void *)(((char *)(RHBVARGS_VA_LIST_PTR(arg.push)))+sizeof(RHBVARGS_REG_T)); } else { \
 					*((type *)(RHBVARGS_VA_LIST_PTR(arg.push)))=val; \
 					RHBVARGS_VA_LIST_PTR(arg.push)=(void *)(((char *)(RHBVARGS_VA_LIST_PTR(arg.push)))+sizeof(type)); }

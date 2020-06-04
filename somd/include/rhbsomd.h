@@ -40,10 +40,13 @@
 		#include <ws2tcpip.h>
 	#endif
 
-	const char * __stdcall
-		inet_ntop(int af, const void *src, char *dst, int size);
+	#ifdef HAVE_INET_PTON
+	#else
+		const char * __stdcall
+			inet_ntop(int af, const void *src, char *dst, int size);
 
-	int __stdcall inet_pton(int af, const char *src, void *dst);
+		int __stdcall inet_pton(int af, const char *src, void *dst);
+	#endif
 #endif
 
 #ifdef _DEBUG

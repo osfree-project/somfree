@@ -48,7 +48,7 @@ boolean SOMLINK somApply(SOMObject SOMSTAR somSelf,
 	typedef void (SOMLINK *applyStubPtr)(SOMObject SOMSTAR,
 					somToken,somMethodProc,va_list);
 
-	if (-1L == (long)(md->mToken->defined.redispatchStub))
+	if (-1L == (SOM_LONG_PTR)(md->mToken->defined.redispatchStub))
 	{
 		somApRdInfo *info=(void *)md->mToken->defined.applyStub;
 

@@ -70,8 +70,8 @@
 #			define CPU_VENDOR_OS "x64-unknown-win64"
 #		elif defined(_M_IX86)
 #			define CPU_VENDOR_OS "i386-unknown-win32"
-#		elif defined(_WIN32_WCE) && defined(_ARM_)
-#			define CPU_VENDOR_OS "arm-unknown-wince"
+#		elif defined(_ARM_)
+#			define CPU_VENDOR_OS "arm-unknown-win32"
 #		endif
 #	endif
 #endif

@@ -1232,7 +1232,7 @@ SOM_Scope boolean  SOMLINK somcls_somGetMethodData(
 		md->descriptor=(somId)(m->defined.somId_methodDescriptor);
 		md->mToken=m;
 		md->method=SOMKERN_resolve(&somThis->cimtabs->mtab,m);
-		md->shared=(-1 == (long)m->defined.redispatchStub) ? 
+		md->shared=(-1 == (SOM_LONG_PTR)m->defined.redispatchStub) ? 
 					(void*)m->defined.applyStub : NULL;
 
 		return 1;
@@ -1250,7 +1250,7 @@ SOM_Scope somMethodProc*  SOMLINK somcls_somGetRdStub(
 
 	if (m)
 	{
-		if (-1==(long)(m->defined.redispatchStub))
+		if (-1==(SOM_LONG_PTR)(m->defined.redispatchStub))
 		{
 			somApRdInfo *info=(void *)m->defined.applyStub;
 
@@ -1337,7 +1337,7 @@ SOM_Scope boolean  SOMLINK somcls_somGetNthMethodData(
 		md->descriptor=(somId)(m->defined.somId_methodDescriptor);
 		md->mToken=m;
 		md->method=somThis->cimtabs->mtab.entries[n];
-		md->shared=(-1 == (long)m->defined.redispatchStub) ? 
+		md->shared=(-1 == (SOM_LONG_PTR)m->defined.redispatchStub) ? 
 					(void*)m->defined.applyStub : NULL;
 
 		return 1;				
@@ -1808,7 +1808,7 @@ SOM_Scope somMethodPtr SOMLINK somcls_somGetApplyStub(
 	somMethodData md;
 	if (SOMClass_somGetMethodData(somSelf,methodId,&md))
 	{
-		if (-1L == (long)(md.mToken->defined.redispatchStub))
+		if (-1L == (SOM_LONG_PTR)(md.mToken->defined.redispatchStub))
 		{
 			somApRdInfo *info=(void *)md.mToken->defined.applyStub;
 

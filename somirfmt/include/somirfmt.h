@@ -535,7 +535,13 @@ struct SOMIRfile
 	char name[1];
 };
 
-#define offset_of(x,y)	  ((short)(long)(void *)&(((x *)NULL)->y))
+#ifdef _WIN64
+#	define SOM_LONG_PTR	__int64
+#else
+#	define SOM_LONG_PTR	long
+#endif
+
+#define offset_of(x,y)	  ((short)(SOM_LONG_PTR)(void *)&(((x *)NULL)->y))
 
 /* #define alignment_of(x)   ((short)(long)(void *)&(((struct { octet _o; x _d; } *)NULL)->_d)) */
 

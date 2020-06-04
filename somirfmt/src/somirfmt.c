@@ -1800,7 +1800,7 @@ static struct SOMIR_ContainedData *container_Acquire(
 				NULL,
 				{0,0,NULL}};
 
-		size_t len=(long)&(((struct SOMIR_ContainedData *)NULL)->description);
+		size_t len=(SOM_LONG_PTR)&(((struct SOMIR_ContainedData *)NULL)->description);
 		size_t RHBOPT_volatile descLen=sizeof(somThis->description.moduleDesc);
 		struct SOMIR_read_data reader={NULL,NULL,NULL};
 		char * RHBOPT_volatile defined_in_id=defined_in->defined_in ?

@@ -126,10 +126,8 @@
 		}
 	#else
 		static DWORD __stdcall somu_thread_starter(void *);
-		static void __stdcall somu_stop_thread(DWORD dw);
+		static void __stdcall somu_stop_thread(ULONG_PTR dw);
 		static DWORD somu_thread_key;
-		typedef DWORD (__stdcall *ptrQueueUserAPC)(void (__stdcall *)(DWORD),HANDLE,DWORD);
-		static ptrQueueUserAPC pfnQueueUserAPC;
 	#endif
 static unsigned long SOMLINK RHBSOMU_StartThread(somToken * thrd,
 						   somTD_SOMThreadProc *proc,
@@ -221,12 +219,7 @@ static unsigned long SOMLINK RHBSOMU_KillThread(somToken thrd)
 		return 0xffffffff;
 	#endif
 #else
-	if (pfnQueueUserAPC)
-	{
-		return pfnQueueUserAPC(somu_stop_thread,somThis->handle,(DWORD)somThis);
-	}
-
-	return 0xffffffff;
+	return QueueUserAPC(somu_stop_thread,somThis->handle,(ULONG_PTR)somThis);
 #endif
 }
 static unsigned long SOMLINK RHBSOMU_YieldThread(void)
@@ -293,10 +286,6 @@ static unsigned long SOMLINK RHBSOMU_GetThreadHandle(somToken *thrd)
 	#ifdef USE_THREADS
 		#ifndef USE_PTHREADS
 			somu_thread_key=TlsAlloc();
-			pfnQueueUserAPC=(ptrQueueUserAPC)
-						GetProcAddress(
-							GetModuleHandle("KERNEL32"),
-						"QueueUserAPC");
 		#endif
 	#endif
 	}
@@ -352,7 +341,7 @@ static unsigned long SOMLINK RHBSOMU_GetThreadHandle(somToken *thrd)
 
 				return 0;
 			}
-			static void __stdcall somu_stop_thread(DWORD dw)
+			static void __stdcall somu_stop_thread(ULONG_PTR dw)
 			{
 				RaiseException(ERROR_OPERATION_ABORTED,EXCEPTION_NONCONTINUABLE,0,0);
 			}

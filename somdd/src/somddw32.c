@@ -33,7 +33,6 @@
 #include <somddmsg.h>
 #include <regstr.h>
 #include <rhbutils.h>
-#include <rhbwinex.h>
 
 /* need to maintain a list of environment variables modified
 	(1) read out of service config
@@ -45,8 +44,6 @@ static char szServiceName[]="SOMDD";
 static const char *SOM_env[]={"SOMDDIR","SOMBASE","SOMIR","SOMDPORT",NULL};
 static const char szWindowsClassName[]="SOMDD";
 static const char szEnvironment[]="Environment";
-static const char szDescription[]="Description";
-static const char achServiceDependancies[]="RpcSs\0Eventlog\0\0";
 
 struct SOMDD_daemon
 {
@@ -57,22 +54,6 @@ struct SOMDD_daemon
 static struct SOMDD_daemon *somdd_daemon;
 static HANDLE somdd_eventSource;
 static PSID somdd_eventSid;
-
-static void somddmsg(BOOL b)
-{
-	HANDLE h=LoadLibrary("SOMDDMSG");
-	if (h)
-	{
-		typedef HRESULT (CALLBACK *fn)(void);
-		fn f=(fn)GetProcAddress(h,
-			b ? "DllRegisterServer" : "DllUnregisterServer");
-		if (f)
-		{
-			f();
-		}
-		FreeLibrary(h);
-	}
-}
 
 #if defined(USE_THREADS) && !defined(USE_PTHREADS) 
 static struct 
@@ -141,8 +122,6 @@ void SOMDD_syslog(struct SOMDD_msg *msg,...)
 	}
 }
 #endif
-
-#define IsWindowsNT()   (0==(GetVersion() & 0x80000000))
 
 static void WINAPI SOMDD_ServiceCtrlHandler(DWORD dw)
 {
@@ -226,211 +205,6 @@ char buf[256];
 	return NULL;
 }
 
-static void SOMDD_reg_env(char *szServiceName)
-{
-HKEY key=SOMDD_open_service_key(szServiceName,1);
-
-	if (key)
-	{
-		DWORD disp=0;
-		HKEY keyenv=NULL;
-		char buf[256];
-		size_t len=LoadString(NULL,2,buf,sizeof(buf));
-
-		if (len>0)
-		{
-			len=RegSetValueEx(key,
-				szDescription,0,
-				REG_SZ,buf,(DWORD)len);
-		}
-
-		if (!RegCreateKeyEx(key,
-			szEnvironment,
-			0,
-			0,
-			REG_OPTION_NON_VOLATILE,
-			KEY_ALL_ACCESS,
-			NULL,
-			&keyenv,
-			&disp))
-		{
-			if (disp==REG_CREATED_NEW_KEY)
-			{
-				const char **h=SOM_env;
-
-				while (*h)
-				{
-					const char *e=*h++;
-					char env[2048];
-					DWORD len=GetEnvironmentVariable(e,env,sizeof(env)-1);
-					if (len)
-					{
-						RegSetValueEx(keyenv,e,0,REG_EXPAND_SZ,env,len+1);
-					}
-				}
-			}
-
-			RegCloseKey(keyenv);
-		}
-
-		RegCloseKey(key);
-	}
-}
-
-static int SOMDD_RegServerNT(char *szServiceName,char *title)
-{
-	int retval=1;
-	char application_name[MAX_PATH];
-	DWORD err=0;
-	int i=GetModuleFileName(NULL,application_name,sizeof(application_name));
-	if (i)
-	{
-		SC_HANDLE sc=OpenSCManager(NULL,NULL,SC_MANAGER_CREATE_SERVICE);
-		
-		if (sc)
-		{
-			SC_HANDLE h=CreateService(sc,
-					szServiceName,
-					title,
-					SERVICE_ALL_ACCESS,
-					SERVICE_WIN32_OWN_PROCESS
-	#ifdef _DEBUG
-					|SERVICE_INTERACTIVE_PROCESS
-	#endif
-					,
-					SERVICE_DEMAND_START,
-					SERVICE_ERROR_IGNORE,
-					application_name,
-					0,
-					NULL,
-					achServiceDependancies,
-					NULL,
-					NULL);
-
-			if (h) 
-			{
-				CloseServiceHandle(h);
-
-				SOMDD_reg_env(szServiceName);
-
-				somddmsg(TRUE);
-
-				retval=0;
-			}
-			else
-			{
-				err=GetLastError();
-			}
-
-			CloseServiceHandle(sc);
-		}
-		else
-		{
-			err=GetLastError();
-		}
-	}
-	else
-	{
-		err=GetLastError();
-	}
-
-	if (err) 
-	{
-		rhbutils_print_Win32Error(err,"SOMDD_RegServerNT");
-	}
-
-	return retval;
-}
-
-static int SOMDD_UnregServerNT(const char *szServiceName)
-{
-	int retval=1;
-	DWORD err=0;
-	SC_HANDLE sc=OpenSCManager(NULL,NULL,SC_MANAGER_CREATE_SERVICE);
-
-	if (sc)
-	{
-		SC_HANDLE h=OpenService(sc,szServiceName,STANDARD_RIGHTS_REQUIRED);
-
-		if (h)
-		{
-			if (DeleteService(h)) 
-			{
-				retval=0;
-
-				somddmsg(FALSE);
-			}
-			else
-			{
-				err=GetLastError();
-			}
-
-			CloseServiceHandle(h);
-		}
-		else
-		{
-			err=GetLastError();
-		}
-
-		CloseServiceHandle(sc);
-	}
-	else
-	{
-		err=GetLastError();
-	}
-
-	if (!err)
-	{
-		char systemreg[4096],systemdir[4096];
-
-		strncpy(systemreg,"%",sizeof(systemreg));
-		strncat(systemreg,REGSTR_VAL_SYSTEMROOT,sizeof(systemreg));
-		strncat(systemreg,"%\\System32\\",sizeof(systemreg));
-		strncat(systemreg,szServiceName,sizeof(systemreg));
-	
-		if (ExpandEnvironmentStrings(systemreg,systemdir,sizeof(systemdir)-1))
-		{
-			RemoveDirectory(systemdir);
-		}
-	}
-
-	if (err) 
-	{
-		rhbutils_print_Win32Error(err,"SOMDD_UnregServerNT");
-	}
-
-	return retval;
-}
-
-static HANDLE CreateNullFile(void)
-{
-	HANDLE h=CreateFile(
-		"NUL",
-		GENERIC_WRITE|GENERIC_READ,
-		FILE_SHARE_WRITE|FILE_SHARE_READ,
-		NULL,
-		OPEN_EXISTING,
-		0,
-		NULL);
-
-	return h;
-}
-/*
-void SOMDD_interrupt(void)
-{
-	SOMDD_event(EVENTLOG_INFORMATION_TYPE,SOMDDMSG_SOMDDInterrupt,NULL);
-}
-
-void SOMDD_failed_publish(Environment *ev)
-{
-	SOMDD_event(EVENTLOG_ERROR_TYPE,SOMDDMSG_SOMDDFailed,somExceptionId(ev),NULL);
-}
-
-void SOMDD_failed_initialise(Environment *ev)
-{
-	SOMDD_event(EVENTLOG_ERROR_TYPE,SOMDDMSG_SOMDDFailed,somExceptionId(ev),NULL);
-}
-*/
 void SOMDD_up(struct SOMDD_daemon *daemon)
 {
 	if (daemon)
@@ -443,22 +217,6 @@ void SOMDD_up(struct SOMDD_daemon *daemon)
 			SetServiceStatus(daemon->h_service,&daemon->status);
 		}
 	}
-
-#ifndef _DEBUG
-	if (!IsWindowsNT())
-	{
-		if (FreeConsole())
-		{
-			HANDLE hStdin=CreateNullFile();
-			HANDLE hStdout=CreateNullFile();
-			HANDLE hStderr=CreateNullFile();
-
-			BOOL bIn=SetStdHandle(STD_INPUT_HANDLE,hStdin);
-			BOOL bOut=SetStdHandle(STD_OUTPUT_HANDLE,hStdout);
-			BOOL bErr=SetStdHandle(STD_ERROR_HANDLE,hStderr);
-		}
-	}
-#endif
 }
 
 void SOMDD_down(struct SOMDD_daemon *daemon)
@@ -556,11 +314,8 @@ static void SOMDD_setenv(char *szServiceName)
 	}
 }
 
-
 static int SOMDD_run_main(struct SOMDD_daemon *daemon,int argc,char **argv)
 {
-/*	FARPROC fp=GetProcAddress(GetModuleHandle("OLE32"),"CoInitializeEx");
-	HRESULT r=E_FAIL;*/
 	int ret=1;
 	RHBProcessMgrChild childInfo=RHBPROCESSMGRCHILD_INIT;
 
@@ -580,7 +335,6 @@ static int SOMDD_run_main(struct SOMDD_daemon *daemon,int argc,char **argv)
 
 	if (!RHBProcessMgr_init(&executor))
 	{
-		if (IsWindowsNT())
 		{
 			char username[256];
 			DWORD dw=sizeof(username);
@@ -604,18 +358,6 @@ static int SOMDD_run_main(struct SOMDD_daemon *daemon,int argc,char **argv)
 			}
 		}
 
-	/*	if (fp)
-		{
-			HRESULT (__stdcall *proc)(void *,DWORD)=(void *)fp;
-			r=proc(NULL,4);
-		}
-		else
-		{
-			r=CoInitialize(NULL);
-		}
-
-		r=SOMDD_init_security();
-	*/
 		__try
 		{
 			ret=SOMDD_main(daemon,&executor,argc,argv);
@@ -637,12 +379,6 @@ static int SOMDD_run_main(struct SOMDD_daemon *daemon,int argc,char **argv)
 
 			RHBProcessMgr_term(&executor);
 		}
-
-	/*	if ((r==S_OK)||(r==S_FALSE))
-		{
-			CoUninitialize();
-		}
-	*/
 	}
 
 	return ret;
@@ -752,403 +488,6 @@ SERVICE_TABLE_ENTRY ste[2];
 #endif
 }
 
-struct SOMDD_Win95_params
-{
-	int argc;
-	char **argv;
-	HWND hwnd;
-	int retval;
-	HANDLE hThread;
-};
-
-static LRESULT CALLBACK SOMDD_Win95_WndProc(HWND hwnd,UINT msg,WPARAM wParam,LPARAM lParam)
-{
-struct SOMDD_Win95_params *params=(void *)GetWindowLongPtr(hwnd,GWLP_USERDATA);
-
-	switch (msg)
-	{
-	case WM_CREATE:
-		if (lParam)
-		{
-			if (!params)
-			{
-				LPCREATESTRUCT lpcs=(LPCREATESTRUCT)lParam;
-				params=lpcs->lpCreateParams;
-				SetWindowLongPtr(hwnd,GWLP_USERDATA,(LPARAM)params);
-			}
-		}
-		break;
-	case WM_ENDSESSION:
-		if (lParam) return 0;
-		SendMessage(hwnd,WM_USER,0,0);
-		WaitForSingleObject(params->hThread,INFINITE);
-		return 0;
-	case WM_USER:
-		if (SOMD_SOMOAObject)
-		{
-			Environment ev;
-			SOMOA SOMSTAR n=SOMOA_somDuplicateReference(SOMD_SOMOAObject);
-			SOM_InitEnvironment(&ev);
-			SOMOA_interrupt_server(n,&ev);
-			SOM_UninitEnvironment(&ev);
-			SOMOA_somRelease(n);
-		}
-		return 0;
-	case WM_CLOSE:
-		SendMessage(hwnd,WM_USER,0,0);
-		return 0;
-	case WM_PAINT:
-		if (hwnd)
-		{
-			PAINTSTRUCT ps;
-			HDC hdc=BeginPaint(hwnd,&ps);
-			RECT r;
-			GetClientRect(hwnd,&r);
-			FillRect(hdc,&r,GetStockObject(WHITE_BRUSH));
-			EndPaint(hwnd,&ps);
-		}
-		return 0;
-	}
-
-	return DefWindowProc(hwnd,msg,wParam,lParam);
-}
-
-static DWORD CALLBACK SOMDD_Win95_thread(void *pv)
-{
-	struct SOMDD_Win95_params *params=pv;
-	__try
-	{
-		params->retval=SOMDD_run_main(NULL,params->argc,params->argv);
-	}
-	__finally
-	{
-		PostMessage(params->hwnd,WM_QUIT,0,0);
-	}
-	return 0;
-}
-
-static int SOMDD_Win95_main(int argc,char **argv,int flags)
-{
-	WNDCLASS wc;
-	ATOM cls=0;
-	int retval=1;
-	typedef DWORD (__stdcall * LPFNREGISTERSERVICEPROCESS)(DWORD id,DWORD type);
-	LPFNREGISTERSERVICEPROCESS RegisterServiceProcess=
-		(LPFNREGISTERSERVICEPROCESS)
-			GetProcAddress(
-				GetModuleHandle("KERNEL32"),
-				"RegisterServiceProcess");
-	DWORD dwReg=0;
-	DWORD pid=GetCurrentProcessId();
-
-	if (RegisterServiceProcess)
-	{
-		dwReg=RegisterServiceProcess(pid,1);
-	}
-
-	memset(&wc,0,sizeof(wc));
-	wc.lpszClassName=szWindowsClassName;
-	wc.hInstance=GetModuleHandle(NULL);
-	wc.lpfnWndProc=SOMDD_Win95_WndProc;
-	wc.hIcon=LoadIcon(wc.hInstance,MAKEINTRESOURCE(1));
-
-	cls=RegisterClass(&wc);
-
-	if (cls)
-	{
-		struct SOMDD_Win95_params params={argc,argv,NULL,retval,NULL};
-		char title[32];
-		if (!LoadString(wc.hInstance,1,title,sizeof(title)))
-		{
-			memcpy(title,"SOMDD",6);
-		}
-		params.hwnd=CreateWindowEx(
-			WS_EX_TOOLWINDOW,
-			wc.lpszClassName,title,WS_POPUP,
-			100,
-			100,
-			CW_USEDEFAULT,
-			CW_USEDEFAULT,
-			GetDesktopWindow(),
-			NULL,
-			wc.hInstance,
-			&params);
-
-		if (params.hwnd)
-		{
-			MSG msg;
-			DWORD dw=0;
-
-			params.hThread=CreateThread(NULL,0,SOMDD_Win95_thread,&params,0,&dw);
-
-			if (params.hThread)
-			{
-				while (GetMessage(&msg,0,0,0))
-				{
-					TranslateMessage(&msg);
-					DispatchMessage(&msg);
-				}
-				wc.lpfnWndProc(params.hwnd,WM_USER,0,0);
-				WaitForSingleObject(params.hThread,INFINITE);
-			}
-		}
-
-		if (params.hwnd) DestroyWindow(params.hwnd);
-
-		retval=params.retval;
-
-		UnregisterClass(wc.lpszClassName,wc.hInstance);
-
-		if (params.hThread) 
-		{
-			BOOL b=FALSE;
-			b=CloseHandle(params.hThread);
-			RHBOPT_ASSERT(b);
-		}
-	}
-
-	if (dwReg)
-	{
-		dwReg=RegisterServiceProcess(pid,0);
-	}
-
-	return retval;
-}
-
-static int SOMDD_StopServer(char *szServiceName)
-{
-	int ret=1;
-
-	if (IsWindowsNT())
-	{
-		SC_HANDLE hMgr=OpenSCManager(NULL,NULL,SC_MANAGER_CONNECT);
-
-		if (hMgr) 
-		{
-			SC_HANDLE hService=OpenService(hMgr,szServiceName,SERVICE_QUERY_STATUS|SERVICE_STOP|SERVICE_INTERROGATE);
-
-			if (hService)
-			{
-				SERVICE_STATUS status;
-
-				while (QueryServiceStatus(hService,&status))
-				{
-					DWORD dw=0;
-
-					if (status.dwCurrentState==SERVICE_STOPPED)
-					{
-						ret=0;
-						break;
-					}
-
-					if (status.dwCurrentState==SERVICE_RUNNING)
-					{
-						if (!ControlService(hService,SERVICE_CONTROL_STOP,&status))
-						{
-							ret=GetLastError();
-							break;
-						}
-					}
-
-					dw=status.dwWaitHint;
-
-					if (!dw)
-					{
-						dw=100;
-					}
-
-					Sleep(dw);
-				}
-
-				CloseServiceHandle(hService);
-			}
-			else
-			{
-				ret=GetLastError();
-			}
-
-			CloseServiceHandle(hMgr);
-		}
-		else
-		{
-			ret=GetLastError();
-		}
-	}
-	else
-	{
-		HWND hwnd=FindWindow(szWindowsClassName,NULL);
-		if (hwnd)
-		{
-			if (PostMessage(hwnd,WM_USER,0,0))
-			{
-				ret=0;
-			}
-			else
-			{
-				ret=GetLastError();
-			}
-		}
-	}
-
-	if (ret) ret=1;
-
-	return ret;
-}
-
-/* Used on 95/95 machines */
-static int SOMDD_OpenRunServices(HKEY *key)
-{
-	int retval=RegOpenKeyEx(HKEY_LOCAL_MACHINE,
-		"Software\\Microsoft\\Windows\\CurrentVersion\\RunServices",
-		0,KEY_ALL_ACCESS,key);
-
-	return retval;
-}
-
-static int SOMDD_StartServer(char *szServiceName)
-{
-	int ret=1;
-
-	if (IsWindowsNT())
-	{
-		SC_HANDLE hMgr=OpenSCManager(NULL,NULL,SC_MANAGER_CONNECT);
-
-		if (hMgr)
-		{
-			SC_HANDLE hService=OpenService(hMgr,szServiceName,
-					SERVICE_QUERY_STATUS|SERVICE_START|SERVICE_INTERROGATE);
-
-			if (hService)
-			{
-				SERVICE_STATUS status;
-
-				while (QueryServiceStatus(hService,&status))
-				{
-					DWORD tm=(DWORD)-1L;
-
-					if (status.dwCurrentState==SERVICE_RUNNING)
-					{
-						ret=0;
-						break;
-					}
-
-					switch (status.dwCurrentState)
-					{
-					case SERVICE_START_PENDING:
-						tm=status.dwWaitHint;
-						break;
-					case SERVICE_STOPPED:
-						if (StartService(hService,0,NULL))
-						{
-							tm=1;
-						}
-						else
-						{
-							ret=GetLastError();
-						}
-					}
-
-					if (tm==(DWORD)-1L) 
-					{
-						break;
-					}
-
-					if (tm==0)
-					{
-						tm=100;
-					}
-
-					Sleep(tm);
-				}
-				
-				if (ret==1)
-				{
-					ret=GetLastError();
-				}
-
-				CloseServiceHandle(hService);
-			}
-			else
-			{
-				ret=GetLastError();
-			}
-
-			CloseServiceHandle(hMgr);
-		}
-		else
-		{
-			ret=GetLastError();
-		}
-	}
-	else
-	{
-		HKEY key=NULL;
-		HWND hwnd=FindWindow(szWindowsClassName,NULL);
-
-		if (hwnd) 
-		{
-			/* already running... */
-			return 0;
-		}
-
-		ret=SOMDD_OpenRunServices(&key);
-
-		if (!ret)
-		{
-			char buf[8192];
-			DWORD type=0;
-			DWORD len=sizeof(buf);
-
-			ret=RegQueryValueEx(key,szServiceName,NULL,&type,buf,&len);
-
-			if (!ret)
-			{
-				if (type==REG_SZ)
-				{
-					STARTUPINFO startup;
-					BOOL b;
-					PROCESS_INFORMATION info;
-
-					memset(&startup,0,sizeof(startup));
-					startup.cb=sizeof(startup.cb);
-
-					GetStartupInfo(&startup);
-
-					b=CreateProcess(NULL,buf,NULL,NULL,0,
-						CREATE_NEW_PROCESS_GROUP|DETACHED_PROCESS,
-						NULL,
-						NULL,
-						&startup,
-						&info);
-
-					if (b)
-					{
-						b=CloseHandle(info.hProcess);
-						RHBOPT_ASSERT(b);
-						b=CloseHandle(info.hThread);
-						RHBOPT_ASSERT(b);
-					}
-					else
-					{
-						ret=GetLastError();
-					}
-				}
-				else
-				{
-					ret=1;
-				}
-			}
-
-			RegCloseKey(key);
-
-		}
-	}
-
-	if (ret) ret=1;
-
-	return ret;
-}
-
 static int SOMDD_needs_quotes(const char *p,int len)
 {
 	while (len--)
@@ -1158,71 +497,6 @@ static int SOMDD_needs_quotes(const char *p,int len)
 	}
 
 	return 0;
-}
-
-static int SOMDD_RegServer95(const char *szServiceName)
-{
-	HKEY key=NULL;
-	int retval=SOMDD_OpenRunServices(&key);
-	if (!retval)
-	{
-		char mod[MAX_PATH];
-		int modlen=GetModuleFileName(NULL,mod,sizeof(mod));
-		char buf[8192];
-		char *p=buf;
-		const char **h=SOM_env;
-
-		memcpy(p,mod,modlen);
-		p+=modlen;
-		
-		while (*h)
-		{
-			const char *e=*h;
-			char ev[8192];
-			int len=GetEnvironmentVariable(e,ev,sizeof(ev));
-			if (len > 0)
-			{
-				int q=SOMDD_needs_quotes(ev,len);
-				*p++=' ';
-				if (q) *p++='\"';
-				*p++='/';
-				*p++='e';
-				memcpy(p,e,strlen(e)+1);
-				p+=strlen(p);
-				*p++='=';
-				memcpy(p,ev,len);
-				p+=len;
-				if (q) *p++='\"';
-			}
-
-			h++;
-		}
-
-		*p++=0;
-
-		retval=RegSetValueEx(key,szServiceName,0,REG_SZ,buf,(DWORD)(p-buf));
-
-		RegCloseKey(key);
-	}
-
-	if (retval) retval=1;
-
-	return retval;
-}
-
-static int SOMDD_UnregServer95(char *szServiceName)
-{
-	HKEY key=NULL;
-	int retval=SOMDD_OpenRunServices(&key);
-	if (!retval)
-	{
-		retval=RegDeleteValue(key,szServiceName);
-		RegCloseKey(key);
-	}
-
-	if (retval) retval=1;
-
-	return retval;
 }
 
 static int SOMDD_main_any(int argc,char **argv)
@@ -1240,41 +514,6 @@ static int SOMDD_main_any(int argc,char **argv)
 			if ((*p=='/')||(*p=='-'))
 			{
 				p++;
-
-				if (!strcasecmp(p,"REGSERVER"))
-				{
-					if (IsWindowsNT())
-					{
-						char title[32];
-						if (!LoadString(GetModuleHandle(NULL),1,title,sizeof(title)))
-						{
-							strncpy(title,szServiceName,sizeof(title));
-						}
-						return SOMDD_RegServerNT(szServiceName,title);
-					}
-
-					return SOMDD_RegServer95(szServiceName);
-				}
-
-				if (!strcasecmp(p,"UNREGSERVER"))
-				{
-					if (IsWindowsNT())
-					{
-						return SOMDD_UnregServerNT(szServiceName);
-					}
-
-					return SOMDD_UnregServer95(szServiceName);
-				}
-
-				if (!strcasecmp(p,"START"))
-				{
-					return SOMDD_StartServer(szServiceName);
-				}
-
-				if (!strcasecmp(p,"STOP"))
-				{
-					return SOMDD_StopServer(szServiceName);
-				}
 
 				if ((*p=='e')||(*p=='E'))
 				{
@@ -1366,14 +605,7 @@ static int SOMDD_main_any(int argc,char **argv)
 	}
 #endif
 
-	if (IsWindowsNT())
-	{
-		/* must be Win95/98 or WIN32S */
-
-		return SOMDD_WinNT_main(argc,argv,flags);
-	}
-
-	return SOMDD_Win95_main(argc,argv,flags);
+	return SOMDD_WinNT_main(argc,argv,flags);
 }
 
 
@@ -1489,77 +721,8 @@ static void SOMDD_unreg_env(char *szServiceName)
 	}
 #endif
 
-struct findMyWindow
-{
-	HWND hwnd;
-	DWORD pid;
-	DWORD tid;
-	const char *text;
-};
-
-static BOOL CALLBACK findMyWindow(HWND hwnd,LPARAM pv)
-{
-	struct findMyWindow *data=(void *)pv;
-	DWORD pid=0;
-	DWORD tid=GetWindowThreadProcessId(hwnd,&pid);
-
-	if (tid==data->tid)
-	{
-		if (pid==data->pid)
-		{
-			char buf[256];
-			if (GetWindowText(hwnd,buf,sizeof(buf)))
-			{
-				if (!strcmp(buf,data->text))
-				{
-					data->hwnd=hwnd;
-					return FALSE;
-				}
-			}
-		}
-	}
-
-	return TRUE;
-}
-
 BOOL SOMDD_AllocConsole(void)
 {
-	BOOL b=AllocConsole();
-	char buf[256];
-
-	if (b)
-	{
-		size_t len=LoadString(NULL,1,buf,sizeof(buf));
-
-		if (len > 0)
-		{
-			b=SetConsoleTitle(buf);
-		}
-	}
-
-	if (b)
-	{
-		struct findMyWindow data={NULL,GetCurrentProcessId(),GetCurrentThreadId(),buf};
-		EnumWindows(findMyWindow,(LPARAM)&data);
-
-		if (data.hwnd)
-		{
-			HICON icon=LoadIcon(GetModuleHandle(NULL),MAKEINTRESOURCE(1));
-			
-			if (icon)
-			{
-				SendMessage(data.hwnd,WM_SETICON,
-#ifdef ICON_SMALL
-					ICON_SMALL,
-#else
-					FALSE,
-#endif
-					(LPARAM)icon);
-			}
-		}
-	}
-
-
-	return b;
+	return AllocConsole();
 }
 
