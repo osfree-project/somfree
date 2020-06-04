@@ -74,6 +74,10 @@ do
 					OS_VER=12
 					MACOSX_DEPLOYMENT_TARGET=10.8
 					;;
+				MacOSX10.9.sdk )
+					OS_VER=13
+					MACOSX_DEPLOYMENT_TARGET=10.9
+					;;
 				esac
 
 				if test "$OS_VER" != ""

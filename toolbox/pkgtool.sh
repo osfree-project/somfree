@@ -90,7 +90,7 @@ do_arch()
 	RC=1
 	FILE="$1"
 
-	for d in objdump elfdump /usr/ccs/bin/elfdump
+	for d in $OBJDUMP objdump elfdump /usr/ccs/bin/elfdump
 	do
 		if $d -p "$FILE" 1>/dev/null 2>/dev/null
 		then
@@ -163,6 +163,12 @@ arch )
 	do_arch "$2"
 	;;
 dpkg-arch )
+	if test "$PLATFORM_DPKGARCH" != ""
+	then
+		echo "$PLATFORM_DPKGARCH"
+		exit 0
+	fi
+
 	if test "$PLATFORM_HOST" = "$PLATFORM"
 	then
 		if test "$PLATFORM" != ""
