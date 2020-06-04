@@ -1,3 +1,0 @@
-NAME missing
-DEPENDS preamble 
-PROVIDES  missing rhbpthrd rhbpthd4 libeay32 uuid

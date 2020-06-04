@@ -1,3 +1,3 @@
 NAME config
-DEPENDS missing include libeay32
+DEPENDS include preamble
 PROVIDES config
