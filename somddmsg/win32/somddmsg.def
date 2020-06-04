@@ -20,12 +20,3 @@
 
 LIBRARY SOMDDMSG
 VERSION 1.0
-
-EXPORTS
-	DllMain	PRIVATE
-	DllRegisterServer PRIVATE
-	DllUnregisterServer PRIVATE
-	SOMDDMSG_OpenLog
-	SOMDDMSG_WriteLogW
-	SOMDDMSG_WriteLogA
-	SOMDDMSG_CloseLog
