@@ -99,27 +99,6 @@ then
 	fi
 fi
 
-for d in CoreFoundation
-do
-	for e in $PLATFORM_ISYSROOT/System/Library/Frameworks/$d.framework/$d
-	do
-		echo $e...
-		if test -f "$e"
-		then
-			(
-				mkdir -p "$OUTDIR/otherlib"
-				cd "$OUTDIR/otherlib"
-				if test ! -f lib$d.dylib
-				then
-					ln -s "$e" lib$d.dylib
-				fi
-			)
-		fi
-	done	
-done
-
-find "$OUTDIR/otherlib" | xargs ls -ld
-
 echo MACOSX_DEPLOYMENT_TARGET is $MACOSX_DEPLOYMENT_TARGET
 export MACOSX_DEPLOYMENT_TARGET
 
