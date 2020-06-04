@@ -99,7 +99,7 @@ then
 	fi
 fi
 
-for d in IOKit PCSC CoreFoundation Foundation
+for d in CoreFoundation
 do
 	for e in $PLATFORM_ISYSROOT/System/Library/Frameworks/$d.framework/$d
 	do
