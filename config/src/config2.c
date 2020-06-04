@@ -1,6 +1,6 @@
 /**************************************************************************
  *
- *  Copyright 2008, Roger Brown
+ *  Copyright 2013, Roger Brown
  *
  *  This file is part of Roger Brown's Toolkit.
  *
@@ -52,6 +52,7 @@ _POSIX_PTHREAD_SEMANTICS			"Looking for _POSIX_PTHREAD_SEMANTICS"
 HAVE_STDIO_H						"Looking for <stdio.h>"
 HAVE_STDARG_H						"Looking for <stdarg.h>"
 HAVE_STDINT_H						"Looking for <stdint.h>"
+HAVE_INTTYPES_H						"Looking for <inttypes.h>"
 HAVE_WCHAR_H						"Looking for <wchar.h>"
 HAVE_DLFCN_H						"Looking for <dlfcn.h>"
 HAVE_DL_H							"Looking for <dl.h>"
@@ -67,6 +68,7 @@ HAVE_WSPIAPI_H						"Looking for <wspiapi.h>"
 HAVE_WSIPX_H						"Looking for <wsipx.h>"
 HAVE_ATALKWSH_H						"Looking for <atalkwsh.h>"
 HAVE_NB30_H							"Looking for <nb30.h>"
+HAVE_WINUSB_H						"Looking for <winusb.h>"
 #else
 HAVE_WINTYPES_H						"Looking for <wintypes.h>"
 #endif
@@ -80,6 +82,7 @@ HAVE_SETJMP_H						"Looking for <setjmp.h>"
 HAVE_SETJMPEX_H						"Looking for <setjmpex.h>"
 HAVE_STRING_H						"Looking for <string.h>"
 HAVE_STRINGS_H						"Looking for <strings.h>"
+HAVE_MATH_H							"Looking for <math.h>"
 HAVE_SIGINFO_H						"Looking for <siginfo.h>"
 HAVE_SYS_POLL_H						"Looking for <sys/poll.h>"
 HAVE_SYS_SELECT_H					"Looking for <sys/select.h>"
@@ -116,6 +119,7 @@ HAVE_NL_TYPES_H						"Looking for <nl_types.h>"
 HAVE_LANGINFO_H						"Looking for <langinfo.h>"
 HAVE_LANGINFO_CODESET				"Looking for CODESET"
 HAVE_USB_H							"Looking for <usb.h>"
+HAVE_LIBUSB1_LIBUSB_H				"Looking for <libusb-1.0/libusb.h>"
 HAVE_PCSCLITE_H						"Looking for <pcsclite.h>"
 HAVE_WINSCARD_H						"Looking for <winscard.h>"
 HAVE_PCSC_WINSCARD_H				"Looking for <PCSC/winscard.h>"
@@ -131,16 +135,19 @@ HAVE_COREFOUNDATION_CFSTRING_H		"Looking for <CoreFoundation/CFString.h>"
 HAVE_COREFOUNDATION_CFUUID_H		"Looking for <CoreFoundation/CFUUID.h>"
 HAVE_COREFOUNDATION_CFPLUGIN_H		"Looking for <CoreFoundation/CFPlugIn.h>"
 HAVE_COREFOUNDATION_CFPLUGINCOM_H	"Looking for <CoreFoundation/CFPlugInCOM.h>"
+HAVE_IOSTREAM_H						"Looking for <iostream.h>"
+HAVE_IOSTREAM						"Looking for <iostream>"
 HAVE_SEH_TRY_EXCEPT					"Looking for __try/__except"
 HAVE_SEH_TRY_FINALLY				"Looking for __try/__finally"
 HAVE_DECLSPEC_DLLEXPORT				"Looking for __declspec(dllexport)"
 HAVE_DECLSPEC_DLLIMPORT				"Looking for __declspec(dllimport)"
+HAVE_DOUBLE_T						"Looking for double_t"
 HAVE_LONG_DOUBLE					"Looking for long double"
 HAVE_SOCKADDR_SA_LEN				"Looking for sockaddr.sa_len"
 HAVE_SOCKLEN_T						"Looking for socklen_t"
 HAVE_IN_ADDR_T						"Looking for in_addr_t"
-HAVE_IN6_ADDR						"Looking inf in6_addr"
-HAVE_IN_ADDR6						"Looking inf in_addr6"
+HAVE_IN6_ADDR						"Looking for in6_addr"
+HAVE_IN_ADDR6						"Looking for in_addr6"
 HAVE_SOCKADDR_IN6					"Looking for sockaddr_in6"
 HAVE_SOCKADDR_AT					"Looking for sockaddr_at"
 HAVE_SOCKADDR_SAT_TYPE				"Looking for sockaddr_at.sat_type"
@@ -195,6 +202,7 @@ HAVE_PTR_SPRINTF					"Looking for char *sprintf()"
 HAVE_PTR_VSPRINTF					"Looking for char *vsprintf()"
 HAVE_SWPRINTF_ISO					"Looking for ISO style swprintf()"
 HAVE_SWPRINTF						"Looking for swprintf()"
+HAVE_STRTOIMAX						"Looking for strtoimax()"
 HAVE_TMPFILE						"Looking for tmpfile()"
 HAVE_RAISE							"Looking for raise()"
 HAVE_SIGINTERRUPT					"Looking for siginterrupt()"
@@ -234,6 +242,8 @@ HAVE_READDIR_R						"Looking for readdir_r()"
 HAVE_RECVMSG						"Looking for recvmsg()"
 HAVE_SENDMSG						"Looking for sendmsg()"
 HAVE_ETHER_HOSTTON					"Looking for ether_hostton()"
+HAVE_INET_PTON						"Looking for inet_pton()"
+HAVE_INET_NTOP						"Looking for inet_ntop()"
 HAVE_GETIPNODEBYNAME				"Looking for getipnodebyname()"
 HAVE_GETIPNODEBYADDR				"Looking for getipnodebyaddr()"
 HAVE_FREEHOSTENT					"Looking for freehostent()"
@@ -274,6 +284,7 @@ HAVE_XTDISPATCHEVENTTOWIDGET		"Looking for XtDispatchEventToWidget()"
 HAVE_XPCREATECONTEXT				"Looking for XpCreateContext()"
 HAVE_IIDFROMSTRING_LPCOLESTR		"Looking for IIDFromString(LPCOLESTR,IID*)"
 HAVE_UNREGISTERTYPELIB				"Looking for UnRegisterTypeLib()"
+HAVE_GETVERSIONEX				"Looking for GetVersionEx()"
 USE_PTHREAD_ONCE_INIT_BRACES0		"Looking for PTHREAD_ONCE_INIT"
 USE_PTHREAD_ONCE_INIT_BRACES1		"Looking for {PTHREAD_ONCE_INIT}"
 USE_PTHREAD_ONCE_INIT_BRACES2		"Looking for {{PTHREAD_ONCE_INIT}}"
@@ -428,6 +439,9 @@ USE_IN6ADDR_ANY_INIT_BRACES2		"Looking for {{IN6ADDR_ANY_INIT}}"
 #elif defined(TRY_HAVE_STDINT_H)
 #	include <stdint.h>
 	COMPLETE_PROGRAM
+#elif defined(TRY_HAVE_INTTYPES_H)
+#	include <inttypes.h>
+	COMPLETE_PROGRAM
 #elif defined(TRY_HAVE_LIMITS_H)
 #	include <limits.h>
 	COMPLETE_PROGRAM
@@ -448,6 +462,9 @@ USE_IN6ADDR_ANY_INIT_BRACES2		"Looking for {{IN6ADDR_ANY_INIT}}"
 	COMPLETE_PROGRAM
 #elif defined(TRY_HAVE_STRINGS_H)
 #	include <strings.h>
+	COMPLETE_PROGRAM
+#elif defined(TRY_HAVE_MATH_H)
+#	include <math.h>
 	COMPLETE_PROGRAM
 #elif defined(TRY_HAVE_SYS_POLL_H)
 #	ifdef HAVE_SYS_TYPES_H
@@ -523,6 +540,12 @@ USE_IN6ADDR_ANY_INIT_BRACES2		"Looking for {{IN6ADDR_ANY_INIT}}"
 #		include <sys/types.h>
 #	endif
 #	include <usb.h>
+	COMPLETE_PROGRAM
+#elif defined(TRY_HAVE_LIBUSB1_LIBUSB_H)
+#	ifdef HAVE_SYS_TYPES_H
+#		include <sys/types.h>
+#	endif
+#	include <libusb-1.0/libusb.h>
 	COMPLETE_PROGRAM
 #elif defined(TRY_HAVE_PCSCLITE_H)
 #	ifdef HAVE_SYS_TYPES_H
@@ -667,6 +690,12 @@ USE_IN6ADDR_ANY_INIT_BRACES2		"Looking for {{IN6ADDR_ANY_INIT}}"
 	MAINLINE
 	{   void *pv=NULL; CFRelease(pv);
 		return argc && argv && pv; }
+#elif defined(TRY_HAVE_IOSTREAM_H)
+#	include <iostream.h>
+	COMPLETE_PROGRAM
+#elif defined(TRY_HAVE_IOSTREAM)
+#	include <iostream>
+	COMPLETE_PROGRAM
 #elif defined(TRY_HAVE_VFORK)
 #	include <unistd.h>
 	MAINLINE
@@ -778,6 +807,12 @@ USE_IN6ADDR_ANY_INIT_BRACES2		"Looking for {{IN6ADDR_ANY_INIT}}"
 	COMPLETE_PROGRAM
 #elif defined(TRY_HAVE_LONG_DOUBLE)
 	long double my_ld=1.2;
+	COMPLETE_PROGRAM
+#elif defined(TRY_HAVE_DOUBLE_T)
+#	ifdef HAVE_MATH_H
+#		include <math.h>
+#	endif
+	double_t my_ld=1.2;
 	COMPLETE_PROGRAM
 #elif defined(TRY_HAVE_SOCKADDR_SA_LEN)
 #	ifdef HAVE_SYS_TYPES_H
@@ -1278,6 +1313,10 @@ static volatile LONG l=-2;
 		MAINLINE
 		{ return dlopen(argv[0],argc) ? 0 : 1; }
 #	endif
+#elif defined(TRY_HAVE_WINUSB_H)
+#	include <windows.h>
+#	include <winusb.h>
+	COMPLETE_PROGRAM
 #elif defined(TRY_HAVE_WINSOCK_H)
 #	include <winsock.h>
 	COMPLETE_PROGRAM
@@ -1385,6 +1424,64 @@ static volatile LONG l=-2;
 	{ struct ether_addr addr;
 	int i=ether_hostton(argv[0],&addr);
 	return i; }
+#elif defined(TRY_HAVE_INET_PTON)
+#	ifdef HAVE_SYS_TYPES_H
+#		include <sys/types.h>
+#	endif
+#	ifdef _WIN32
+#		ifdef HAVE_WINSOCK2_H
+#			include <winsock2.h>
+#		else
+#			include <winsock.h>
+#		endif
+#		ifdef HAVE_WS2IP6_H
+#			include <ws2ip6.h>
+#		endif
+#		ifdef HAVE_WS2TCPIP_H
+#			include <ws2tcpip.h>
+#		endif
+#	else
+#		include <sys/socket.h>
+#		ifdef HAVE_NETINET_IN_H
+#			include <netinet/in.h>
+#		endif
+#		ifdef HAVE_ARPA_INET_H
+#			include <arpa/inet.h>
+#		endif
+#	endif
+	MAINLINE
+	{ struct sockaddr_in addr;
+	int i=inet_pton(argc,argv[0],&addr.sin_addr);
+	return i; }
+#elif defined(TRY_HAVE_INET_NTOP)
+#	ifdef HAVE_SYS_TYPES_H
+#		include <sys/types.h>
+#	endif
+#	ifdef _WIN32
+#		ifdef HAVE_WINSOCK2_H
+#			include <winsock2.h>
+#		else
+#			include <winsock.h>
+#		endif
+#		ifdef HAVE_WS2IP6_H
+#			include <ws2ip6.h>
+#		endif
+#		ifdef HAVE_WS2TCPIP_H
+#			include <ws2tcpip.h>
+#		endif
+#	else
+#		include <sys/socket.h>
+#		ifdef HAVE_NETINET_IN_H
+#			include <netinet/in.h>
+#		endif
+#		ifdef HAVE_ARPA_INET_H
+#			include <arpa/inet.h>
+#		endif
+#	endif
+	MAINLINE
+	{ struct sockaddr_in addr; char buf[256];
+	const char *p=inet_ntop(argc,&addr.sin_addr,buf,sizeof(buf));
+	return (p)?0:1; }
 #elif defined(TRY_HAVE_MSGHDR_MSG_ACCRIGHTS)
 #	ifdef HAVE_SYS_TYPES_H
 #		include <sys/types.h>
@@ -1606,6 +1703,17 @@ static volatile LONG l=-2;
 #	include <stdio.h>
 	MAINLINE
 	{ static fpos_t fpt; long val=(long)fpt; return val; }
+#elif defined(TRY_HAVE_STRTOIMAX)
+#	include <stdio.h>
+#	ifdef HAVE_INTTYPES_H
+#		include <inttypes.h>
+#	endif
+#	ifdef HAVE_STDINT_H
+#		include <stdint.h>
+#	endif
+	MAINLINE
+	{ intmax_t i=strtoimax(argv[0],argv,argc);
+	  return i ? 0 : 1;	}
 #elif defined(TRY_HAVE_SNPRINTF)
 #	include <stdio.h>
 	MAINLINE
@@ -2372,6 +2480,11 @@ struct in6_addr addrInit=IN6ADDR_ANY_INIT;
 							lpAttr.wMinorVerNum,
 							lpAttr.lcid,
 							lpAttr.syskind); }
+#elif defined(TRY_HAVE_GETVERSIONEX)
+#	include <windows.h>
+	MAINLINE
+	{ OSVERSIONINFO vers;
+ 	  return GetVersionEx(&vers); }
 #elif defined(BUILD_CONFIG)
 	static int xyz_config;
 #else

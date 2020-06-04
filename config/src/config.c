@@ -232,8 +232,8 @@ char **argv;
 		while (fgets(buf,sizeof(buf),fp))
 		{
 			const char *p="INVALID_OPTION";
-			int i=strlen(p);
-			int j=strlen(buf)-i;
+			size_t i=strlen(p);
+			int j=(int)(strlen(buf)-i);
 			if (j > 0)
 			{
 				while (j--)
