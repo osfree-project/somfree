@@ -34,6 +34,11 @@ then
 	RANLIB=ranlib
 fi
 
+first()
+{
+	echo "$1"
+}
+
 platform_getcflag()
 {
 	GCF_LAST=
@@ -59,7 +64,10 @@ platform_getcflag()
 	done 
 }
 
-PLATFORM_ISYSROOT=`platform_getcflag -isysroot`
+if test "$PLATFORM_ISYSROOT" = ""
+then
+	PLATFORM_ISYSROOT=`platform_getcflag -isysroot`
+fi
 
 echo PLATFORM_ISYSROOT=$PLATFORM_ISYSROOT 1>&2
 
@@ -79,34 +87,19 @@ platform_not_member()
 
 if test "$MACOSX_DEPLOYMENT_TARGET" = ""
 then
-	echo MACOSX_DEPLOYMENT_TARGET not defined...
-
-	case `uname -r` in
-	6.* )
-		MACOSX_DEPLOYMENT_TARGET=10.2
-		;;
-	7.* )
-		MACOSX_DEPLOYMENT_TARGET=10.3
-		;;
-	8.* )
-		MACOSX_DEPLOYMENT_TARGET=10.4
-		;;
-	9.* )
-		MACOSX_DEPLOYMENT_TARGET=10.5
-		;;
-	10.* )
-		MACOSX_DEPLOYMENT_TARGET=10.6
-		;;
-	11.* )
-		MACOSX_DEPLOYMENT_TARGET=10.7
-		;;
-	* )
-		exit 1
-		;;
-	esac	
+	if test -z "$PLATFORM_ISYSROOT"
+	then
+		RELEASE=`uname -r | sed y/./\ /`
+		RELEASE=`first $RELEASE`
+		RELEASE=`echo $RELEASE-4 | bc`
+		MACOSX_DEPLOYMENT_TARGET=10.$RELEASE
+		echo MACOSX_DEPLOYMENT_TARGET is guessed at "$MACOSX_DEPLOYMENT_TARGET"
+	else
+		echo MACOSX_DEPLOYMENT_TARGET not defined, "PLATFORM_ISYSROOT=$PLATFORM_ISYSROOT"
+	fi
 fi
 
-for d in AppleTalk IOKit PCSC CoreFoundation
+for d in IOKit PCSC CoreFoundation Foundation
 do
 	for e in $PLATFORM_ISYSROOT/System/Library/Frameworks/$d.framework/$d
 	do
@@ -192,6 +185,12 @@ then
 	MAKEDEFS_DEFS="$MAKEDEFS_DEFS $THREADLIBS"
 fi
 
+if test "$OBJCLIBS" != ""
+then
+	MAKEDEFS_DEFS="$MAKEDEFS_DEFS OBJCLIBS"
+	HAVE_LIBOBJC=true
+fi
+
 if test "$X11INCL" != ""
 then
 	MAKEDEFS_DEFS="$MAKEDEFS_DEFS X11INCL"
@@ -218,10 +217,23 @@ MAKEDEFS_DEFS="$MAKEDEFS_DEFS PLATFORM_SCFLAGS"
 
 if test "$CFLIBS" = ""
 then
-	if test -f "$OUTDIR/otherlib/libCoreFoundation.dylib"
-	then
-		CFLIBS="-L$OUTDIR/otherlib -lCoreFoundation"
-	fi
+	CFLIBS_LIST="CoreFoundation Foundation"
+
+	for d in $CFLIBS_LIST
+	do
+		if test -f "$OUTDIR/otherlib/lib$d.dylib"
+		then
+			CFLIBS="-L$OUTDIR/otherlib"
+		fi
+	done
+
+	for d in $CFLIBS_LIST
+	do
+		if test -f "$OUTDIR/otherlib/lib$d.dylib"
+		then
+			CFLIBS="$CFLIBS -l$d"
+		fi
+	done
 fi
 
 if test "$ATLIBS" = ""
@@ -285,6 +297,12 @@ then
 	MAKEDEFS_DEFS="$MAKEDEFS_DEFS CURLLIBS"
 fi
 
+if test "$XMLLIBS" != ""
+then
+	HAVE_LIBXML=true
+	MAKEDEFS_DEFS="$MAKEDEFS_DEFS XMLLIBS"
+fi
+
 if test "$CFLIBS" != ""
 then
 	MAKEDEFS_DEFS="$MAKEDEFS_DEFS CFLIBS"
@@ -303,6 +321,11 @@ fi
 if test "$HAVE_LIBUSB" = ""
 then
 	HAVE_LIBUSB=false
+fi
+
+if test "$HAVE_LIBUSB1" = ""
+then
+	HAVE_LIBUSB1=false
 fi
 
 if test "$HAVE_LIBPCSC" = ""
@@ -340,6 +363,11 @@ then
 	HAVE_LIBCURL=false
 fi
 
+if test "$HAVE_LIBXML" = ""
+then
+	HAVE_LIBXML=false
+fi
+
 if test "$HAVE_LIBCRYPTO" = ""
 then
 	HAVE_LIBCRYPTO=false
@@ -350,4 +378,9 @@ then
 	HAVE_LIBSSL=false
 fi
 
-MAKEDEFS_DEFS="$MAKEDEFS_DEFS HAVE_LIBUSB HAVE_LIBPCSC HAVE_LIBUUID HAVE_LIBX11 HAVE_LIBXT HAVE_LIBXM HAVE_LIBEXPAT HAVE_LIBCURL HAVE_LIBCRYPTO HAVE_LIBSSL"
+if test "$HAVE_LIBOBJC" = ""
+then
+	HAVE_LIBOBJC=false
+fi
+
+MAKEDEFS_DEFS="$MAKEDEFS_DEFS HAVE_LIBUSB HAVE_LIBPCSC HAVE_LIBUUID HAVE_LIBX11 HAVE_LIBXT HAVE_LIBXM HAVE_LIBEXPAT HAVE_LIBCURL HAVE_LIBCRYPTO HAVE_LIBSSL HAVE_LIBUSB1 HAVE_LIBOBJC HAVE_LIBXML"
