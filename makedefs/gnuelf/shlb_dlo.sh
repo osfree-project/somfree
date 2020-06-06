@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/sh -e
 #
 #  Copyright 2008, Roger Brown
 #
@@ -43,15 +43,17 @@ get_soname()
 
 	for d in `echo $SHLB_REF_STRONG $SHLB_REF_WEAK $SHLB_REF_NAME | sed s/:/\ /`
 	do
-		if test -f $d/$e		
+		if test -f "$d/$e"
 		then
-			for f in `objdump -p $d/$e | grep SONAME`
+			for f in `objdump -p "$d/$e" | grep SONAME`
 			do
-				for g in $f $d/$f
+				g=`basename "$f"`
+
+				for h in "$g" "$d/$g" 
 				do
-					if test -f $g
+					if test -f "$h"
 					then
-						echo $f
+						echo "$f"
 						return 0
 					fi
 				done

@@ -1,4 +1,4 @@
-#!/bin/sh -ex
+#!/bin/sh -e
 
 if test "$GTAR" = ""
 then
@@ -66,15 +66,19 @@ done
 (
 	cd "$BASEDIR"
 
-	$GTAR --owner=0 --group=0 --create --file - ./*	
-) >"$INTDIR/data.tar"
+	if test -n "$PKGROOT"
+	then
+		$GTAR --owner=0 --group=0 --create --file - "$PKGROOT"
+	else
+		$GTAR --owner=0 --group=0 --create --file - ./*
+	fi
+) | gzip >"$INTDIR/data.tar.gz"
 
 (
 	cd "$INTDIR"
 	rm -rf "$PACKAGE_NAME"
 	$GTAR --owner=0 --group=0 --create --file control.tar ./control $SCRIPTLIST	
 	echo "2.0" >debian-binary
-	gzip data.tar
 	gzip control.tar
 	ar r "$PACKAGE_NAME" debian-binary control.tar.gz data.tar.gz
 	rm -rf data.tar.gz control.tar.gz debian-binary

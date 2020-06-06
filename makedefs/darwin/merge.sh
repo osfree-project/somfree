@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/sh -e
 #
 #  Copyright 2008, Roger Brown
 #
@@ -20,33 +20,99 @@
 # $Id$
 #
 
+thinfile()
+{
+	RC=1
 
-PLATFORM=i386-apple-darwin
-PLATFORM_HOST=`develop/config/unix/config.guess`
+	if lipo -info "$1"
+	then
+		OUTPUT=`lipo -info "$1"`
+		case "$OUTPUT" in
+		Non-fat* )
+			RC=0
+			;;
+		* )
+			;;
+		esac
+	fi
+
+	return $RC
+}
+
+mergedirs()
+{
+	ARCHLIST=$@
+
+	echo ARCHLIST=$ARCHLIST
+
+	for d in $ARCHLIST
+	do
+		(
+			if test -d "$d"
+			then
+				cd "$d"
+			
+				find . -type f | while read M
+				do
+					if thinfile "$M" >/dev/null
+					then
+						echo "$M"
+					fi
+				done
+			fi		
+		) | (
+			while read N
+			do
+				echo XXXX  handle file "$N"
+				FILELIST=
+				for e in $ARCHLIST
+				do
+					if test -f "$e/$N"
+					then
+						FILELIST="$FILELIST $e/$N"
+					fi
+				done
+
+				if lipo $FILELIST -create -output lipo.tmp
+				then
+					lipo -info lipo.tmp
+
+					for e in $FILELIST
+					do
+						rm "$e"
+						ln lipo.tmp "$e"
+					done
+
+					rm lipo.tmp
+				fi
+			done
+		)
+	done
+}
 
 for group in products 
 do
-	for subdir in bin lib tools tests
-	do
-		FAT=develop/$group/fat-apple-darwin
+	if test -d "$group"
+	then
+		(
+			cd "$group"
 
-		for file in develop/$group/$PLATFORM_HOST/$subdir/*
-		do
-			b=`basename $file`
-		
-			if test -f develop/$group/$PLATFORM/$subdir/$b
-			then
-				if test -L develop/$group/$PLATFORM/$subdir/$b
+			for platform in *
+			do
+				if test -d "$platform"
 				then
-					echo $b is a link
-				else
-					mkdir -p $FAT/$subdir
+					(
+						cd "$platform"
+					
+						ARCHLIST=`echo *`
 
-					lipo develop/$group/$PLATFORM/$subdir/$b \
-						develop/$group/$PLATFORM_HOST/$subdir/$b \
-						-create -output $FAT/$subdir/$b
+						if test `echo $ARCHLIST | wc -w` -gt 1
+						then
+							mergedirs $ARCHLIST
+						fi
+					)
 				fi
-			fi
-		done
-	done
+			done
+		)
+	fi
 done

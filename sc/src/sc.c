@@ -240,11 +240,6 @@ int main(int argc,char **argv)
 #error missing _PLATFORM_WIN32_
 #endif
 
-#ifdef _PLATFORM_X11_
-	add_many(&defines,"_PLATFORM_X11_");
-#endif
-
-
 	while (i < argc)
 	{
 		char *p=argv[i++];

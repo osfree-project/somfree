@@ -143,21 +143,7 @@ LIBSUFFIX=.dylib
 MAKEDEFS_EXPORTS="$MAKEDEFS_EXPORTS LIBPREFIX LIBSUFFIX SHLB_REF_STRONG SHLB_REF_WEAK"
 MAKEDEFS_EXPORTS="$MAKEDEFS_EXPORTS PLATFORM_CFLAGS PLATFORM_CXXFLAGS"
 
-X11CONTENDERS="/usr/X11R6 /usr/OpenMotif"
-
 . ../../toolbox/findlibs.sh
-
-if test "$X11LIBPATH" != ""
-then
-        X11LIBPATH=`arglist -L $X11LIBPATH`
-
-		MAKEDEFS_DEFS="$MAKEDEFS_DEFS X11LIBPATH"
-
-        if test "$X11LIBS" != ""
-        then
-                X11LIBS="$X11LIBPATH $X11LIBS"
-        fi
-fi
 
 if test "$THREADLIBS" != ""
 then
@@ -170,116 +156,11 @@ then
 	HAVE_LIBOBJC=true
 fi
 
-if test "$X11INCL" != ""
-then
-	MAKEDEFS_DEFS="$MAKEDEFS_DEFS X11INCL"
-fi
-
-if test "$X11LIBS" != ""
-then
-	MAKEDEFS_DEFS="$MAKEDEFS_DEFS X11LIBS"
-fi
-
-if test "$XTLIBS" != ""
-then
-	MAKEDEFS_DEFS="$MAKEDEFS_DEFS XTLIBS"
-	HAVE_LIBXT=true
-fi
-
-if test "$XMLIBS" != ""
-then
-	MAKEDEFS_DEFS="$MAKEDEFS_DEFS XMLIBS"
-	HAVE_LIBXM=true
-fi
-
 MAKEDEFS_DEFS="$MAKEDEFS_DEFS PLATFORM_SCFLAGS"
-
-if test "$CFLIBS" = ""
-then
-	CFLIBS_LIST="CoreFoundation Foundation"
-
-	for d in $CFLIBS_LIST
-	do
-		if test -f "$OUTDIR/otherlib/lib$d.dylib"
-		then
-			CFLIBS="-L$OUTDIR/otherlib"
-		fi
-	done
-
-	for d in $CFLIBS_LIST
-	do
-		if test -f "$OUTDIR/otherlib/lib$d.dylib"
-		then
-			CFLIBS="$CFLIBS -l$d"
-		fi
-	done
-fi
-
-if test "$ATLIBS" = ""
-then
-	if test -f "$OUTDIR/otherlib/libAppleTalk.dylib"
-	then
-		ATLIBS="-L$OUTDIR/otherlib -lAppleTalk"
-	fi
-fi
-
-if test "$PCSCLIBS" != ""
-then
-	HAVE_LIBPCSC=true
-	MAKEDEFS_DEFS="$MAKEDEFS_DEFS PCSCLIBS"
-fi
-
-if test "$X11LIBS" != ""
-then
-	HAVE_LIBX11=true
-	MAKEDEFS_DEFS="$MAKEDEFS_DEFS X11LIBS"
-fi
-
-if test "$USBLIBS" != ""
-then
-	HAVE_LIBUSB=true
-	MAKEDEFS_DEFS="$MAKEDEFS_DEFS USBLIBS"
-fi
-
-if test "$CRYPTOLIBS" != ""
-then
-	HAVE_LIBCRYPTO=true
-	MAKEDEFS_DEFS="$MAKEDEFS_DEFS CRYPTOLIBS"
-fi
-
-if test "$SSLLIBS" != ""
-then
-	HAVE_LIBSSL=true
-	MAKEDEFS_DEFS="$MAKEDEFS_DEFS SSLLIBS"
-fi
-
-if test "$UUIDLIBS" != ""
-then
-	HAVE_LIBUUID=true
-	MAKEDEFS_DEFS="$MAKEDEFS_DEFS UUIDLIBS"
-fi
 
 if test "$DLLIBS" != ""
 then
 	MAKEDEFS_DEFS="$MAKEDEFS_DEFS DLLIBS"
-fi
-
-if test "$EXPATLIBS" != ""
-then
-	HAVE_LIBEXPAT=true
-	MAKEDEFS_DEFS="$MAKEDEFS_DEFS EXPATLIBS"
-fi
-
-if test "$CURLLIBS" != ""
-then
-	HAVE_LIBCURL=true
-	MAKEDEFS_DEFS="$MAKEDEFS_DEFS CURLLIBS"
-fi
-
-if test "$XMLLIBS" != ""
-then
-	HAVE_LIBXML=true
-	MAKEDEFS_DEFS="$MAKEDEFS_DEFS XMLLIBS"
 fi
 
 if test "$CFLIBS" != ""
@@ -287,44 +168,9 @@ then
 	MAKEDEFS_DEFS="$MAKEDEFS_DEFS CFLIBS"
 fi
 
-if test "$ATLIBS" != ""
-then
-	MAKEDEFS_DEFS="$MAKEDEFS_DEFS ATLIBS"
-fi
-
 if test "$PLATFORM_ISYSROOT" != ""
 then
 	MAKEDEFS_DEFS="$MAKEDEFS_DEFS PLATFORM_ISYSROOT"
-fi
-
-if test "$HAVE_LIBUSB" = ""
-then
-	HAVE_LIBUSB=false
-fi
-
-if test "$HAVE_LIBUSB1" = ""
-then
-	HAVE_LIBUSB1=false
-fi
-
-if test "$HAVE_LIBPCSC" = ""
-then
-	HAVE_LIBPCSC=false
-fi
-
-if test "$HAVE_LIBX11" = ""
-then
-	HAVE_LIBX11=false
-fi
-
-if test "$HAVE_LIBXT" = ""
-then
-	HAVE_LIBXT=false
-fi
-
-if test "$HAVE_LIBXM" = ""
-then
-	HAVE_LIBXM=false
 fi
 
 if test "$HAVE_LIBUUID" = ""
@@ -332,34 +178,29 @@ then
 	HAVE_LIBUUID=false
 fi
 
-if test "$HAVE_LIBEXPAT" = ""
-then
-	HAVE_LIBEXPAT=false
-fi
-
-if test "$HAVE_LIBCURL" = ""
-then
-	HAVE_LIBCURL=false
-fi
-
-if test "$HAVE_LIBXML" = ""
-then
-	HAVE_LIBXML=false
-fi
-
-if test "$HAVE_LIBCRYPTO" = ""
-then
-	HAVE_LIBCRYPTO=false
-fi
-
-if test "$HAVE_LIBSSL" = ""
-then
-	HAVE_LIBSSL=false
-fi
-
 if test "$HAVE_LIBOBJC" = ""
 then
 	HAVE_LIBOBJC=false
 fi
 
-MAKEDEFS_DEFS="$MAKEDEFS_DEFS HAVE_LIBUSB HAVE_LIBPCSC HAVE_LIBUUID HAVE_LIBX11 HAVE_LIBXT HAVE_LIBXM HAVE_LIBEXPAT HAVE_LIBCURL HAVE_LIBCRYPTO HAVE_LIBSSL HAVE_LIBUSB1 HAVE_LIBOBJC HAVE_LIBXML"
+if $CC $CFLAGS $PLATFORM_CFLAGS ../../toolbox/src/asneeded.c -o a.out
+then
+	SYSTEM_LIB=$( otool -L a.out | grep libSystem )
+
+	rm a.out
+
+	SYSTEM_LIB=$( first $SYSTEM_LIB )
+	FRAMEWORK_VERS=$( basename $SYSTEM_LIB | sed s/libSystem\.// | sed s/\.dylib// | sed y/\./\ / )
+	FRAMEWORK_VERS=$( first $FRAMEWORK_VERS )
+fi
+
+if test -z "$FRAMEWORK_VERS"
+then
+	FRAMEWORK_VERS=Z
+fi
+
+echo FRAMEWORK_VERS="$FRAMEWORK_VERS"
+
+export FRAMEWORK_VERS
+
+MAKEDEFS_DEFS="$MAKEDEFS_DEFS HAVE_LIBUUID HAVE_LIBOBJC FRAMEWORK_VERS"

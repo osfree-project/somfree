@@ -18,7 +18,7 @@
 #
 #  $Id$
 
-STDINCL=-I. -I.. -I../../include/$(PLATFORM)/$(BUILDTYPE) -I../../include -I../../rhbseh/include $(X11INCL)
+STDINCL=-I. -I.. -I../../include/$(PLATFORM)/$(BUILDTYPE) -I../../include -I../../rhbseh/include 
 CC_FLAG_FPIC=-fPIC
 CXX_FLAG_FPIC=-fPIC
 CC_EXE=$(CC) $(CFLAGS)
@@ -30,7 +30,6 @@ SHLIBSUFFIX=.so
 DLLPREFIX=lib
 DLLSUFFIX=.so
 DLLPATHENV=LD_LIBRARY_PATH
-X11LIBS=-L/usr/X11R6/lib -lXmu -lXext -lXt -lX11
 SOCKLIBS= 
 COMMONLIBS=`$(SHLB_REF) rhbseh rhbseh`
 STDLIB=$(COMMONLIBS)

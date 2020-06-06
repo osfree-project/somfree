@@ -1,4 +1,4 @@
-#!/bin/sh -ex
+#!/bin/sh -e
 #
 #  Copyright 2012, Roger Brown
 #

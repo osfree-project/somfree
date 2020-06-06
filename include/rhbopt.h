@@ -221,9 +221,6 @@
 #				define USE_SELECT
 #			endif  /* _REENTRANT */
 #			ifdef _PLATFORM_UNIX_
-#				ifndef _PLATFORM_X11_
-/*					#error currently require X11 for UNIX build */
-#				endif
 #				ifdef USE_THREADS
 #					ifdef HAVE_PTHREAD_H
 #						define USE_PTHREADS

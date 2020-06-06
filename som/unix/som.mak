@@ -46,7 +46,7 @@ CC_OPT=$(STDOPT) $(SOM_INCL) -DBUILD_SOM
 all: $(TARGET) $(IRS)
 
 clean:
-	$(CLEAN) $(OBJS) $(TARGET) $(INTDIR)/somirdll.h
+	$(CLEAN) $(OBJS) $(TARGET) $(INTDIR)/somirdll.h $(INTDIR)/shlbtest.h
 
 $(TARGET): $(OBJS)
 	$(LINKDLL) $(LINKDLL_HEAD) \
@@ -77,7 +77,7 @@ $(INTDIR)/somkpath.o: ../src/somkpath.c
 $(INTDIR)/somobjva.o: ../src/somobjva.c 
 	$(CC_DLL) $(CC_OPT) -c ../src/somobjva.c -o $@ 
 
-$(INTDIR)/somshlb.o: ../src/somshlb.c ../../shlbtest/$(PLATFORM)/$(BUILDTYPE)/shlbtest.h
+$(INTDIR)/somshlb.o: ../src/somshlb.c $(INTDIR)/shlbtest.h 
 	$(CC_DLL) $(CC_OPT) -I../../shlbtest/$(PLATFORM)/$(BUILDTYPE) -c ../src/somshlb.c -o $@ 
 
 $(INTDIR)/somkern.o: ../src/somkern.c $(INTDIR)/somkernp.kih $(INTDIR)/somirdll.h ../src/somobj.c ../src/somcls.c ../src/somcm.c
@@ -87,5 +87,16 @@ $(INTDIR)/somirdll.h: ../unix/som.mak
 	$(SHLB_DLO) -s somir >$@
 	cat $@
 
+$(INTDIR)/shlbtest.h:
+	for d in ../../shlbtest/$(PLATFORM)/$(BUILDTYPE)/shlbtest.h ../../shlbtest/$(PLATFORM_PROTO)/shlbtest.h; \
+	do \
+		if test -f $$d; \
+		then \
+			cp $$d $@; \
+			break; \
+		fi; \
+	done
+
 dist install:
+
 

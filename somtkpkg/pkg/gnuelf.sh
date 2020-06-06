@@ -1,4 +1,4 @@
-#!/bin/sh -ex
+#!/bin/sh -e
 #
 #  Copyright 2011, Roger Brown
 #
@@ -26,6 +26,8 @@ if test "$VERSION" = ""
 then
 	VERSION=0.0.0.1
 fi
+
+test -n "$PKGROOT"
 
 FLAG=
 
@@ -66,7 +68,7 @@ Version: $VERSION
 Release: 1
 Group: Applications/System
 License: GPL
-Prefix: /opt/somtk
+Prefix: /$PKGROOT
 
 %description
 Interface Repository for SOMTK
@@ -80,7 +82,7 @@ Version: $VERSION
 Release: 1
 Group: Applications/System
 License: GPL
-Prefix: /opt/somtk
+Prefix: /$PKGROOT
 
 %description
 Runtime Environment for SOMTK
@@ -94,7 +96,7 @@ Version: $VERSION
 Release: 1
 Group: Applications/System
 License: GPL
-Prefix: /opt/somtk
+Prefix: /$PKGROOT
 
 %description
 CORBA ORB for SOMTK
@@ -108,7 +110,7 @@ Version: $VERSION
 Release: 1
 Group: Applications/System
 License: GPL
-Prefix: /opt/somtk
+Prefix: /$PKGROOT
 
 %description
 Utilities for SOMTK
@@ -122,7 +124,7 @@ Version: $VERSION
 Release: 1
 Group: Applications/System
 License: GPL
-Prefix: /opt/somtk
+Prefix: /$PKGROOT
 
 %description
 IDL Compiler for SOMTK

@@ -24,6 +24,9 @@
 case "$1" in
 vote )
 	case "$2" in
+		generic )
+			echo 50
+			;;
 		*-*-*  )
 			echo 10
 			;;

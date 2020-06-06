@@ -63,14 +63,17 @@ case "$INTDIR" in
 	;;
 esac
 
-case `uname` in
-Aix | aix )
-	PKGROOT=usr/lpp/somtk
-	d;;
-* )
-	PKGROOT=opt/somtk
-	;;
-esac
+if test -z "$PKGROOT"
+then
+	case `uname` in
+	Aix | aix )
+		PKGROOT=usr/lpp/somtk
+		;;
+	* )
+		PKGROOT=opt/somtk
+		;;
+	esac
+fi
 
 first()
 {
@@ -144,7 +147,14 @@ copyLib()
 	do
 		find "$OUTDIR/lib" -name "$LIBPREFIX"$x"$LIBEXT"\* | while read N
 		do
-			copyLibFile "$N"
+			case "$N" in
+			*$LIBEXT )
+				echo not packaging "$N"
+				;;
+			* )
+				copyLibFile "$N"
+				;;
+			esac
 		done
 		find "$OUTDIR/lib" -name $x.dll | while read N
 		do
@@ -203,21 +213,20 @@ copyIdl()
 	done
 }
 
-pruneDirs()
+rmdirs()
 {
-	find "$1" -type d | while read PD1
-	do
-		find "$1" -type d | while read PD2
-		do
-			find "$1" -type d | while read PD3
-			do
-				if rmdir "$PD3" 2>/dev/null
-				then
-					echo "$PD3" pruned
-				fi
-			done
-		done 
-	done
+    find "$1" -type d | (
+        RC=1
+        while read N
+        do
+            if rmdir "$N" 2>/dev/null
+            then
+                RC=0
+            fi
+        done
+
+        exit $RC
+    )
 }
 
 for PKGNAME in somtk.comp somtk.dsom somtk.ir somtk.rte somtk.somp somtk.somr somtk.somuc somtk.somx somtk.util
@@ -310,7 +319,10 @@ do
 		;;
 	esac
 
-	pruneDirs "$INTDIR/$PKGNAME"
+	while rmdirs "$INTDIR/$PKGNAME"
+	do
+		date
+	done
 
 	if test "$STRIP" != ""
 	then
@@ -333,6 +345,8 @@ do
 
 	if test -d "$INTDIR/$PKGNAME"
 	then
+		mkdir -p "$INTDIR/$PKGNAME/usr/lib/.build-id"
+
 		find "$INTDIR/$PKGNAME" | while read N
 		do
 			if test -h "$N"
@@ -342,6 +356,8 @@ do
 				chmod -w "$N"
 			fi
 		done
+
+		chmod +w "$INTDIR/$PKGNAME/usr/lib/.build-id"
 	fi
 done
 

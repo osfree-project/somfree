@@ -81,6 +81,7 @@
 		saNew.sa_flags=CATCH_SIGPIPE_FLAGS;				\
 		saNew.sa_handler=catch_sigpipe;					\
 		sigfillset(&newMask);							\
+		sigaction(SIGPIPE,&saNew,&saOld);				\
 		sigdelset(&newMask,SIGPIPE);					\
 		sigprocmask(SIG_SETMASK,&newMask,&oldMask);
 #	define CATCH_SIGPIPE_END							\

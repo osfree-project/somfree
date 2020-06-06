@@ -28,4 +28,4 @@ LOVERS=`echo $VERS % 10000 | bc`
 if test "$HIVERS" = ""; then HIVERS=0; fi
 if test "$LOVERS" = ""; then LOVERS=0; fi
 
-VERSION=1.0.$HIVERS.$LOVERS
+VERSION=1.1.$HIVERS.$LOVERS

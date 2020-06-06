@@ -1,4 +1,4 @@
-#!/bin/sh -ex
+#!/bin/sh -e
 
 RPMBUILD=rpm
 
@@ -40,7 +40,7 @@ includedir()
 	/opt )
 		RC=1		
 		;;
-	/usr | /usr/bin | /usr/lib | /usr/local | /usr/local/lib | /usr/local/bin | /usr/local/etc | /usr/libexec )
+	/usr | /usr/bin | /usr/lib* | /usr/local | /usr/local/lib | /usr/local/bin | /usr/local/etc | /usr/libexec | /usr/share )
 		RC=1		
 		;;
 	/etc | /etc/xinetd.d | /etc/rc.d | /etc/rc.d/init.d )
@@ -59,7 +59,15 @@ cat >"$SPECFILE"
 	echo "%files"
 	echo "%defattr(-,root,root)"
 	cd $BASEDIR
-	find . | while read N
+
+	if test -z "$PKGROOT"
+	then
+		FIND_ROOT="."
+	else
+		FIND_ROOT="./$PKGROOT"
+	fi
+
+	find "$FIND_ROOT" | while read N
 	do
 		M=`echo $N | sed s/\.//`
 		if test "$M" != ""
@@ -73,7 +81,10 @@ cat >"$SPECFILE"
 			else
 				if test -L "$N"
 				then
-					echo "$M"
+					if includedir "$M"
+					then
+						echo "$M"
+					fi
 				else
 					if test -f "$N"
 					then

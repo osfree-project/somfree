@@ -37,58 +37,10 @@ clean:
 	if test -d "$(INTDIR)/lib"; then rmdir "$(INTDIR)/lib"; fi
 
 
-optcheck: opt-curl-$(HAVE_LIBCURL) opt-xt-$(HAVE_LIBXT) opt-x11-$(HAVE_LIBX11) opt-expat-$(HAVE_LIBEXPAT) opt-ssl-$(HAVE_LIBSSL) opt-crypto-$(HAVE_LIBCRYPTO) opt-pcsc-$(HAVE_LIBPCSC) opt-uuid-$(HAVE_LIBUUID) opt-usb-$(HAVE_LIBUSB)
-
-
-opt-curl-true:
-
-
-opt-crypto-true:
-
-
-opt-pcsc-true:
-
-
-opt-ssl-true:
-
-
-opt-usb-true:
-
-
-opt-xt-true:
-
-
-opt-x11-true:
-
-
-opt-expat-true:
+optcheck: opt-uuid-$(HAVE_LIBUUID)
 
 
 opt-uuid-true:
-
-
-opt-curl-false:
-
-
-opt-crypto-false:
-
-
-opt-pcsc-false:
-
-
-opt-ssl-false:
-
-
-opt-usb-false:
-
-
-opt-xt-false:
-
-
-opt-x11-false:
-
-
-opt-expat-false:
 
 
 opt-uuid-false:
