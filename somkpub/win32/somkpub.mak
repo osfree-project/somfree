@@ -22,7 +22,7 @@
 
 SC=$(HOSTDIR_BIN)\sc.exe
 PDL=$(HOSTDIR_BIN)\pdl.exe
-IDLTOOL=$(HOSTDIR_TOOLS)\idltool.exe
+IDLTOOL=$(RHBTOOLS_BIN)\idltool.exe
 
 SOM_IDL=..\som\somobj.idl ..\som\somcls.idl ..\som\somcm.idl
 SOMIDL_IDL=..\..\somidl
@@ -51,10 +51,10 @@ $(SOMIDL_HEADERS) $(SOMIDL_IDL):
 	mkdir $@
 
 $(PRODUCTS_PDL): $(SOMIDL_IDL) $(SOM_IDL)
-	$(IDLTOOL) $(PDL) ..\som -o $@
+	"$(IDLTOOL)" "$(PDL)" ..\som -o $@
 
 $(PRODUCTS_SC): $(SOMIDL_HEADERS) $(SOM_IDL)
-	$(IDLTOOL) $(SC) $(SOMIDL_IDL) -o $@ -I$(SOMIDL_IDL)
+	"$(IDLTOOL)" "$(SC)" $(SOMIDL_IDL) -o $@ -I$(SOMIDL_IDL)
 
 
 dist:

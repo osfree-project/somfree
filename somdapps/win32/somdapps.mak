@@ -21,7 +21,7 @@
 !include $(MAKEDEFS)
 
 SC=$(HOSTDIR_BIN)\sc.exe
-IDLTOOL=$(HOSTDIR_TOOLS)\idltool.exe
+IDLTOOL=$(RHBTOOLS_BIN)\idltool.exe
 
 SOMIDL_IDL=..\..\somidl
 SOMDD_DIR=..\..\somdd
@@ -84,21 +84,18 @@ clean:
 	$(CLEAN) $(SOMDSVRP_IH)
 
 $(SOMDD_IH):
-	$(IDLTOOL) $(SC) $(SOMDD_DIR) -o $@ -p -I$(SOMDD_DIR) -I$(SOMIDL_IDL)
+	"$(IDLTOOL)" "$(SC)" $(SOMDD_DIR) -o $@ -p -I$(SOMDD_DIR) -I$(SOMIDL_IDL)
 
 $(SOMDDSRV_TC): $(SC) $(SOMDSRV_IDL)
-	$(IDLTOOL) $(SC) $(SOMDD_DIR) -o $@ -p -D__GENERATE_SOMDD__  -I$(SOMDD_DIR) -I$(SOMIDL_IDL)
-	dir $@
+	"$(IDLTOOL)" "$(SC)" $(SOMDD_DIR) -o $@ -p -D__GENERATE_SOMDD__  -I$(SOMDD_DIR) -I$(SOMIDL_IDL)
 
 $(REGIORTC_TC): $(SC) $(REGIORTC_IDL)
-	$(IDLTOOL) $(SC) $(REGIMPL_DIR) -o $@ -p -D __GENERATE_REGIMPL__ -I$(REGIMPL_DIR) -I$(SOMD_DIR) -I$(SOMIDL_IDL)
-	dir $@
+	"$(IDLTOOL)" $(SC) $(REGIMPL_DIR) -o $@ -p -D __GENERATE_REGIMPL__ -I$(REGIMPL_DIR) -I$(SOMD_DIR) -I$(SOMIDL_IDL)
 
 $(SOMDDMC1_RC): $(SOMDDMSG_DIR)\somddmc1.mc
 	cd $(SOMDDMSG_DIR)\$(PLATFORM)
 	mc -r $(BUILDTYPE) -h $(BUILDTYPE) ..\somddmc1.mc
 	cd $(SOMDAPPS_DIR)\$(PLATFORM)
-	dir $@
 
 $(SOMDDMC1_H): $(SOMDDMSG_DIR)\somddmc1.mc
 	mc -h $(SOMDDMSG_INTDIR) -r $(SOMDDMSG_INTDIR) $(SOMDDMSG_DIR)\somddmc1.mc
@@ -107,13 +104,8 @@ $(DIRS):
 	mkdir $@
 
 $(SOMDSVRP_IH):
-	$(IDLTOOL) $(SC) $(SOMDSVRP_DIR) -o $@ -p -I$(SOMDSVRP_DIR) -I$(SOMIDL_IDL)
-
+	"$(IDLTOOL)" "$(SC)" $(SOMDSVRP_DIR) -o $@ -p -I$(SOMDSVRP_DIR) -I$(SOMIDL_IDL)
 
 dist:
 
-
-
-
 test:
-

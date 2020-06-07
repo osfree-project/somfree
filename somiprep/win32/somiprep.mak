@@ -22,7 +22,7 @@
 
 SC=$(HOSTDIR_BIN)\sc.exe
 PDL=$(HOSTDIR_BIN)\pdl.exe
-IDLTOOL=$(HOSTDIR_TOOLS)\idltool.exe
+IDLTOOL=$(RHBTOOLS_BIN)\idltool.exe
 SOMIDL_IDL=..\..\somidl
 SOMIDL_HEADERS=..\..\somidl\$(PLATFORM)
 
@@ -80,19 +80,19 @@ clean:
 
 
 $(SOMTCDAT_TC): $(SOMTC_PART)\somtcdat.idl $(SOMTC_INTDIR)
-	$(IDLTOOL) $(SC) $(SOMTC_PART) -o $@ -p -D __GENERATE_SOMTC__ -I$(SOMIDL_IDL)
+	"$(IDLTOOL)" "$(SC)" $(SOMTC_PART) -o $@ -p -D __GENERATE_SOMTC__ -I$(SOMIDL_IDL)
 
 $(SOMREF_PDL): $(SOMREF_PART)\somref.idl
-	$(IDLTOOL) $(PDL) $(SOMREF_PART) -o $@ 	
+	"$(IDLTOOL)" "$(PDL)" $(SOMREF_PART) -o $@ 	
 
 $(SOMREF_H): $(SOMREF_PDL)
-	$(IDLTOOL) $(SC) $(SOMIDL_IDL) -o $@ -I$(SOMIDL_IDL)
+	"$(IDLTOOL)" "$(SC)" $(SOMIDL_IDL) -o $@ -I$(SOMIDL_IDL)
 
 $(SOMREF_IH): $(SOMREF_PDL) $(SOMREF_INTDIR)
-	$(IDLTOOL) $(SC) $(SOMREF_PART) -o $@ -p -I$(SOM_PART) -I$(SOMIDL_IDL)
+	"$(IDLTOOL)" "$(SC)" $(SOMREF_PART) -o $@ -p -I$(SOM_PART) -I$(SOMIDL_IDL)
 
 $(SOMIR_IH): $(SOMREF_PDL) $(SOMIR_INTDIR)
-	$(IDLTOOL) $(SC) $(SOMIR_PART) -o $@ -p -I$(SOMIR_PART) -I$(SOMIDL_IDL)
+	"$(IDLTOOL)" "$(SC)" $(SOMIR_PART) -o $@ -p -I$(SOMIR_PART) -I$(SOMIDL_IDL)
 
 $(SOMTC_INTDIR) $(SOMREF_INTDIR) $(SOMIR_INTDIR):
 	mkdir $@

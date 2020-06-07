@@ -20,7 +20,7 @@
 
 !include $(MAKEDEFS)
 
-IDLTOOL=$(HOSTDIR_TOOLS)\idltool.exe
+IDLTOOL=$(RHBTOOLS_BIN)\idltool.exe
 SC=$(HOSTDIR_BIN)\sc.exe
 PDL=$(HOSTDIR_BIN)\pdl.exe
 SOMIDL_IDL=..\..\somidl
@@ -321,7 +321,7 @@ all: 	$(DIRS)			\
 		$(SOMP_IH)
 
 $(SOMDTCDT_TC): $(SC) $(SOMDTCDT_IDL)
-	$(IDLTOOL) $(SC) $(SOMD_DIR) -o $@ -p -D__GENERATE_SOMD__ -I$(SOMD_DIR) -I$(SOMIDL_IDL)
+	"$(IDLTOOL)" "$(SC)" $(SOMD_DIR) -o $@ -p -D__GENERATE_SOMD__ -I$(SOMD_DIR) -I$(SOMIDL_IDL)
 	dir $@
 
 clean:
@@ -353,19 +353,19 @@ clean:
 	$(CLEAN) $(SOMP_IH)
 	 
 $(SOMD_IH1) : $(SOMD_DIR)\somdcprx.idl $(SOMD_DIR)\somdobj.idl $(SOM_DIR)\somobj.idl
-	$(IDLTOOL) $(SC) $(SOMD_DIR) -o $@ -p $(SOMDINCL1)
+	"$(IDLTOOL)" "$(SC)" $(SOMD_DIR) -o $@ -p $(SOMDINCL1)
 
 $(SOMD_IH) : $(SOMD_DIR)\somdcprx.idl $(SOMD_DIR)\somdobj.idl $(SOM_DIR)\somobj.idl
-	$(IDLTOOL) $(SC) $(SOMD_DIR) -o $@ -p $(SOMDINCL2)
+	"$(IDLTOOL)" "$(SC)" $(SOMD_DIR) -o $@ -p $(SOMDINCL2)
 
 $(SOMDTYPE_IH) : $(SOMD_DIR)\somdtype.idl
-	$(IDLTOOL) $(SC) $(SOMD_DIR) -o $@ -p $(SOMDINCL2) -DEMIT_SOMDTYPES
+	"$(IDLTOOL)" "$(SC)" $(SOMD_DIR) -o $@ -p $(SOMDINCL2) -DEMIT_SOMDTYPES
 
 $(DIRS):
 	mkdir $@
 
 $(PUBLIC_IDLS):
-	$(IDLTOOL) $(PDL)		\
+	"$(IDLTOOL)" "$(PDL)"		\
 		$(SOMCORBA_DIR)		\
 		$(SOMANY_DIR)		\
 		$(SOMEM_DIR)		\
@@ -376,67 +376,67 @@ $(PUBLIC_IDLS):
 		-o $@
 
 $(SOMANY_IH): 
-	$(IDLTOOL) $(SC) $(SOMANY_DIR)	\
+	"$(IDLTOOL)" "$(SC)" $(SOMANY_DIR)	\
 					-o $@ -p -I$(SOMANY_DIR) -I$(SOMIDL_IDL)
 
 $(SOMOS_IH): 
-	$(IDLTOOL) $(SC) $(SOMOS_DIR)	\
+	"$(IDLTOOL)" "$(SC)" $(SOMOS_DIR)	\
 					-o $@ -p -I$(SOMOS_DIR) -I$(SOMIDL_IDL)
 
 $(SOMCORBA_IH): 
-	$(IDLTOOL) $(SC) $(SOMCORBA_DIR)		\
+	"$(IDLTOOL)" "$(SC)" $(SOMCORBA_DIR)		\
 					-o $@ -p -I$(SOMCORBA_DIR) -I$(SOMIDL_IDL)
 
 $(SOMCORBA_H) $(SOMANY_H) $(SOMCDR_H) $(SOMD_H): $(PUBLIC_IDLS)
-	$(IDLTOOL) $(SC) $(SOMIDL_IDL)		\
+	"$(IDLTOOL)" "$(SC)" $(SOMIDL_IDL)		\
 					-o $@ -I$(SOMIDL_IDL)
 
 $(SOMABS1_IH): 
-	$(IDLTOOL) $(SC) $(SOMABS1_DIR)	\
+	"$(IDLTOOL)" "$(SC)" $(SOMABS1_DIR)	\
 					-o $@ -p -I$(SOMABS1_DIR) -I$(SOMIDL_IDL)
 
 $(SOMU_IH): 
-	$(IDLTOOL) $(SC) $(SOMU_DIR)	\
+	"$(IDLTOOL)" "$(SC)" $(SOMU_DIR)	\
 					-o $@ -p -I$(SOMU_DIR) -I$(SOMIDL_IDL)
 
 $(SOMS_IH): 
-	$(IDLTOOL) $(SC) $(SOMS_DIR)	\
+	"$(IDLTOOL)" "$(SC)" $(SOMS_DIR)	\
 					-o $@ -p -I$(SOMS_DIR) -I$(SOMIDL_IDL)
 
 $(SOMEM_IH): 
-	$(IDLTOOL) $(SC) $(SOMEM_DIR)	\
+	"$(IDLTOOL)" "$(SC)" $(SOMEM_DIR)	\
 					-o $@ -p -I$(SOMEM_DIR) -I$(SOMIDL_IDL)
 
 $(SOMST_IH): 
-	$(IDLTOOL) $(SC) $(SOMST_DIR)	\
+	"$(IDLTOOL)" "$(SC)" $(SOMST_DIR)	\
 					-o $@ -p -I$(SOMST_DIR) -I$(SOMIDL_IDL)
 
 $(SOMU2_IH): 
-	$(IDLTOOL) $(SC) $(SOMU2_DIR)	\
+	"$(IDLTOOL)" "$(SC)" $(SOMU2_DIR)	\
 					-o $@ -p -I$(SOMU2_DIR) -I$(SOMIDL_IDL)
 
 $(SOMESTRM_IH): 
-	$(IDLTOOL) $(SC) $(SOMESTRM_DIR)	\
+	"$(IDLTOOL)" "$(SC)" $(SOMESTRM_DIR)	\
 					-o $@ -p -I$(SOMESTRM_DIR) -I$(SOMIDL_IDL)
 
 $(SOMCDR_IH): 
-	$(IDLTOOL) $(SC) $(SOMCDR_DIR)	\
+	"$(IDLTOOL)" "$(SC)" $(SOMCDR_DIR)	\
 					-o $@ -p -I$(SOMCDR_DIR) -I$(SOMIDL_IDL)
 
 $(SOMDCOMM_IH): 
-	$(IDLTOOL) $(SC) $(SOMDCOMM_DIR)	\
+	"$(IDLTOOL)" "$(SC)" $(SOMDCOMM_DIR)	\
 					-o $@ -p -I$(SOMDCOMM_DIR) -I$(SOMIDL_IDL)
 
 $(SOMCSLIB_IH): 
-	$(IDLTOOL) $(SC) $(SOMCSLIB_DIR)	\
+	"$(IDLTOOL)" "$(SC)" $(SOMCSLIB_DIR)	\
 					-o $@ -p -I$(SOMCSLIB_DIR) -I$(SOMIDL_IDL)
 
 $(SOMNMF_IH): 
-	$(IDLTOOL) $(SC) $(SOMNMF_DIR)	\
+	"$(IDLTOOL)" "$(SC)" $(SOMNMF_DIR)	\
 					-o $@ -p -I$(SOMNMF_DIR) -I$(SOMIDL_IDL)
 
 $(SOMP_IH): 
-	$(IDLTOOL) $(SC) $(SOMP_DIR)	\
+	"$(IDLTOOL)" "$(SC)" $(SOMP_DIR)	\
 					-o $@ -p -I$(SOMP_DIR) -I$(SOMIDL_IDL)
 
 

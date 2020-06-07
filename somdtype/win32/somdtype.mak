@@ -22,7 +22,7 @@
 
 SC=$(HOSTDIR_BIN)\sc.exe
 PDL=$(HOSTDIR_BIN)\pdl.exe
-IDLTOOL=$(HOSTDIR_TOOLS)\idltool.exe
+IDLTOOL=$(RHBTOOLS_BIN)\idltool.exe
 
 SOM_IDL=		..\..\somir\containd.idl		\
 				..\..\somir\containr.idl		\
@@ -256,7 +256,7 @@ $(SOMIDL_HEADERS) $(SOMIDL_IDL):
 	mkdir $@
 
 $(PRODUCTS_PDL): $(SOMIDL_IDL) $(SOM_IDL)
-	$(IDLTOOL) $(PDL) ..\..\somd ..\..\somabs1			\
+	"$(IDLTOOL)" "$(PDL)" ..\..\somd ..\..\somabs1			\
 			..\..\somir ..\..\somestrm ..\..\somnmf		\
 			..\..\somdcomm ..\..\somos ..\..\somu		\
 			..\..\somcslib ..\..\somu2 ..\..\soms		\
@@ -264,10 +264,10 @@ $(PRODUCTS_PDL): $(SOMIDL_IDL) $(SOM_IDL)
 			-o $@
 
 $(PRODUCTS_SC): $(SOMIDL_HEADERS) $(PRODUCTS_PDL)
-	$(IDLTOOL) $(SC) $(SOMIDL_IDL) -o $@ -I$(SOMIDL_IDL)
+	"$(IDLTOOL)" "$(SC)" $(SOMIDL_IDL) -o $@ -I$(SOMIDL_IDL)
 
 $(SOMDTYPE_SC): $(SOMIDL_HEADERS) $(PRODUCTS_PDL)
-	$(IDLTOOL) $(SC) $(SOMIDL_IDL) -o $@ -I$(SOMIDL_IDL) -DEMIT_SOMDTYPES
+	"$(IDLTOOL)" "$(SC)" $(SOMIDL_IDL) -o $@ -I$(SOMIDL_IDL) -DEMIT_SOMDTYPES
 
 
 dist:

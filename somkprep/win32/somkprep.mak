@@ -21,7 +21,7 @@
 !include $(MAKEDEFS)
 
 SC=$(HOSTDIR_BIN)\sc.exe
-IDLTOOL=$(HOSTDIR_TOOLS)\idltool.exe
+IDLTOOL=$(RHBTOOLS_BIN)\idltool.exe
 
 SOM_INTDIR=..\..\som\$(PLATFORM)\$(BUILDTYPE)
 SOMKERNP_KIH=$(SOM_INTDIR)\somkernp.kih
@@ -38,12 +38,12 @@ OUTPUTS=	$(SOMKERNP_KIH) $(SOM_HEADERS)
 
 all: 	$(SOM_INTDIR) $(OUTPUTS)
 
-$(SOMKERNP_KIH): $(SC)  ..\..\somkpub\som\somobj.idl  ..\..\somkpub\som\somcls.idl  ..\..\somkpub\som\somcm.idl
-	$(IDLTOOL) $(SC) ..\..\som -o $@ -p -D __GENERATE_SOM__  -I ..\..\somkpub\som -I ..\..\somidl
+$(SOMKERNP_KIH): "$(SC)"  ..\..\somkpub\som\somobj.idl  ..\..\somkpub\som\somcls.idl  ..\..\somkpub\som\somcm.idl
+	"$(IDLTOOL)" "$(SC)" ..\..\som -o $@ -p -D __GENERATE_SOM__  -I ..\..\somkpub\som -I ..\..\somidl
 	dir $@
 
 $(SOM_HEADERS):
-	$(IDLTOOL) $(SC) ..\..\somkpub\som ..\..\somcdr -o $@ -p -I..\..\somkpub\som -I..\..\somidl
+	"$(IDLTOOL)" "$(SC)" ..\..\somkpub\som ..\..\somcdr -o $@ -p -I..\..\somkpub\som -I..\..\somidl
 
 clean:
 	$(CLEAN) $(OUTPUTS) 
