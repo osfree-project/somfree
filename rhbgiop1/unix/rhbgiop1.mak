@@ -77,5 +77,5 @@ $(SOMIR): $(SOMIR_1) $(SOMIR_2) $(SOMIR_3) $(SOMIR_4) $(SC_SOMIR)
 		SOMIR=$(SOMIR) $(SC) -sir -u -I $(SOMIDL_IDL) $$e; \
 	done
 
-dist install:
+dist install test:
 

@@ -28,6 +28,7 @@ INCL=	-I$(INTDIR) \
 		-I../../somkpub/include \
 		-I../../somtk/include \
 		$(STDINCL)
+SOMIR=$(OUTDIR_ETC)/som.ir
 
 all: $(TARGET) $(OUTDIR_MAN)/irdump.1
 

@@ -68,6 +68,5 @@ $(INTDIR)/rhbsomue.o: ../src/rhbsomue.c
 $(INTDIR)/somcdr.o: ../src/somcdr.c
 	$(CC_DLL) $(STDOPT) $(INCL) -DBUILD_SOMCDR  -c ../src/somcdr.c -o $@
 
-
-dist install:
+dist install test:
 

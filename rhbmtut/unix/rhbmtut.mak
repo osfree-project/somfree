@@ -48,5 +48,5 @@ $(INTDIR)/rhbmtutx.o: ../src/rhbmtutx.c
 $(INTDIR)/rhbmtutp.o: ../src/rhbmtutp.c 
 	$(CC_DLL) $(STDOPT) $(INCLS) -DBUILD_RHBMTUT -c ../src/rhbmtutp.c -o $@
 
-dist install:
+dist install test:
 

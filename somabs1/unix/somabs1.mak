@@ -52,5 +52,5 @@ $(INTDIR)/somabs1.o: ../src/somabs1.c
 $(INTDIR)/omgidobj.o: ../src/omgidobj.c
 	$(CC_DLL) $(STDOPT) $(INCL)  -c ../src/omgidobj.c -o $@
 
-dist install:
+dist install test:
 

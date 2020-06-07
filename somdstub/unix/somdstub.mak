@@ -81,7 +81,5 @@ $(INTDIR)/somos.o: ../../somos/src/stub.c
 $(INTDIR)/somestrm.o: ../../somestrm/src/stub.c
 	$(CC_DLL) $(STDOPT) $(INCL)  -c ../../somestrm/src/stub.c -o $@
 
-
-
-dist install:
+dist install test:
 

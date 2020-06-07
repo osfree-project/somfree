@@ -29,7 +29,7 @@ all: $(TARGET)
 dist:
 	if test -f ../$(PLATFORM_PROTO)/dist.mak; then $(MAKE) -f ../$(PLATFORM_PROTO)/dist.mak BUILDTYPE=$(BUILDTYPE) PLATFORM=$(PLATFORM); fi
 
-install:
+install test:
 
 clean:
 	$(CLEAN) $(TARGET) $(TMPLIB) $(INTDIR)/lib*.so

@@ -70,5 +70,5 @@ $(INTDIR)/rhbsomup.o: ../../somcdr/src/rhbsomup.c
 $(INTDIR)/somap.o: ../src/somap.c 
 	$(CC_DLL) $(STDOPT) $(INCL)  -c ../src/somap.c -o $@
 
-dist install:
+dist install test:
 

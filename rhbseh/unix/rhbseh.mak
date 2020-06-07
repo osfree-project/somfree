@@ -42,5 +42,5 @@ $(TARGET): $(OBJS)
 $(INTDIR)/rhbseh.o: ../src/rhbseh.c 
 	$(CC_DLL) $(STDOPT) $(STDINCL) -I../include $(RHBSEH_CFLAGS) -DBUILD_RHBSEH -c ../src/rhbseh.c -o $@
 
-dist install:
+dist install test:
 

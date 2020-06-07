@@ -43,8 +43,6 @@ PRODUCTS_PDL=	$(SOMIDL_IDL)/somobj.idl	\
 
 all: $(SOMIDL_IDL) $(SOMIDL_HEADERS) $(PRODUCTS_PDL) $(PRODUCTS_SC) 
 
-
-
 clean:
 	$(CLEAN) $(PRODUCTS_SC) $(PRODUCTS_PDL)
 
@@ -57,6 +55,5 @@ $(PRODUCTS_PDL): $(SOM_IDL) $(PDL) $(IDLTOOL)
 $(PRODUCTS_SC): $(SOM_IDL) $(SC) $(IDLTOOL)
 	$(IDLTOOL) $(SC) $(SOMIDL_IDL) -o $@ -I$(SOMIDL_IDL)
 
-
-dist install:
+dist install test:
 

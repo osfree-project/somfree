@@ -126,6 +126,5 @@ $(INTDIR)/psma.o: ../src/psma.c
 $(INTDIR)/srkset.o: ../src/srkset.c
 	$(CC_DLL) $(STDOPT) $(INCL)  -c ../src/srkset.c -o $@
 
-
-dist install:
+dist install test:
 

@@ -35,10 +35,7 @@ clean:
 	$(CLEAN) $(OBJS) $(TARGET) $(OUTDIR_MAN)/somtest0.1*
 
 test: $(TARGET)
-	if test z "$PKGROOT"; \
-	then \
-		$(EXEC_TEST) $(TARGET); \
-	fi
+	$(EXEC_TEST) $(TARGET); \
 
 $(INTDIR)/somtest0.o: ../src/somtest0.c
 	$(CC_EXE) $(STDOPT) $(INCL) -c ../src/somtest0.c -o $@

@@ -107,5 +107,5 @@ $(SOMDSVRP_IH):
 $(SOMDDSRV_PDL): $(SOMDDSRV_IDL)
 	$(PDL) -o $(SOMIDL_DIR) $(SOMDDSRV_IDL) 
 
-dist install:
+dist install test:
 

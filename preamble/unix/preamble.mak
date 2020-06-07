@@ -74,5 +74,5 @@ clean:
 	for d in $$DIRS_R; do if test -d $$d; then rmdir $$d; \
 	if test "$$?" != "0"; then exit 1; fi; fi; done
 
-dist install:
+dist install test:
 

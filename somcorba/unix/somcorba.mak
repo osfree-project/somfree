@@ -56,5 +56,5 @@ $(INTDIR)/rhbcorba.o: ../src/rhbcorba.c
 $(INTDIR)/corba.o: ../src/corba.c
 	$(CC_DLL) $(STDOPT) $(INCL) -DBUILD_SOMCORBA  -c ../src/corba.c -o $@
 
-dist install:
+dist install test:
 

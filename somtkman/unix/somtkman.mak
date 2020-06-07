@@ -28,9 +28,7 @@ clean:
 	$(CLEAN) $(RELNOTES_DIR)/ch* $(RELNOTES_DIR)/TC
 	if test -d $(RELNOTES_DIR); then rmdir  $(RELNOTES_DIR); fi
 
-dist:
-
-install:
+dist install test:
 
 $(RELNOTES_DIR)/ch1:
 	if test -f ../$(PLATFORM_PROTO)/ch1.txt; \

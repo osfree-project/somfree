@@ -81,5 +81,5 @@ $(INTDIR)/xnaming.o: ../src/xnaming.c
 $(INTDIR)/xnamingf.o: ../src/xnamingf.c
 	$(CC_DLL) $(STDOPT) $(SOMNMF_INCL)  -c ../src/xnamingf.c -o $@
 
-dist install:
+dist install test:
 

@@ -62,5 +62,5 @@ $(INTDIR)/somdcomm.o: ../src/somdcomm.c
 $(INTDIR)/rhbsomus.o: ../src/rhbsomus.c 
 	$(CC_DLL) $(STDOPT) $(INCL)  -c ../src/rhbsomus.c -o $@ 
 
-dist install:
+dist install test:
 

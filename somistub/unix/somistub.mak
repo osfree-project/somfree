@@ -53,6 +53,5 @@ $(TARGETREFLIB)/$(DLLPREFIX)somir$(DLLSUFFIX): $(INTDIR)/somir.o ../../somir/uni
 $(INTDIR)/somir.o: ../../somir/src/stub.c
 	$(CC_DLL) $(STDOPT) $(INCL)  -c ../../somir/src/stub.c -o $@
 
-
-dist install:
+dist install test:
 

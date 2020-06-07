@@ -25,5 +25,5 @@ all:
 
 clean:
 
-dist install:
+dist install test:
 

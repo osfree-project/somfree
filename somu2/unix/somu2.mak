@@ -51,6 +51,5 @@ $(INTDIR)/rhbsomu2.o: ../src/rhbsomu2.c
 $(INTDIR)/somtdm.o: ../src/somtdm.c
 	$(CC_DLL) $(STDOPT) $(INCL) -c ../src/somtdm.c -o $@
 
-
-dist install:
+dist install test:
 

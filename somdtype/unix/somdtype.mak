@@ -269,6 +269,4 @@ $(PRODUCTS_SC):  $(PRODUCTS_PDL)
 $(SOMDTYPE_SC): $(PRODUCTS_PDL)
 	$(IDLTOOL) $(SC) $(SOMIDL_IDL) -o $@ -I$(SOMIDL_IDL) -DEMIT_SOMDTYPES
 
-
-dist install:
-
+dist install test:

@@ -50,5 +50,5 @@ $(TARGET): $(OBJS)
 $(INTDIR)/somssock.o: ../src/somssock.c
 	$(CC_DLL) $(STDOPT) $(INCL)  -c ../src/somssock.c -o $@
 
-dist install:
+dist install test:
 

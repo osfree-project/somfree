@@ -52,5 +52,5 @@ $(TARGET): $(OBJS)
 $(INTDIR)/tcpsock.o: ../src/tcpsock.c
 	$(CC_DLL) $(STDOPT) $(INCL)  -c ../src/tcpsock.c -o $@
 
-dist install:
+dist install test:
 

@@ -45,5 +45,5 @@ $(TARGET): $(OBJS)
 clean:
 	$(CLEAN) $(OBJS) $(TARGET) $(DLOPEN_CPP)
 
-dist install:
+dist install test:
 

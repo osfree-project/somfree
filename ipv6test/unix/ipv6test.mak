@@ -43,6 +43,7 @@ $(IPV6TEST_H): $(TARGET)
 	$(EXEC_CONFIG) $(TARGET) $@
 	if test ! -f $@; then exit 1; fi
 
-
 dist install:
 
+test:
+	$(EXEC_CONFIG) $(TARGET)

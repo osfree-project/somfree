@@ -56,6 +56,5 @@ $(INTDIR)/rhbdynam.o: ../src/rhbdynam.c
 $(INTDIR)/dynany.o: ../src/dynany.c
 	$(CC_DLL) $(STDOPT) $(INCL) -DBUILD_SOMANY  -c ../src/dynany.c -o $@
 
-
-dist install:
+dist install test:
 

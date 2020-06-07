@@ -63,7 +63,7 @@ $(TARGET): $(OBJS)
 		`$(SHLB_REF) som som` \
 		$(UUIDLIBS) $(STDLIB) $(LINKAPP_TAIL)
 
-dist install:
+dist install test:
 
 $(OUTDIR_MAN)/regimpl.8: ../unix/manpage.txt
 	../../toolbox/txt2man.sh <../unix/manpage.txt >$@

@@ -461,8 +461,5 @@ $(DIRS):
 		done; 						\
 	done
 
-
-
-
-dist install:
+dist install test:
 

@@ -80,5 +80,5 @@ $(INTDIR)/sombacls.o: ../src/sombacls.c
 $(INTDIR)/rhbiniut.o: ../../rhbiniut/src/rhbiniut.c
 	$(CC_DLL) $(STDOPT) $(INCL) -DBUILD_SOMU -c ../../rhbiniut/src/rhbiniut.c -o $@
 
-dist install:
+dist install test:
 

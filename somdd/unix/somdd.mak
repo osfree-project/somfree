@@ -112,8 +112,7 @@ $(TARGET): $(OBJS)
 $(OUTDIR_BIN)/somdd_r: ../src/somddexe.c
 	$(CC_EXE) -I.. ../src/somddexe.c -o $@ $(STDSALIBS)
 
-
-dist install:
+dist install test:
 
 $(OUTDIR_MAN)/somdd.8: ../unix/manpage.txt
 	../../toolbox/txt2man.sh <../unix/manpage.txt >$@

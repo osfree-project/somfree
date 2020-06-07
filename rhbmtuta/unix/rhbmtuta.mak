@@ -54,6 +54,5 @@ $(TMPLIB): $(OBJ)
 $(TARGET): $(TMPLIB)
 	cp $(TMPLIB) $@
 
-
-dist install:
+dist install test:
 

@@ -32,7 +32,7 @@ $(TARGET): ../sc.sh
 	cp ../sc.sh $@
 	chmod +x $@
 
-dist install:
+dist install test:
 
 $(OUTDIR_MAN)/sc.1: ../unix/manpage.txt
 	../../toolbox/txt2man.sh <../unix/manpage.txt >$@

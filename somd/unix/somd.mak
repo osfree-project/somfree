@@ -251,5 +251,5 @@ $(SOMDOBJ_IH): ../../somd/somdobj.idl ../../somkpub/som/somobj.idl
 $(RHBTYPES_H): ../rhbtypes.idl
 	$(SC) -s h -p $(SOMDINCL) ../rhbtypes.idl -d $(INTDIR)
 
-dist install:
+dist install test:
 

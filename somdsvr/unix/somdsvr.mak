@@ -66,5 +66,5 @@ $(TARGET_C): $(OBJS_C)
 $(TARGET): 
 	cd `dirname $@`; ln -s `basename $(TARGET_C)` `basename $@`
 
-dist install:
+dist install test:
 

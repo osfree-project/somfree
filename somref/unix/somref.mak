@@ -50,5 +50,5 @@ $(TARGET): $(OBJS)
 $(INTDIR)/somref.o: ../src/somref.c
 	$(CC_DLL) $(CC_OPT) -c ../src/somref.c -o $@
 
-dist install:
+dist install test:
 

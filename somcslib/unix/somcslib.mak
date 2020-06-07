@@ -50,5 +50,5 @@ $(TARGET): $(OBJS)
 $(INTDIR)/xmscssae.o: ../src/xmscssae.c
 	$(CC_DLL) $(STDOPT) $(INCL) -c ../src/xmscssae.c -o $@
 
-dist install:
+dist install test:
 

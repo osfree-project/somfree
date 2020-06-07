@@ -97,6 +97,6 @@ $(INTDIR)/shlbtest.h:
 		fi; \
 	done
 
-dist install:
+dist install test:
 
 

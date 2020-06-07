@@ -62,5 +62,5 @@ $(TARGET_EXE): $(OBJS_EXE)
 $(SHLBTEST_H): $(TARGET_EXE) $(TARGET_DLL)
 	echo $(EXEC_CONFIG) $(HOSTDIR_TESTS)/shlbtest$(EXESUFFIX) -o $@
 
-dist install:
+dist install test:
 

@@ -78,5 +78,5 @@ $(INTDIR)/emregdat.o: ../src/emregdat.c
 $(INTDIR)/workprev.o: ../src/workprev.c 
 	$(CC_DLL) $(STDOPT) $(INCL)  -DBUILD_SOMEM -c ../src/workprev.c -o $@
 
-dist install:
+dist install test:
 

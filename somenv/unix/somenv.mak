@@ -30,9 +30,7 @@ DIRS=	$(OUTDIR_DSOM) \
 		$(OUTDIR_DSOM)/somsec \
 		$(OUTDIR_DSOM)/somos
 
-
 all:  $(SOMENV)
-
 
 clean:
 	rm -rf "$(OUTDIR_DSOM)" "$(SOMENV)" "$(SOMENV_INI)"
@@ -44,6 +42,5 @@ $(SOMENV): $(DIRS) ../unix/somenv.sh
 	chmod +x ../unix/somenv.sh
 	DLLPATHENV="$(DLLPATHENV)" SOMBASE="$(OUTDIR)" ../unix/somenv.sh "$@" "$(SOMENV_INI)"
 
-
-dist install:
+dist install test:
 

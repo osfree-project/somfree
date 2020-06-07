@@ -56,5 +56,5 @@ $(INTDIR)/rhbsomts.o: ../src/rhbsomts.c
 $(INTDIR)/somtcdat.tc: ../somtcdat.idl
 	$(SC) -stc -D __GENERATE_SOMTC__ -I../../somidl -d $(INTDIR) ../somtcdat.idl
 
-dist install:
+dist install test:
 

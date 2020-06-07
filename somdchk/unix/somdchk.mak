@@ -43,5 +43,5 @@ $(TARGET): $(OBJS)
 		`$(SHLB_REF) som som` \
 		$(UUIDLIBS) $(STDLIB) $(LINKAPP_TAIL)
 
-dist install:
+dist install test:
 

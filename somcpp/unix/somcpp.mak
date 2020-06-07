@@ -32,5 +32,5 @@ $(TARGET): $(MAKE_SH)
 	chmod u+x $(MAKE_SH)
 	$(MAKE_SH) $@
 
-dist install:
+dist install test:
 

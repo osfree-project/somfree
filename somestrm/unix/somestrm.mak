@@ -34,7 +34,6 @@ all: $(TARGET)
 clean:
 	$(CLEAN) $(OBJS) $(TARGET)
 
-
 $(TARGET): $(OBJS) 
 	$(LINKDLL) $(LINKDLL_HEAD) \
 		-o $@ \
@@ -58,5 +57,5 @@ $(INTDIR)/omgestio.o: ../src/omgestio.c
 $(INTDIR)/somestio.o: ../src/somestio.c
 	$(CC_DLL) $(STDOPT) $(INCL)  -c ../src/somestio.c -o $@
 
-dist install:
+dist install test:
 

@@ -64,6 +64,5 @@ $(SOM_INTDIR):
 		done; 						\
 	done
 
-
-dist install:
+dist install test:
 

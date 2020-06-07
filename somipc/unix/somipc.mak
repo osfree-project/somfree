@@ -79,7 +79,7 @@ $(INTDIR)/rhbsckih.o: ../src/rhbsckih.cpp
 $(TARGET): $(OBJS) 
 	$(LINKAPPXX) $(LINKAPP_HEAD) $(OBJS) -o $@ $(LINKAPP_TAIL) 
 
-dist install:
+dist install test:
 
 $(OUTDIR_MAN)/somipc.1: ../unix/manpage.txt
 	../../toolbox/txt2man.sh <../unix/manpage.txt >$@

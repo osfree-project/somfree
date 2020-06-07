@@ -39,8 +39,7 @@ $(TARGET): $(OBJS)
 		$(STDLIB) \
 		$(LINKAPP_TAIL)
 
-dist install:
-
+dist install test:
 
 config:
 	if test "$(PDL)" = ""; \

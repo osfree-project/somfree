@@ -113,6 +113,5 @@ $(INTDIR)/excptdef.o: ../src/excptdef.c
 $(INTDIR)/paramdef.o: ../src/paramdef.c
 	$(CC_DLL) $(STDOPT) -DBUILD_SOMIR $(SOMIR_INCL) -c ../src/paramdef.c -o $@
 
-
-dist install:
+dist install test:
 
