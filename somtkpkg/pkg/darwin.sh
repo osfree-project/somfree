@@ -63,7 +63,7 @@ rm -rf "$ROOTDIR"
 
 mkdir "$ROOTDIR"
 
-mkdir -p "$ROOTDIR/Library/Frameworks/SOMTK.framework" "$ROOTDIR/usr/bin"
+mkdir -p "$ROOTDIR/Library/Frameworks/SOMTK.framework" "$ROOTDIR/usr/local/bin"
 
 (
 	cd "$OUTDIR/frameworks/SOMTK.framework"
@@ -170,9 +170,9 @@ do
 done
 
 (
-	cd "$ROOTDIR/usr/bin"
+	cd "$ROOTDIR/usr/local/bin"
 
-	for d in ../../Library/Frameworks/SOMTK.framework/Versions/Current/bin/*
+	for d in ../../../Library/Frameworks/SOMTK.framework/Versions/Current/bin/*
 	do
 		if test -x "$d"
 		then

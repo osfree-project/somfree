@@ -38,6 +38,7 @@ STDLIB=-lpthread -lc -L$(BUILD)/products/$(PLATFORM)/$(BUILDTYPE)/lib -lrhbmtuta
 all: SOMTK \
 	$(BINDIR) \
 	$(PLUGINS) \
+	$(BINDIR)/pdl \
 	$(BINDIR)/irdump \
 	$(PLUGINS)/somir.dll \
 	$(PLUGINS)/somref.dll \
@@ -373,6 +374,8 @@ IRDUMP_OBJS=$(BUILD)/irdump/$(PLATFORM)/$(BUILDTYPE)/irdump.o
 
 DSOM_OBJS=$(BUILD)/dsom/$(PLATFORM)/$(BUILDTYPE)/dsom.o		
 
+PDL_OBJS=$(BUILD)/pdl/$(PLATFORM)/$(BUILDTYPE)/pdl.o		
+
 REGIMPL_OBJS=$(BUILD)/regimpl/$(PLATFORM)/$(BUILDTYPE)/regimpl.o \
 		$(BUILD)/regimpl/$(PLATFORM)/$(BUILDTYPE)/regior.o \
 		$(BUILD)/regimpl/$(PLATFORM)/$(BUILDTYPE)/regiortc.o
@@ -610,6 +613,9 @@ $(IMPLIBS)/SOMOS.framework/Versions/$(FRAMEWORK_VERS)/SOMOS: $(BUILD)/somdstub/$
 		-Wl,-exported_symbols_list,$(BUILD)/somdstub/$(PLATFORM)/$(BUILDTYPE)/somos.exp.def \
 		-Wl,-install_name,/Library/Frameworks/SOMTK.framework/Versions/$(FRAMEWORK_VERS)/Frameworks/SOMOS.framework/Versions/$(FRAMEWORK_VERS)/SOMOS \
 		$(STDLIB)
+
+$(BINDIR)/pdl: $(PDL_OBJS)
+	$(CC) $(PDL_OBJS) $(CFLAGS) -o $@ $(STDLIB)
 
 $(BINDIR)/irdump: $(IRDUMP_OBJS)
 	$(CC) $(IRDUMP_OBJS) $(CFLAGS) -o $@ $(STDLIB) -F$(FRAMEWORKS) -F$(SUBFRAMEWORKS) -framework SOMTK 
