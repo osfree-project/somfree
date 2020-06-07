@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  <Product Id="*" Name="somFree Toolkit" Language="1033" Version="1.0.0.6271" Manufacturer="somfree.sf.net" UpgradeCode="5F519398-8587-4D6B-8222-70D05F8ED38B">
+    <Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" Platform="x64" Description="somFree Toolkit" Comments="object toolkit" />
+    <MediaTemplate EmbedCab="yes" />
+    <Feature Id="ProductFeature" Title="setup" Level="1">
+      <ComponentGroupRef Id="ProductComponents" />
+    </Feature>
+    <Upgrade Id="{5F519398-8587-4D6B-8222-70D05F8ED38B}">
+      <UpgradeVersion Maximum="1.0.0.6271" Property="OLDPRODUCTFOUND" OnlyDetect="no" IncludeMinimum="yes" IncludeMaximum="no" />
+    </Upgrade>
+    <InstallExecuteSequence>
+      <RemoveExistingProducts After="InstallInitialize" />
+    </InstallExecuteSequence>
+    <Condition Message="This application is only supported on Windows 7 or higher."><![CDATA[Installed OR (VersionNT > 600)]]></Condition>
+    <UIRef Id="WixUI_Minimal" />
+    <WixVariable Id="WixUILicenseRtf" Value="../pkg/license.rtf" /> 
+  </Product>
+  <Fragment>
+    <Directory Id="TARGETDIR" Name="SourceDir">
+      <Directory Id="ProgramFiles64Folder">
+        <Directory Id="INSTALLDIR" Name="somtk">
+          <Directory Id="INSTALLDIR1" Name="bin" />
+          <Directory Id="INSTALLDIR2" Name="lib" />
+          <Directory Id="INSTALLDIR3" Name="include" />
+          <Directory Id="INSTALLDIR4" Name="etc">
+            <Directory Id="INSTALLDIR5" Name="dsom" />
+          </Directory>
+          <Directory Id="INSTALLDIR6" Name="msg" />
+        </Directory>
+      </Directory>
+    </Directory>
+  </Fragment>
+  <Fragment>
+    <ComponentGroup Id="ProductComponents">
+      <Component Id="som.dll" Guid="*" Directory="INSTALLDIR1" Win64="yes" >
+        <File Id="som.dll" KeyPath="yes" />
+      </Component>
+      <Component Id="somtk.lib" Guid="*" Directory="INSTALLDIR2" Win64="yes" >
+        <File Id="somtk.lib" KeyPath="yes" />
+      </Component>
+      <Component Id="somobj.idl" Guid="*" Directory="INSTALLDIR3" Win64="yes" >
+        <File Id="somobj.idl" KeyPath="yes" />
+      </Component>
+      <Component Id="somenv.ini" Guid="*" Directory="INSTALLDIR4" Win64="yes" >
+        <File Id="somenv.ini" KeyPath="yes" />
+      </Component>
+      <Component Id="impl.db" Guid="*" Directory="INSTALLDIR5" Win64="yes" >
+        <File Id="impl.db" KeyPath="yes" />
+      </Component>
+      <Component Id="somddmsg.dll" Guid="*" Directory="INSTALLDIR6" Win64="yes" >
+        <File Id="somddmsg.dll" KeyPath="yes" />
+      </Component>
+    </ComponentGroup>
+  </Fragment>
+</Wix>
