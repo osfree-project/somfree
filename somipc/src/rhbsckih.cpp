@@ -392,7 +392,7 @@ public:
 
 		if (readOnlyMTokens)
 		{
-			emitter->out_printf(out,"#ifdef _WIN32\n"); 
+			emitter->out_printf(out,"#if defined(_WIN32) && defined(SOM_METHOD_STUBS)\n"); 
 			emitter->out_printf(out,"#ifdef __WATCOMC__\n"); 
 			emitter->out_printf(out,"#pragma data_seg(\"_TEXT\",\"CODE\")\n");
 			emitter->out_printf(out,"#else /* _WIN32 */\n");
@@ -544,8 +544,7 @@ public:
 
 			emitter->out_printf(out,"#endif /* SOM_DATA_THUNKS */\n");
 
-
-			emitter->out_printf(out,"#ifdef _WIN32\n"); 
+			emitter->out_printf(out,"#if defined(_WIN32) && defined(SOM_METHOD_STUBS)\n"); 
 			emitter->out_printf(out,"#pragma data_seg()\n"); 
 			emitter->out_printf(out,"#endif /* _WIN32 */\n"); 
 		}

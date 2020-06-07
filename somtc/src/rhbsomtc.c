@@ -104,7 +104,7 @@ typedef struct byte_struct { char b; } byte_struct;
 #define TC__AttributeDef_AttributeDescription   TC__AttributeDescription
 #define TC__ExceptionDef_ExceptionDescription   TC__ExceptionDescription
 
-#ifdef _WIN32
+#if defined(_WIN32) && defined(SOM_METHOD_STUBS)
 	/* makes the TypeCodes part of the CODE segment
 	   and hence read-only */
 	#ifdef __WATCOMC__
@@ -129,7 +129,7 @@ SOMTC_Scope struct TypeCode_objref TC__Object={
 
 #undef SOMTC_EXTERN
 
-#ifdef _WIN32
+#if defined(_WIN32) && defined(SOM_METHOD_STUBS)
 	#pragma data_seg()
 #endif /* _WIN32 */
 

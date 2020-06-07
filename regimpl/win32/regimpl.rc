@@ -1,0 +1,61 @@
+/**************************************************************************
+ *
+ *  Copyright 2008, Roger Brown
+ *
+ *  This file is part of Roger Brown's Toolkit.
+ *
+ *  This program is free software: you can redistribute it and/or modify it
+ *  under the terms of the GNU Lesser General Public License as published by the
+ *  Free Software Foundation, either version 3 of the License, or (at your
+ *  option) any later version.
+ * 
+ *  This program is distributed in the hope that it will be useful, but WITHOUT
+ *  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+ *  FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
+ *  more details.
+ *
+ *  You should have received a copy of the GNU Lesser General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>
+ *
+ */
+
+/*
+ * $Id$
+ */
+
+#include "windows.h"
+#include <depvers.h>
+
+1 VERSIONINFO
+ FILEVERSION DEPVERS_regimpl_INT4
+ PRODUCTVERSION DEPVERS_somtkpkg_INT4
+ FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+ FILEFLAGS VS_FF_DEBUG|VS_FF_PRERELEASE
+#else
+ FILEFLAGS VS_FF_PRERELEASE
+#endif
+ FILEOS VOS_NT_WINDOWS32
+ FILETYPE VFT_APP
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "140904e4" // New Zealand
+        BEGIN
+            VALUE "Comments", "register implementation tool\0"
+            VALUE "CompanyName", "Roger Brown\0"
+            VALUE "FileDescription", "register implementation tool\0"
+            VALUE "FileVersion", DEPVERS_regimpl_STR4
+            VALUE "InternalName", "regimpl\0"
+            VALUE "LegalCopyright", "© Roger Brown. 2002-2009\0"
+            VALUE "OriginalFilename", "REGIMPL.EXE\0"
+            VALUE "ProductName", DEPVERS_somtkpkg_PRODUCTNAME
+            VALUE "ProductVersion",DEPVERS_somtkpkg_STR4
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x1409, 1252
+    END
+END

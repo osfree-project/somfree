@@ -1,0 +1,3 @@
+NAME toolbox2
+DEPENDS makedefs
+PROVIDES toolbox2

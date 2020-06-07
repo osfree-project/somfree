@@ -1,0 +1,48 @@
+#include <windows.h>
+#include <depvers.h>
+#include <rhbw32mc.h>
+
+#ifdef _DEBUG
+#	include <Debug\somddmc1.rc>
+#else
+#	include <Release\somddmc1.rc>
+#endif
+
+STRINGTABLE
+BEGIN
+	IDS_APPLICATION,"SOMDD"
+END
+
+1 VERSIONINFO
+ FILEVERSION DEPVERS_somddmsg_INT4 
+ PRODUCTVERSION DEPVERS_somtkpkg_INT4
+ FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+ FILEFLAGS VS_FF_DEBUG|VS_FF_PRERELEASE
+#else
+ FILEFLAGS VS_FF_PRERELEASE
+#endif
+ FILEOS VOS_NT_WINDOWS32
+ FILETYPE VFT_DLL
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "140904e4"
+        BEGIN
+            VALUE "Comments", "Written by Roger Brown, 2007\0"
+            VALUE "CompanyName", "Roger Brown\0"
+            VALUE "FileDescription", "SOMDD Message File\0"
+            VALUE "FileVersion", DEPVERS_somddmsg_STR4 
+            VALUE "InternalName", "somddmsg\0"
+            VALUE "LegalCopyright", "© Roger Brown. 2007\0"
+            VALUE "OriginalFilename", "SOMDDMSG.DLL\0"
+            VALUE "ProductName", DEPVERS_somtkpkg_PRODUCTNAME
+            VALUE "ProductVersion", DEPVERS_somtkpkg_STR4
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x1409, 1252
+    END
+END

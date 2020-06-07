@@ -1,0 +1,54 @@
+/**************************************************************************
+ *
+ *  Copyright 2008, Roger Brown
+ *
+ *  This file is part of Roger Brown's Toolkit.
+ *
+ *  This program is free software: you can redistribute it and/or modify it
+ *  under the terms of the GNU Lesser General Public License as published by the
+ *  Free Software Foundation, either version 3 of the License, or (at your
+ *  option) any later version.
+ * 
+ *  This program is distributed in the hope that it will be useful, but WITHOUT
+ *  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+ *  FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
+ *  more details.
+ *
+ *  You should have received a copy of the GNU Lesser General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>
+ *
+ */
+
+/*
+ * $Id$
+ */
+
+#include <windows.h>
+#include <depvers.h>
+
+1 VERSIONINFO
+	PRODUCTVERSION DEPVERS_somtkpkg_INT4
+	FILEOS VOS__WINDOWS32
+	FILEVERSION DEPVERS_somdsvr_INT4
+	FILETYPE VFT_APP
+BEGIN
+	BLOCK "StringFileInfo"
+	BEGIN
+		BLOCK "140904E4"
+		BEGIN
+			VALUE "CompanyName","Roger Brown\000\000"
+			VALUE "LegalCopyright","Copyright © Roger Brown 2001\000\000"
+			VALUE "ProductName",DEPVERS_somtkpkg_PRODUCTNAME
+			VALUE "ProductVersion",DEPVERS_somtkpkg_STR4
+			VALUE "Comments","Uncontrolled Release\000\000"
+			VALUE "FileDescription","dsom server\000\000"
+			VALUE "FileVersion",DEPVERS_somdsvr_STR4
+			VALUE "InternalName","somdsvr\000\000"
+			VALUE "OriginalFilename","SOMDSVR.EXE\000\000"
+		END
+	END
+	BLOCK "VarFileInfo"
+	BEGIN	
+		VALUE "Translation", 0x1409, 1252
+	END
+END

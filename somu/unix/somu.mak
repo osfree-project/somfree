@@ -33,7 +33,6 @@ OBJS=$(INTDIR)/somproxy.o \
 INCL=		-I$(INTDIR) 				\
 			-I../src		 			\
 			-I../include	 			\
-			-I../../uuid/include		\
 			-I../../somidl/$(PLATFORM) 	\
 			-I../../somkpub/include		\
 			-I../../somtk/include		\

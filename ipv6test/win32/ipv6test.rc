@@ -1,0 +1,36 @@
+#include "windows.h"
+
+1 VERSIONINFO
+ FILEVERSION 1,0,0,0
+ PRODUCTVERSION 1,0,0,0
+ FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+ FILEFLAGS VS_FF_DEBUG|VS_FF_PRERELEASE
+#else
+ FILEFLAGS VS_FF_PRERELEASE
+#endif
+ FILEOS VOS_NT_WINDOWS32
+ FILETYPE VFT_APP
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "140904e4" // New Zealand
+        BEGIN
+            VALUE "Comments", "IPV6 tester\0"
+            VALUE "CompanyName", "Roger Brown\0"
+            VALUE "FileDescription", "IPV6 tester\0"
+            VALUE "FileVersion", "1.0.0.0\0"
+            VALUE "InternalName", "ipv6test\0"
+            VALUE "LegalCopyright", "© Roger Brown. 2007\0"
+            VALUE "OriginalFilename", "IPV6TEST.EXE\0"
+            VALUE "ProductName", "toolkit\0"
+            VALUE "ProductVersion", "1.0.0.0\0"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x1409, 1252
+    END
+END
+
