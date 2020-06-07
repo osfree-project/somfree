@@ -22,11 +22,11 @@
 
 all:
 	cd ..
-	dotnet build --nologo -t:build -p:Configuration=$(BUILDTYPE) -p:Platform="Any CPU"
+	dotnet build -t:build -p:Configuration=$(BUILDTYPE) -p:Platform="Any CPU"
 
 clean:
 	cd ..
-	dotnet build --nologo -t:clean -p:Configuration=$(BUILDTYPE) -p:Platform="Any CPU"
+	dotnet build -t:clean -p:Configuration=$(BUILDTYPE) -p:Platform="Any CPU"
 
 dist:
 

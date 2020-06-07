@@ -1,0 +1,3 @@
+NAME sockutil
+DEPENDS config
+PROVIDES sockutil
