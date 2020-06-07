@@ -72,7 +72,7 @@ $(PARTS):
 		$(MAKE) -f ../unix/$@.mak PLATFORM=$(PLATFORM) INTDIR=$(BUILDTYPE) `if test -f $(CONFIG_MK); then echo MAKEDEFS=$(CONFIG_MK); else echo MAKEDEFS=$(MAKEDEFS); fi` ; \
 	fi
 
-install dist:
+install dist test:
 	for d in $(PARTS); do \
 		if test -f ../../$$d/unix/$$d.mak; then \
 			if test -d ../../$$d/$(PLATFORM); then \

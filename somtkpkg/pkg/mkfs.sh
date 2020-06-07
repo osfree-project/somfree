@@ -345,8 +345,6 @@ do
 
 	if test -d "$INTDIR/$PKGNAME"
 	then
-		mkdir -p "$INTDIR/$PKGNAME/usr/lib/.build-id"
-
 		find "$INTDIR/$PKGNAME" | while read N
 		do
 			if test -h "$N"
@@ -356,8 +354,6 @@ do
 				chmod -w "$N"
 			fi
 		done
-
-		chmod +w "$INTDIR/$PKGNAME/usr/lib/.build-id"
 	fi
 done
 

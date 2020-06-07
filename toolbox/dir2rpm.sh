@@ -110,7 +110,32 @@ rm -rf "$TGTPATH"
 
 mkdir "$TGTPATH"
 
+for d in . usr usr/lib
+do
+	if test -d "$BASEDIR/$d"
+	then
+		chmod +w "$BASEDIR/$d"
+	fi
+done
+
 $RPMBUILD --buildroot "$BASEDIR" --define "_rpmdir $TGTPATH" -bb "$SPECFILE"
+
+for e in "$BASEDIR/usr/lib/.build-id"
+do
+	if test -d "$e"
+	then
+		chmod -R +w "$e"
+		rm -rf "$e"
+	fi
+done
+
+for d in usr/lib usr
+do
+	if rmdir "$BASEDIR/$d"
+	then
+		echo removed "$BASEDIR/$d"
+	fi
+done
 
 find  "$TGTPATH" -type f -name "*.rpm" | while read N
 do
