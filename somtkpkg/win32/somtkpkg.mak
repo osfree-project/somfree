@@ -32,7 +32,7 @@ DDF2WXS_DLL=..\..\toolbox2\ddf2wxs\bin\$(BUILDTYPE)\netcoreapp2.1\ddf2wxs.dll
 MAKEZIP_DLL=..\..\toolbox2\makezip\bin\$(BUILDTYPE)\netcoreapp2.1\makezip.dll
 DEPVERS_H=..\..\include\$(PLATFORM)\depvers.h
 SOM_IR=$(INTDIR)\som.ir
-SC=$(HOSTDIR_BIN)\sc.exe
+SC=$(SOMTOOLS_BIN)\sc.exe
 
 all:
 
@@ -114,7 +114,7 @@ $(TARGET_ZIP): $(TARGET_DDF).cabinet "$(MAKEZIP_DLL)"
 
 $(SOM_IR): $(OUTDIR_TMP)\include
 	set SOMIR=$(SOM_IR)
-	for %e in ( $(OUTDIR_TMP)\include\*.idl )  do $(SC) -sir -u -I $(OUTDIR_TMP)\include %e
+	for %e in ( $(OUTDIR_TMP)\include\*.idl )  do "$(SC)" -sir -u -I $(OUTDIR_TMP)\include %e
 	dir $(SOM_IR)
 
 test:

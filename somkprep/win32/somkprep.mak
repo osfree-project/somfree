@@ -20,7 +20,7 @@
 
 !include $(MAKEDEFS)
 
-SC=$(HOSTDIR_BIN)\sc.exe
+SC=$(SOMTOOLS_BIN)\sc.exe
 IDLTOOL=$(RHBTOOLS_BIN)\idltool.exe
 
 SOM_INTDIR=..\..\som\$(PLATFORM)\$(BUILDTYPE)

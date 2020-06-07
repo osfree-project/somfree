@@ -21,8 +21,8 @@
 !include $(MAKEDEFS)
 
 IDLTOOL=$(RHBTOOLS_BIN)\idltool.exe
-SC=$(HOSTDIR_BIN)\sc.exe
-PDL=$(HOSTDIR_BIN)\pdl.exe
+SC=$(SOMTOOLS_BIN)\sc.exe
+PDL=$(SOMTOOLS_BIN)\pdl.exe
 SOMIDL_IDL=..\..\somidl
 SOMIDL_HEADERS=$(SOMIDL_IDL)\$(PLATFORM)
 
@@ -320,7 +320,7 @@ all: 	$(DIRS)			\
 		$(SOMNMF_IH)	\
 		$(SOMP_IH)
 
-$(SOMDTCDT_TC): $(SC) $(SOMDTCDT_IDL)
+$(SOMDTCDT_TC): "$(SC)" $(SOMDTCDT_IDL)
 	"$(IDLTOOL)" "$(SC)" $(SOMD_DIR) -o $@ -p -D__GENERATE_SOMD__ -I$(SOMD_DIR) -I$(SOMIDL_IDL)
 	dir $@
 

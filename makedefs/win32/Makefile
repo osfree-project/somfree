@@ -74,6 +74,7 @@ clean:
 	set MAKEDEFS=$(MAKEDEFS)
 	set PLATFORM_HOST=$(PLATFORM_HOST)
 	set RHBTOOLS_BIN=$(RHBTOOLS_BIN)
+	set SOMTOOLS_BIN=$(SOMTOOLS_BIN)
 	cd ..\..\makedefs\win32
 	if exist $(MAKEDEFS_LST) if exist "$(XARGS_EXE)" "$(XARGS_EXE)" -n 1 makepart.bat clean <$(MAKEDEFS_LST) 
 	$(CLEAN) $(MAKEDEFS_LST)
@@ -99,6 +100,7 @@ allparts:
 	set PLATFORM_MAKEFILE=$(PLATFORM_MAKEFILE)
 	set PLATFORM_HOST=$(PLATFORM_HOST)
 	set RHBTOOLS_BIN=$(RHBTOOLS_BIN)
+	set SOMTOOLS_BIN=$(SOMTOOLS_BIN)
 	cd ..\..\makedefs\win32
 	"$(XARGS_EXE)" -n 1 <$(MAKEDEFS_LST) makepart.bat all
 
@@ -111,6 +113,7 @@ dist test:
 	set PLATFORM_MAKEFILE=$(PLATFORM_MAKEFILE)
 	set PLATFORM_HOST=$(PLATFORM_HOST)
 	set RHBTOOLS_BIN=$(RHBTOOLS_BIN)
+	set SOMTOOLS_BIN=$(SOMTOOLS_BIN)
 	cd ..\..\makedefs\win32
 	"$(XARGS_EXE)" -n 1 <$(MAKEDEFS_LST) makepart.bat $@
 
@@ -126,6 +129,7 @@ makepart:
 	set BUILDTYPE=$(BUILDTYPE) 
 	set MAKEDEFS=$(MAKEDEFS)
 	set RHBTOOLS_BIN=$(RHBTOOLS_BIN)
+	set SOMTOOLS_BIN=$(SOMTOOLS_BIN)
 	set CC=$(CC)
 	set CPP=$(CC)
 	set INCLUDE=$(INCLUDE)

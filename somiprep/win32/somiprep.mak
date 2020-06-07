@@ -20,8 +20,8 @@
 
 !include $(MAKEDEFS)
 
-SC=$(HOSTDIR_BIN)\sc.exe
-PDL=$(HOSTDIR_BIN)\pdl.exe
+SC=$(SOMTOOLS_BIN)\sc.exe
+PDL=$(SOMTOOLS_BIN)\pdl.exe
 IDLTOOL=$(RHBTOOLS_BIN)\idltool.exe
 SOMIDL_IDL=..\..\somidl
 SOMIDL_HEADERS=..\..\somidl\$(PLATFORM)

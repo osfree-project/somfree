@@ -20,8 +20,7 @@
 
 !include $(MAKEDEFS)
 
-IPV6TEST_EXE=$(HOSTDIR_TESTS)\ipv6test.exe
-SC=$(HOSTDIR_BIN)\sc.exe
+SC=$(SOMTOOLS_BIN)\sc.exe
 SOMIR=$(OUTDIR_ETC)\som.ir
 SOMIDL_IDL=..\..\somidl
 SOMDD_DIR=..\..\somdd
@@ -29,8 +28,8 @@ SOMDD_DIR=..\..\somdd
 SOMD_INTDIR=..\..\somd\$(PLATFORM)\$(BUILDTYPE)
 IPV6TEST_H=$(SOMD_INTDIR)\ipv6test.h
 
-$(IPV6TEST_H): $(IPV6TEST)
-	$(IPV6TEST_EXE) >$@
+$(IPV6TEST_H): ..\..\ipv6test\$(PLATFORM)\ipv6test.h
+	copy /Y ..\..\ipv6test\$(PLATFORM)\ipv6test.h $@
 
 DIRS=	$(SOMD_INTDIR)			 \
 
@@ -66,18 +65,15 @@ SOMIR_4=	$(SOMIDL_IDL)\stexcep.idl		\
 
 $(SOMIR): $(SOMIR_1) $(SOMIR_2) $(SOMIR_3) $(SOMIR_4)
 	set SOMIR=$(SOMIR)
-	for %e in ( $(SOMIR_1) ) do $(SC) -sir -u -I $(SOMIDL_IDL) %e
-	for %e in ( $(SOMIR_2) ) do $(SC) -sir -u -I $(SOMIDL_IDL) %e
-	for %e in ( $(SOMIR_3) ) do $(SC) -sir -u -I $(SOMIDL_IDL) %e
-	for %e in ( $(SOMIR_4) ) do $(SC) -sir -u -I $(SOMIDL_IDL) %e
+	for %e in ( $(SOMIR_1) ) do "$(SC)" -sir -u -I $(SOMIDL_IDL) %e
+	for %e in ( $(SOMIR_2) ) do "$(SC)" -sir -u -I $(SOMIDL_IDL) %e
+	for %e in ( $(SOMIR_3) ) do "$(SC)" -sir -u -I $(SOMIDL_IDL) %e
+	for %e in ( $(SOMIR_4) ) do "$(SC)" -sir -u -I $(SOMIDL_IDL) %e
 
 $(SOMD_INTDIR):
 	mkdir $@
 
 dist:
-
-
-
 
 test:
 
