@@ -397,55 +397,55 @@ SOMDD_OBJS=$(BUILD)/somdd/$(PLATFORM)/$(BUILDTYPE)/rhbsomdd.o \
 		$(BUILD)/somdd/$(PLATFORM)/$(BUILDTYPE)/rhbexec.o
 
 $(FRAMEWORKS)/SOMTK.framework/SOMTK: $(FRAMEWORKS)/SOMTK.framework/Versions/$(FRAMEWORK_VERS)/SOMTK
-	cd $(FRAMEWORKS)/SOMTK.framework; ln -s Versions/$(FRAMEWORK_VERS)/SOMTK SOMTK
+	cd $(FRAMEWORKS)/SOMTK.framework; if test ! -L SOMTK; then ln -s Versions/$(FRAMEWORK_VERS)/SOMTK SOMTK; fi
 
 $(SUBFRAMEWORKS)/SOM.framework/SOM: $(SUBFRAMEWORKS)/SOM.framework/Versions/$(FRAMEWORK_VERS)/SOM
-	cd $(SUBFRAMEWORKS)/SOM.framework; ln -s Versions/$(FRAMEWORK_VERS)/SOM SOM
+	cd $(SUBFRAMEWORKS)/SOM.framework; if test ! -L SOM; then ln -s Versions/$(FRAMEWORK_VERS)/SOM SOM; fi
 
 $(SUBFRAMEWORKS)/SOMREF.framework/SOMREF: $(SUBFRAMEWORKS)/SOMREF.framework/Versions/$(FRAMEWORK_VERS)/SOMREF
-	cd $(SUBFRAMEWORKS)/SOMREF.framework; ln -s Versions/$(FRAMEWORK_VERS)/SOMREF SOMREF
+	cd $(SUBFRAMEWORKS)/SOMREF.framework; if test ! -L SOMREF; then ln -s Versions/$(FRAMEWORK_VERS)/SOMREF SOMREF; fi
 
 $(SUBFRAMEWORKS)/SOMCSLIB.framework/SOMCSLIB: $(SUBFRAMEWORKS)/SOMCSLIB.framework/Versions/$(FRAMEWORK_VERS)/SOMCSLIB
-	cd $(SUBFRAMEWORKS)/SOMCSLIB.framework; ln -s Versions/$(FRAMEWORK_VERS)/SOMCSLIB SOMCSLIB
+	cd $(SUBFRAMEWORKS)/SOMCSLIB.framework; if test ! -L SOMCSLIB; then ln -s Versions/$(FRAMEWORK_VERS)/SOMCSLIB SOMCSLIB; fi
 
 $(SUBFRAMEWORKS)/SOMTC.framework/SOMTC: $(SUBFRAMEWORKS)/SOMTC.framework/Versions/$(FRAMEWORK_VERS)/SOMTC
-	cd $(SUBFRAMEWORKS)/SOMTC.framework; ln -s Versions/$(FRAMEWORK_VERS)/SOMTC SOMTC
+	cd $(SUBFRAMEWORKS)/SOMTC.framework; if test ! -L SOMTC; then ln -s Versions/$(FRAMEWORK_VERS)/SOMTC SOMTC; fi
 
 $(SUBFRAMEWORKS)/SOMIR.framework/SOMIR: $(SUBFRAMEWORKS)/SOMIR.framework/Versions/$(FRAMEWORK_VERS)/SOMIR
-	cd $(SUBFRAMEWORKS)/SOMIR.framework; ln -s Versions/$(FRAMEWORK_VERS)/SOMIR SOMIR
+	cd $(SUBFRAMEWORKS)/SOMIR.framework; if test ! -L SOMIR; then ln -s Versions/$(FRAMEWORK_VERS)/SOMIR SOMIR; fi
 
 $(SUBFRAMEWORKS)/SOMU.framework/SOMU: $(SUBFRAMEWORKS)/SOMU.framework/Versions/$(FRAMEWORK_VERS)/SOMU
-	cd $(SUBFRAMEWORKS)/SOMU.framework; ln -s Versions/$(FRAMEWORK_VERS)/SOMU SOMU
+	cd $(SUBFRAMEWORKS)/SOMU.framework; if test ! -L SOMU; then ln -s Versions/$(FRAMEWORK_VERS)/SOMU SOMU; fi
 
 $(SUBFRAMEWORKS)/SOMU2.framework/SOMU2: $(SUBFRAMEWORKS)/SOMU2.framework/Versions/$(FRAMEWORK_VERS)/SOMU2
-	cd $(SUBFRAMEWORKS)/SOMU2.framework; ln -s Versions/$(FRAMEWORK_VERS)/SOMU2 SOMU2
+	cd $(SUBFRAMEWORKS)/SOMU2.framework; if test ! -L SOMU2; then ln -s Versions/$(FRAMEWORK_VERS)/SOMU2 SOMU2; fi
 
 $(SUBFRAMEWORKS)/SOMABS1.framework/SOMABS1: $(SUBFRAMEWORKS)/SOMABS1.framework/Versions/$(FRAMEWORK_VERS)/SOMABS1
-	cd $(SUBFRAMEWORKS)/SOMABS1.framework; ln -s Versions/$(FRAMEWORK_VERS)/SOMABS1 SOMABS1
+	cd $(SUBFRAMEWORKS)/SOMABS1.framework; if test ! -L SOMABS1; then ln -s Versions/$(FRAMEWORK_VERS)/SOMABS1 SOMABS1; fi
 
 $(SUBFRAMEWORKS)/SOMDCOMM.framework/SOMDCOMM: $(SUBFRAMEWORKS)/SOMDCOMM.framework/Versions/$(FRAMEWORK_VERS)/SOMDCOMM
-	cd $(SUBFRAMEWORKS)/SOMDCOMM.framework; ln -s Versions/$(FRAMEWORK_VERS)/SOMDCOMM SOMDCOMM
+	cd $(SUBFRAMEWORKS)/SOMDCOMM.framework; if test ! -L SOMDCOMM; then ln -s Versions/$(FRAMEWORK_VERS)/SOMDCOMM SOMDCOMM; fi
 
 $(SUBFRAMEWORKS)/SOMD.framework/SOMD: $(SUBFRAMEWORKS)/SOMD.framework/Versions/$(FRAMEWORK_VERS)/SOMD
-	cd $(SUBFRAMEWORKS)/SOMD.framework; ln -s Versions/$(FRAMEWORK_VERS)/SOMD SOMD
+	cd $(SUBFRAMEWORKS)/SOMD.framework; if test ! -L SOMD; then ln -s Versions/$(FRAMEWORK_VERS)/SOMD SOMD; fi
 
 $(SUBFRAMEWORKS)/SOMNMF.framework/SOMNMF: $(SUBFRAMEWORKS)/SOMNMF.framework/Versions/$(FRAMEWORK_VERS)/SOMNMF
-	cd $(SUBFRAMEWORKS)/SOMNMF.framework; ln -s Versions/$(FRAMEWORK_VERS)/SOMNMF SOMNMF
+	cd $(SUBFRAMEWORKS)/SOMNMF.framework; if test ! -L SOMNMF; then ln -s Versions/$(FRAMEWORK_VERS)/SOMNMF SOMNMF; fi
 
 $(SUBFRAMEWORKS)/SOMOS.framework/SOMOS: $(SUBFRAMEWORKS)/SOMOS.framework/Versions/$(FRAMEWORK_VERS)/SOMOS
-	cd $(SUBFRAMEWORKS)/SOMOS.framework; ln -s Versions/$(FRAMEWORK_VERS)/SOMOS SOMOS
+	cd $(SUBFRAMEWORKS)/SOMOS.framework; if test ! -L SOMOS; then ln -s Versions/$(FRAMEWORK_VERS)/SOMOS SOMOS; fi
 
 $(SUBFRAMEWORKS)/SOMESTRM.framework/SOMESTRM: $(SUBFRAMEWORKS)/SOMESTRM.framework/Versions/$(FRAMEWORK_VERS)/SOMESTRM
-	cd $(SUBFRAMEWORKS)/SOMESTRM.framework; ln -s Versions/$(FRAMEWORK_VERS)/SOMESTRM SOMESTRM
+	cd $(SUBFRAMEWORKS)/SOMESTRM.framework; if test ! -L SOMESTRM; then ln -s Versions/$(FRAMEWORK_VERS)/SOMESTRM SOMESTRM; fi
 
 $(SUBFRAMEWORKS)/SOMANY.framework/SOMANY: $(SUBFRAMEWORKS)/SOMANY.framework/Versions/$(FRAMEWORK_VERS)/SOMANY
-	cd $(SUBFRAMEWORKS)/SOMANY.framework; ln -s Versions/$(FRAMEWORK_VERS)/SOMANY SOMANY
+	cd $(SUBFRAMEWORKS)/SOMANY.framework; if test ! -L SOMANY; then ln -s Versions/$(FRAMEWORK_VERS)/SOMANY SOMANY; fi
 
 $(SUBFRAMEWORKS)/SOMCORBA.framework/SOMCORBA: $(SUBFRAMEWORKS)/SOMCORBA.framework/Versions/$(FRAMEWORK_VERS)/SOMCORBA
-	cd $(SUBFRAMEWORKS)/SOMCORBA.framework; ln -s Versions/$(FRAMEWORK_VERS)/SOMCORBA SOMCORBA
+	cd $(SUBFRAMEWORKS)/SOMCORBA.framework; if test ! -L SOMCORBA; then ln -s Versions/$(FRAMEWORK_VERS)/SOMCORBA SOMCORBA; fi
 
 $(SUBFRAMEWORKS)/SOMCDR.framework/SOMCDR: $(SUBFRAMEWORKS)/SOMCDR.framework/Versions/$(FRAMEWORK_VERS)/SOMCDR
-	cd $(SUBFRAMEWORKS)/SOMCDR.framework; ln -s Versions/$(FRAMEWORK_VERS)/SOMCDR SOMCDR
+	cd $(SUBFRAMEWORKS)/SOMCDR.framework; if test ! -L SOMCDR; then ln -s Versions/$(FRAMEWORK_VERS)/SOMCDR SOMCDR; fi
 
 $(SUBFRAMEWORKS)/SOM.framework/Versions/$(FRAMEWORK_VERS)/SOM: $(SOM_OBJS) $(SUBFRAMEWORKS)/SOM.framework/Versions/$(FRAMEWORK_VERS)
 	$(CC) $(CFLAGS) $(SHARED) -o $@ \
@@ -732,7 +732,7 @@ $(FRAMEWORKS)/SOM.framework/Versions/$(FRAMEWORK_VERS):
 	mkdir -p $@
 
 $(FRAMEWORKS)/SOM.framework/SOM: $(FRAMEWORKS)/SOM.framework/Versions/$(FRAMEWORK_VERS)/SOM
-	cd $(FRAMEWORKS)/SOM.framework; ln -s Versions/$(FRAMEWORK_VERS)/SOM SOM
+	cd $(FRAMEWORKS)/SOM.framework; if test ! -L SOM; then ln -s Versions/$(FRAMEWORK_VERS)/SOM SOM; fi
 
 $(FRAMEWORKS)/SOM.framework/Versions/$(FRAMEWORK_VERS)/SOM: $(FRAMEWORKS)/SOM.framework/Versions/$(FRAMEWORK_VERS) $(SOM_OBJS)
 	$(CC) $(CFLAGS) $(SHARED) -o $@ \
@@ -742,49 +742,49 @@ $(FRAMEWORKS)/SOM.framework/Versions/$(FRAMEWORK_VERS)/SOM: $(FRAMEWORKS)/SOM.fr
 		$(STDLIB)
 
 $(FRAMEWORKS)/SOMTC.framework/SOMTC: $(FRAMEWORKS)/SOMTC.framework/Versions/$(FRAMEWORK_VERS)/SOMTC
-	cd $(FRAMEWORKS)/SOMTC.framework; ln -s Versions/$(FRAMEWORK_VERS)/SOMTC SOMTC
+	cd $(FRAMEWORKS)/SOMTC.framework; if test ! -L SOMTC; then ln -s Versions/$(FRAMEWORK_VERS)/SOMTC SOMTC; fi
 
 $(FRAMEWORKS)/SOMREF.framework/SOMREF: $(FRAMEWORKS)/SOMREF.framework/Versions/$(FRAMEWORK_VERS)/SOMREF
-	cd $(FRAMEWORKS)/SOMREF.framework; ln -s Versions/$(FRAMEWORK_VERS)/SOMREF SOMREF
+	cd $(FRAMEWORKS)/SOMREF.framework; if test ! -L SOMREF; then ln -s Versions/$(FRAMEWORK_VERS)/SOMREF SOMREF; fi
 
 $(FRAMEWORKS)/SOMIR.framework/SOMIR: $(FRAMEWORKS)/SOMIR.framework/Versions/$(FRAMEWORK_VERS)/SOMIR
-	cd $(FRAMEWORKS)/SOMIR.framework; ln -s Versions/$(FRAMEWORK_VERS)/SOMIR SOMIR
+	cd $(FRAMEWORKS)/SOMIR.framework; if test ! -L SOMIR; then ln -s Versions/$(FRAMEWORK_VERS)/SOMIR SOMIR; fi
 
 $(FRAMEWORKS)/SOMCSLIB.framework/SOMCSLIB: $(FRAMEWORKS)/SOMCSLIB.framework/Versions/$(FRAMEWORK_VERS)/SOMCSLIB
-	cd $(FRAMEWORKS)/SOMCSLIB.framework; ln -s Versions/$(FRAMEWORK_VERS)/SOMCSLIB SOMCSLIB
+	cd $(FRAMEWORKS)/SOMCSLIB.framework; if test ! -L SOMCSLIB; then ln -s Versions/$(FRAMEWORK_VERS)/SOMCSLIB SOMCSLIB; fi
 
 $(FRAMEWORKS)/SOMU.framework/SOMU: $(FRAMEWORKS)/SOMU.framework/Versions/$(FRAMEWORK_VERS)/SOMU
-	cd $(FRAMEWORKS)/SOMU.framework; ln -s Versions/$(FRAMEWORK_VERS)/SOMU SOMU
+	cd $(FRAMEWORKS)/SOMU.framework; if test ! -L SOMU; then ln -s Versions/$(FRAMEWORK_VERS)/SOMU SOMU; fi
 
 $(FRAMEWORKS)/SOMU2.framework/SOMU2: $(FRAMEWORKS)/SOMU2.framework/Versions/$(FRAMEWORK_VERS)/SOMU2
-	cd $(FRAMEWORKS)/SOMU2.framework; ln -s Versions/$(FRAMEWORK_VERS)/SOMU2 SOMU2
+	cd $(FRAMEWORKS)/SOMU2.framework; if test ! -L SOMU2; then ln -s Versions/$(FRAMEWORK_VERS)/SOMU2 SOMU2; fi
 
 $(FRAMEWORKS)/SOMABS1.framework/SOMABS1: $(FRAMEWORKS)/SOMABS1.framework/Versions/$(FRAMEWORK_VERS)/SOMABS1
-	cd $(FRAMEWORKS)/SOMABS1.framework; ln -s Versions/$(FRAMEWORK_VERS)/SOMABS1 SOMABS1
+	cd $(FRAMEWORKS)/SOMABS1.framework; if test ! -L SOMABS1; then ln -s Versions/$(FRAMEWORK_VERS)/SOMABS1 SOMABS1; fi
 
 $(FRAMEWORKS)/SOMANY.framework/SOMANY: $(FRAMEWORKS)/SOMANY.framework/Versions/$(FRAMEWORK_VERS)/SOMANY
-	cd $(FRAMEWORKS)/SOMANY.framework; ln -s Versions/$(FRAMEWORK_VERS)/SOMANY SOMANY
+	cd $(FRAMEWORKS)/SOMANY.framework; if test ! -L SOMANY; then ln -s Versions/$(FRAMEWORK_VERS)/SOMANY SOMANY; fi
 
 $(FRAMEWORKS)/SOMCORBA.framework/SOMCORBA: $(FRAMEWORKS)/SOMCORBA.framework/Versions/$(FRAMEWORK_VERS)/SOMCORBA
-	cd $(FRAMEWORKS)/SOMCORBA.framework; ln -s Versions/$(FRAMEWORK_VERS)/SOMCORBA SOMCORBA
+	cd $(FRAMEWORKS)/SOMCORBA.framework; if test ! -L SOMCORBA; then ln -s Versions/$(FRAMEWORK_VERS)/SOMCORBA SOMCORBA; fi
 
 $(FRAMEWORKS)/SOMCDR.framework/SOMCDR: $(FRAMEWORKS)/SOMCDR.framework/Versions/$(FRAMEWORK_VERS)/SOMCDR
-	cd $(FRAMEWORKS)/SOMCDR.framework; ln -s Versions/$(FRAMEWORK_VERS)/SOMCDR SOMCDR
+	cd $(FRAMEWORKS)/SOMCDR.framework; if test ! -L SOMCDR; then ln -s Versions/$(FRAMEWORK_VERS)/SOMCDR SOMCDR; fi
 
 $(FRAMEWORKS)/SOMNMF.framework/SOMNMF: $(FRAMEWORKS)/SOMNMF.framework/Versions/$(FRAMEWORK_VERS)/SOMNMF
-	cd $(FRAMEWORKS)/SOMNMF.framework; ln -s Versions/$(FRAMEWORK_VERS)/SOMNMF SOMNMF
+	cd $(FRAMEWORKS)/SOMNMF.framework; if test ! -L SOMNMF; then ln -s Versions/$(FRAMEWORK_VERS)/SOMNMF SOMNMF; fi
 
 $(FRAMEWORKS)/SOMESTRM.framework/SOMESTRM: $(FRAMEWORKS)/SOMESTRM.framework/Versions/$(FRAMEWORK_VERS)/SOMESTRM
-	cd $(FRAMEWORKS)/SOMESTRM.framework; ln -s Versions/$(FRAMEWORK_VERS)/SOMESTRM SOMESTRM
+	cd $(FRAMEWORKS)/SOMESTRM.framework; if test ! -L SOMESTRM; then ln -s Versions/$(FRAMEWORK_VERS)/SOMESTRM SOMESTRM; fi
 
 $(FRAMEWORKS)/SOMDCOMM.framework/SOMDCOMM: $(FRAMEWORKS)/SOMDCOMM.framework/Versions/$(FRAMEWORK_VERS)/SOMDCOMM
-	cd $(FRAMEWORKS)/SOMDCOMM.framework; ln -s Versions/$(FRAMEWORK_VERS)/SOMDCOMM SOMDCOMM
+	cd $(FRAMEWORKS)/SOMDCOMM.framework; if test ! -L SOMREF; then ln -s Versions/$(FRAMEWORK_VERS)/SOMDCOMM SOMDCOMM; fi
 
 $(FRAMEWORKS)/SOMD.framework/SOMD: $(FRAMEWORKS)/SOMD.framework/Versions/$(FRAMEWORK_VERS)/SOMD
-	cd $(FRAMEWORKS)/SOMD.framework; ln -s Versions/$(FRAMEWORK_VERS)/SOMD SOMD
+	cd $(FRAMEWORKS)/SOMD.framework; if test ! -L SOMD; then ln -s Versions/$(FRAMEWORK_VERS)/SOMD SOMD; fi
 
 $(FRAMEWORKS)/SOMOS.framework/SOMOS: $(FRAMEWORKS)/SOMOS.framework/Versions/$(FRAMEWORK_VERS)/SOMOS
-	cd $(FRAMEWORKS)/SOMOS.framework; ln -s Versions/$(FRAMEWORK_VERS)/SOMOS SOMOS
+	cd $(FRAMEWORKS)/SOMOS.framework; if test ! -L SOMOS; then ln -s Versions/$(FRAMEWORK_VERS)/SOMOS SOMOS; fi
 
 $(FRAMEWORKS)/SOMTC.framework/Versions/$(FRAMEWORK_VERS)/SOMTC: $(FRAMEWORKS)/SOMTC.framework/Versions/$(FRAMEWORK_VERS) $(SOMTC_OBJS)
 	$(CC) $(CFLAGS) $(SHARED) -o $@ \

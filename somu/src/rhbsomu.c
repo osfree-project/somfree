@@ -41,6 +41,9 @@
 #	include <rpc.h>
 #else
 #	include <rhbendia.h>
+#	ifdef HAVE_UNISTD_H
+#		include <unistd.h>
+#	endif
 #	ifdef HAVE_SYS_UUID_H
 #		include <sys/uuid.h>
 #	endif
@@ -49,6 +52,12 @@
 #	endif
 #	ifdef HAVE_UUID_H
 #		include <uuid.h>
+#	endif
+#	ifdef HAVE_SYS_RANDOM_H
+#		include <sys/random.h>
+#	endif
+#	ifdef HAVE_FCNTL_H
+#		include <fcntl.h>
 #	endif
 #endif
 
@@ -332,11 +341,9 @@ SOMEXTERN int SOMLINK somutgetpath(char *path)
 
 SOMEXTERN int SOMLINK somCreateUUID(octet *buf)
 {
-	int rc=0;
 #ifdef _WIN32
 	UUID id;
-
-	rc=UuidCreate(&id);
+	int rc=UuidCreate(&id);
 
 	if (!rc)
 	{
@@ -353,22 +360,24 @@ SOMEXTERN int SOMLINK somCreateUUID(octet *buf)
 #else
 #	ifdef HAVE_UUID_GENERATE
 	uuid_t id;
+	int rc=1;
+
 	if (sizeof(id)==16)
 	{
 		uuid_generate(id);
 
 		memcpy(buf,id,sizeof(id));
-	}
-	else
-	{
-		rc=1;
+
+		rc=0;
 	}
 #	else
+#		ifdef HAVE_UUID_CREATE 
 	uuid_t id;
-	uint32_t s=1;
+	int rc=1;
 
 	if (sizeof(id)==16)
 	{
+		uint32_t s=1;
 		uuid_create(&id,&s);
 
 		if (s)
@@ -378,12 +387,26 @@ SOMEXTERN int SOMLINK somCreateUUID(octet *buf)
 		else
 		{
 			memcpy(buf,&id,sizeof(id));
+			rc=0;
 		}
 	}
-	else
-	{
-		rc=1;
-	}
+#		else
+#			ifdef HAVE_GETENTROPY
+		int rc=getentropy(buf,16);
+#			else
+				int rc=1;
+				int fd=open("/dev/random",O_RDONLY);
+				if (fd>=0)
+				{
+					if (16==read(fd,buf,16))
+					{
+						rc=0;
+					}
+
+					close(fd);
+				}
+#			endif
+#		endif
 #	endif
 #endif
 

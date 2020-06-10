@@ -22,6 +22,11 @@
 
 ARGS=$@
 
+if test -z "$OBJDUMP"
+then
+	OBJDUMP=objdump
+fi
+
 do_gtar()
 {
 	GTAR=
@@ -90,7 +95,7 @@ do_arch()
 	RC=1
 	FILE="$1"
 
-	for d in $OBJDUMP objdump elfdump /usr/ccs/bin/elfdump
+	for d in $OBJDUMP elfdump /usr/ccs/bin/elfdump
 	do
 		if $d -p "$FILE" 1>/dev/null 2>/dev/null
 		then

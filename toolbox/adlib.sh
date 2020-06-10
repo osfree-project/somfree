@@ -59,6 +59,11 @@ LIBLIST=
 NOTFOUND=
 PROGRAM_NAME=`basename $0`
 
+if test -z "$OBJDUMP"
+then
+	OBJDUMP=objdump
+fi
+
 rotate()
 {
 	shift
@@ -81,7 +86,7 @@ get_soname()
 		otool -D $1 | grep -v ":"
 		;;
 	* )
-		objdump -p $1 | grep SONAME | ( read SONAME soname; echo $soname; )
+		$OBJDUMP -p $1 | grep SONAME | ( read SONAME soname; echo $soname; )
 		;;
 	esac;
 }
@@ -103,7 +108,7 @@ get_needed()
 		otool -L $1 | grep compatibility | ( while read file flags; do echo $file; done ) 
 		;;
 	* )	
-		objdump -p $1 | grep NEEDED | ( while read NEEDED needed; do echo $needed; done )
+		$OBJDUMP -p $1 | grep NEEDED | ( while read NEEDED needed; do echo $needed; done )
 		;;
 	esac;
 }
@@ -115,7 +120,7 @@ get_rpath()
 	lib*.a )
 		;;
 	* )
-		objdump -p $1 | grep RPATH | ( while read RPATH rpath; do echo $rpath; done )
+		$OBJDUMP -p $1 | grep RPATH | ( while read RPATH rpath; do echo $rpath; done )
 		;;
 	esac;
 }

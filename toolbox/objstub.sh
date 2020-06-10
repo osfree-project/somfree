@@ -47,6 +47,11 @@ then
 	exit 1
 fi
 
+if test -z "$OBJDUMP"
+then
+	OBJDUMP=objdump
+fi
+
 LIBNAME2=`basename $LIBNAME`
 
 strlen()
@@ -96,7 +101,7 @@ is_export()
 	return 1
 }
 
-objdump -T "$LIBNAME" | while read ADDR FLAGS1 FLAGS2 SEG SIZE SCOPE NAME
+$OBJDUMP -T "$LIBNAME" | while read ADDR FLAGS1 FLAGS2 SEG SIZE SCOPE NAME
 do
 	if test "$NAME" = ""
 	then

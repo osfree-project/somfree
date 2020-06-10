@@ -26,6 +26,11 @@ EXPANDED_CMD=
 RPATH_INIT="/usr/lib /lib"
 RPATH_LINK="$RPATH_INIT"
 
+if test -z "$OBJDUMP"
+then
+	OBJDUMP=objdump
+fi
+
 case "$ARFLAGS" in
 -* )
 	ARHYPHEN="-"
@@ -174,7 +179,7 @@ get_needed()
 		fi
         ;;
     * )
-        objdump -p $1 | grep NEEDED | ( while read NEEDED needed; do echo $needed; done )
+        $OBJDUMP -p $1 | grep NEEDED | ( while read NEEDED needed; do echo $needed; done )
         ;;
     esac;
 }

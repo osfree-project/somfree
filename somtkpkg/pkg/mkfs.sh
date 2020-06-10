@@ -27,6 +27,7 @@ INTDIR=.
 LIBPREFIX=lib
 LIBEXT=.so
 LIBDIRNAME=lib
+HEADERSRC=
 
 for d in $@
 do
@@ -47,8 +48,11 @@ do
 		-l )
 			LIBDIRNAME="$d"
 			;;
+		-h )
+			HEADERSRC="$d"
+			;;
 		* )
-			unknown option $d
+			echo unknown option $d
 			exit 1
 		esac
 		FLAG=
@@ -229,7 +233,7 @@ rmdirs()
     )
 }
 
-for PKGNAME in somtk.comp somtk.dsom somtk.ir somtk.rte somtk.somp somtk.somr somtk.somuc somtk.somx somtk.util
+for PKGNAME in somtk.comp somtk.dsom somtk.ir somtk.rte somtk.somp somtk.somr somtk.somuc somtk.somx somtk.util somtk.dev
 do
 	find "$INTDIR/$PKGNAME" | while read N
 	do
@@ -291,6 +295,16 @@ do
 			ln -s somcorba somstars
 			ln -s somcorba somxh
 		)
+		;;
+	somtk.dev )
+		if test -n "$HEADERSRC"
+		then
+			cp  "$HEADERSRC"/*.* "$INTDIR/$PKGNAME/$PKGROOT/include/"
+		fi
+		if test -f "$OUTDIR/lib/libsomtk.a" 
+		then
+			cp "$OUTDIR/lib/libsomtk.a" "$INTDIR/$PKGNAME/$PKGROOT/lib/libsomtk.a"
+		fi
 		;;
 	somtk.rte )
 		copyLib som

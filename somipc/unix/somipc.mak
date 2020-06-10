@@ -77,7 +77,7 @@ $(INTDIR)/rhbsckih.o: ../src/rhbsckih.cpp
 	$(CXX_EXE) $(STDOPTXX) $(SOMIPC_INCL) -c ../src/rhbsckih.cpp -o $@
 
 $(TARGET): $(OBJS) 
-	$(LINKAPPXX) $(LINKAPP_HEAD) $(OBJS) -o $@ $(LINKAPP_TAIL) 
+	$(LINKAPPXX) $(LINKAPP_HEAD) $(OBJS) -o $@ $(STDLIBXX) $(LINKAPP_TAIL) 
 
 dist install test:
 

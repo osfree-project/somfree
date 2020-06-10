@@ -340,12 +340,18 @@
 #		define RHBOPT_cleanup_push(r,p)	pthread_cleanup_push(r,p); RHBOPT_Trace("RHBOPT_cleanup_push")
 #		define RHBOPT_cleanup_pop()		RHBOPT_Trace("RHBOPT_cleanup_pop"); pthread_cleanup_pop(1)
 #		define RHBOPT_cleanup_proto(_scope,_pfn,_pv)  _scope void _pfn(void *_pv) 
-#		define _RHBOPT_cleanup_begin(_scope,_pfn,_pv)  RHBOPT_cleanup_proto(_scope,_pfn,_pv) \
+#		ifdef HAVE_PTHREAD_CANCEL
+#			define _RHBOPT_cleanup_begin(_scope,_pfn,_pv)  RHBOPT_cleanup_proto(_scope,_pfn,_pv) \
 						{ int __cancel; pthread_setcancelstate(PTHREAD_CANCEL_DISABLE,&__cancel); \
 						     RHBOPT_Trace("RHBOPT_cleanup_begin"); { 
-#		define RHBOPT_cleanup_begin(_pfn,_pv)  _RHBOPT_cleanup_begin(static,_pfn,_pv) 
-#		define RHBOPT_cleanup_end	} RHBOPT_Trace("RHBOPT_cleanup_end"); \
+#			define RHBOPT_cleanup_end	} RHBOPT_Trace("RHBOPT_cleanup_end"); \
 							pthread_setcancelstate(__cancel,NULL); }
+#		else
+#			define _RHBOPT_cleanup_begin(_scope,_pfn,_pv)  RHBOPT_cleanup_proto(_scope,_pfn,_pv) \
+						{ RHBOPT_Trace("RHBOPT_cleanup_begin"); { 
+#			define RHBOPT_cleanup_end	} RHBOPT_Trace("RHBOPT_cleanup_end"); }
+#		endif
+#		define RHBOPT_cleanup_begin(_pfn,_pv)  _RHBOPT_cleanup_begin(static,_pfn,_pv) 
 #		define RHBOPT_cleanup_call(_pfn,_pv)	_pfn(_pv)
 #	else
 #		include <rhbseh.h>

@@ -57,7 +57,7 @@ do
 	fi
 done
 
-../pkg/mkfs.sh -d "$OUTDIR_DIST" -t "$INTDIR" -r "$OUTDIR"
+../pkg/mkfs.sh -d "$OUTDIR_DIST" -t "$INTDIR" -r "$OUTDIR" -h "../../somidl/$PLATFORM"
 
 find "$INTDIR" -print | xargs ls -ld
 
@@ -131,6 +131,20 @@ IDL Compiler for SOMTK
 
 EOF
 
+../../toolbox/dir2rpm.sh "$INTDIR" "$INTDIR/somtk.dev" "$OUTDIR_DIST" <<EOF
+Summary: SOMTK Development Library
+Name: somtk-dev
+Version: $VERSION
+Release: 1
+Group: Applications/System
+License: GPL
+Prefix: /$PKGROOT
+
+%description
+Developer library for SOMTK
+
+EOF
+
 DPKGARCH=`../../toolbox/pkgtool.sh dpkg-arch "$OUTDIR/bin/somipc"`
 
 ../../toolbox/dir2deb.sh "$INTDIR" "$INTDIR/somtk.comp" "$OUTDIR_DIST" <<EOF
@@ -199,6 +213,20 @@ Section: misc
 Priority: extra
 Description: SOMTK DSOM
  CORBA ORB for SOMTK
+ .
+EOF
+
+../../toolbox/dir2deb.sh "$INTDIR" "$INTDIR/somtk.dev" "$OUTDIR_DIST" <<EOF
+Package: somtk-dev
+Version: $VERSION
+Architecture: $DPKGARCH
+Maintainer: somtoolkit@users.sf.net
+Depends: somtk-comp
+Provides: somtk-dev
+Section: misc
+Priority: extra
+Description: SOMTK Development Library
+ Library and headers for SOMTK
  .
 EOF
 

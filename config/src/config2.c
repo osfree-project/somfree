@@ -96,6 +96,7 @@ HAVE_SYS_SYSTEMINFO_H				"Looking for <sys/systeminfo.h>"
 HAVE_SYS_UUID_H						"Looking for <sys/uuid.h>"
 HAVE_SYS_ETHERNET_H					"Looking for <sys/ethernet.h>"
 HAVE_SYS_UIO_H						"Looking for <sys/uio.h>"
+HAVE_SYS_RANDOM_H					"Looking for <sys/random.h>"
 HAVE_UUID_UUID_H					"Looking for <uuid/uuid.h>"
 HAVE_UUID_H							"Looking for <uuid.h>"
 HAVE_NET_IF_H						"Looking for <net/if.h>"
@@ -228,6 +229,7 @@ HAVE_FCNTL_F_SETFL_O_NDELAY			"Looking for fcntl(F_SETFL,O_NDELAY)"
 HAVE_READLINK						"Looking for readlink()"
 HAVE_REALPATH						"Looking for realpath()"
 HAVE_CFMAKERAW						"Looking for cfmakeraw()"
+HAVE_GETENTROPY						"Looking for getentropy()"
 HAVE_UUID_CREATE					"Looking for uuid_create()"
 HAVE_UUID_GENERATE					"Looking for uuid_generate()"
 HAVE_SYSINFO_SVR4					"Looking for SVR4 style sysinfo"
@@ -317,6 +319,9 @@ USE_IN6ADDR_ANY_INIT_BRACES2		"Looking for {{IN6ADDR_ANY_INIT}}"
 #		include <sys/types.h>
 #	endif
 #	include <uuid/uuid.h>
+	COMPLETE_PROGRAM
+#elif defined(TRY_HAVE_SYS_RANDOM_H)
+#	include <sys/random.h>
 	COMPLETE_PROGRAM
 #elif defined(TRY_HAVE_UUID_H)
 #	ifdef HAVE_SYS_TYPES_H
@@ -2460,6 +2465,10 @@ struct in6_addr addrInit=IN6ADDR_ANY_INIT;
 #	include <termios.h>
 	MAINLINE
 	{ static struct termios t; cfmakeraw(&t); return argc && argv; }
+#elif defined(TRY_HAVE_GETENTROPY)
+#	include <sys/random.h>
+	MAINLINE
+	{ static char buf[16]; return (argc==getentropy(buf,sizeof(buf))) && argv; }
 #elif defined(TRY_HAVE_IIDFROMSTRING_LPCOLESTR)
 #	include <ole2.h>
 #	ifdef _WIN32
