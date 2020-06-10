@@ -29,7 +29,7 @@ INCL=	-I$(INTDIR) \
 		-I../../somtk/include		\
 		$(STDINCL)
 
-all: $(TARGET) test $(OUTDIR_MAN)/somtest0.1
+all: $(TARGET) $(OUTDIR_MAN)/somtest0.1
 
 clean:
 	$(CLEAN) $(OBJS) $(TARGET) $(OUTDIR_MAN)/somtest0.1*
