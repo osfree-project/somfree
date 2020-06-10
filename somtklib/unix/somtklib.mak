@@ -39,16 +39,19 @@ $(TARGET): $(TMPLIB)
 	if test -f "$(TMPLIB)"; then mv "$(TMPLIB)" $@;	fi
 
 $(TMPLIB):
-	for d in som somref somtc somd somir somut somu somu2 somabs1 somnmf somos; \
+	for d in som somref somtc somd somir somut somu somu2 somabs1 somnmf somos somdcomm somany somcorba somabs1 somcslib somem somuc somst soms somp; \
 	do \
-		if test -f "$(OUTDIR_LIB)/lib$$d.so"; \
-		then \
-			cp "$(OUTDIR_LIB)/lib$$d.so" "$(INTDIR)/lib$$d.so"; \
-			if test "$(STRIP)" != ""; then $(STRIP) "$(INTDIR)/lib$$d.so"; fi; \
-		fi; \
+		for e in so dylib; \
+		do \
+			if test -f "$(OUTDIR_LIB)/lib$$d.$$e"; \
+			then \
+				cp "$(OUTDIR_LIB)/lib$$d.$$e" "$(INTDIR)/lib$$d.$$e"; \
+				if test "$(STRIP)" != ""; then $(STRIP) "$(INTDIR)/lib$$d.$$e"; fi; \
+			fi; \
+		done; \
 	done
 	cd $(INTDIR); \
-	FOUND=; for d in *.so; do if test -f "$$d"; then FOUND="$$FOUND $$d"; fi; done; \
+	FOUND=; for d in lib*.so lib*.dylib; do if test -f "$$d"; then FOUND="$$FOUND $$d"; fi; done; \
 	if test "$$FOUND" != ""; \
 	then \
 		$(AR) $(ARFLAGS) `basename $@` $$FOUND; \

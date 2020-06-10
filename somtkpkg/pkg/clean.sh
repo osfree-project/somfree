@@ -2,7 +2,7 @@
 
 INTDIR="$1"
 
-for d in somtk.ir somtk.rte somtk.dsom somtk.comp somtk.util somtk.tests somtk.man root
+for d in somtk.ir somtk.rte somtk.dsom somtk.comp somtk.util somtk.tests somtk.man root somtk.dev
 do
 	if test -d "$INTDIR/$d"
 	then

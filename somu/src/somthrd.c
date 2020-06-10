@@ -80,14 +80,8 @@
 		octet data_bytes[1];
 	};
 	#if defined(USE_PTHREADS)
-		#ifndef HAVE_PTHREAD_CANCEL
-			#if defined(PTHREAD_CANCELED) || defined(PTHREAD_CANCEL_ENABLE)
-				#define HAVE_PTHREAD_CANCEL
-			#endif
-		#endif
-
-			static pthread_once_t somu_once=RHBOPT_PTHREAD_ONCE_INIT;
-			static pthread_key_t somu_thread_key;
+		static pthread_once_t somu_once=RHBOPT_PTHREAD_ONCE_INIT;
+		static pthread_key_t somu_thread_key;
 
 		static void somu_thread_clearup(void *pv)
 		{
@@ -208,9 +202,9 @@ static unsigned long SOMLINK RHBSOMU_EndThread(void)
 }
 static unsigned long SOMLINK RHBSOMU_KillThread(somToken thrd)
 {
-	struct somu_thread_data *somThis=thrd;
 #ifdef USE_PTHREADS
 	#ifdef HAVE_PTHREAD_CANCEL
+		struct somu_thread_data *somThis=thrd;
 		return pthread_cancel(somThis->thread);
 	#else
 		#ifdef _DEBUG
@@ -219,6 +213,7 @@ static unsigned long SOMLINK RHBSOMU_KillThread(somToken thrd)
 		return 0xffffffff;
 	#endif
 #else
+	struct somu_thread_data *somThis=thrd;
 	return QueueUserAPC(somu_stop_thread,somThis->handle,(ULONG_PTR)somThis);
 #endif
 }

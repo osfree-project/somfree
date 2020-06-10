@@ -46,6 +46,11 @@ do
 	esac
 done
 
+if test -z "$OBJDUMP"
+then
+	OBJDUMP=objdump
+fi
+
 last()
 {
 	LAST=
@@ -86,7 +91,7 @@ not_member()
 
 needed()
 {
-	objdump -p "$1" | while read N M
+	$OBJDUMP -p "$1" | while read N M
 	do
 		case "$N" in
 		NEEDED )
@@ -169,7 +174,7 @@ symlist()
 {
 	for X in $@
 	do
-		objdump -T $X | while read N
+		$OBJDUMP -T $X | while read N
 		do
 			LAST=
 			PRINT=false
@@ -211,7 +216,7 @@ undeflist()
 {
 	for X in $@
 	do
-		objdump -T $X | while read N
+		$OBJDUMP -T $X | while read N
 		do
 			NOT_WEAK=true
 			LAST=
