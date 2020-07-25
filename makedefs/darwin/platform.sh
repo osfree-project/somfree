@@ -183,21 +183,7 @@ then
 	HAVE_LIBOBJC=false
 fi
 
-if $CC $CFLAGS $PLATFORM_CFLAGS ../../toolbox/src/asneeded.c -o a.out
-then
-	SYSTEM_LIB=$( otool -L a.out | grep libSystem )
-
-	rm a.out
-
-	SYSTEM_LIB=$( first $SYSTEM_LIB )
-	FRAMEWORK_VERS=$( basename $SYSTEM_LIB | sed s/libSystem\.// | sed s/\.dylib// | sed y/\./\ / )
-	FRAMEWORK_VERS=$( first $FRAMEWORK_VERS )
-fi
-
-if test -z "$FRAMEWORK_VERS"
-then
-	FRAMEWORK_VERS=Z
-fi
+FRAMEWORK_VERS=A
 
 echo FRAMEWORK_VERS="$FRAMEWORK_VERS"
 
