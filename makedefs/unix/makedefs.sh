@@ -21,12 +21,21 @@
 #
 
 CHMOD_EXECUTABLE="u+x"
-if test -x  /usr/share/misc/config.guess
+
+for d in /usr/share/misc/config.guess /usr/share/libtool/config/config.guess /usr/share/automake-*/config.guess
+do
+	if test -x "$d"
+	then
+		CONFIG_GUESS="$d"
+		break
+	fi
+done
+
+if test -z "$CONFIG_GUESS"
 then
-	CONFIG_GUESS=/usr/share/misc/config.guess
-else
 	CONFIG_GUESS=../../config/unix/config.guess
 fi
+
 DEPENDS_SH=../../toolbox/depends.sh
 
 for d in ../../toolbox/*.sh \
