@@ -58,10 +58,10 @@ options )
 			esac
 			echo findlibs
 			;;
-		*-netbsdelf1.* | *-openbsd* | *-freebsd* | *-dragonfly* ) 
+		*-netbsdelf1.* | *-dragonfly* ) 
 			echo seh findlibs
 			;;
-		*-netbsdelf* | *-qnx* ) 
+		*-netbsd* | *-qnx* | *-openbsd* | *-freebsd* ) 
 			echo pthread findlibs
 			;;
 		* )

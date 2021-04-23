@@ -84,6 +84,7 @@ EOF
 #include <pthread.h>
 #ifdef _REENTRANT
 static void myclean(void *pv) { if (pv) { } ; }
+static void *myfunc(void *pv) { return pv; }
 int main(int argc,char **argv) { 
 pthread_t self=pthread_self();
 void *pv=NULL;
@@ -92,6 +93,7 @@ pthread_cancel(self);
 pthread_testcancel();
 pthread_cleanup_pop((argc ? 1 : 0));
 pthread_join(self,pv);
+pthread_create(pv,pv,myfunc,pv);
 return argc && argv; }
 #else
 #error	not _REENTRANT
