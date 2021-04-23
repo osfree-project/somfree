@@ -33,7 +33,7 @@ vote )
 					;;
 			esac
 			;;
-		*-netbsdelf* | *-openbsd* | *-freebsd* | *-dragonfly* ) 
+		*-netbsd* | *-openbsd* | *-freebsd* | *-dragonfly* ) 
 			echo 60
 			;;
 		*-qnx* ) 

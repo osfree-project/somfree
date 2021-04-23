@@ -92,7 +92,7 @@ static int test_tcs(Environment *ev)
 	return 0;
 }
 
-static char test_pointer_base[1];
+static char test_pointer_base[11];
 
 static void printVa(char *s,va_list ap)
 {

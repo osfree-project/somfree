@@ -412,6 +412,9 @@ static boolean SOMKERN_add_constructors(
 		RHBOPT_ASSERT(sizeof(ctrl_u.assignCtrl->info[0])==
 						ctrl_u.assignCtrl->infoSize);
 		break;
+	default:
+		search_u.ptr=NULL;
+		break;
 	}
 
 	RHBOPT_ASSERT(myMask);

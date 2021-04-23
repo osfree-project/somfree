@@ -1179,7 +1179,7 @@ static void append_name(char *buf,size_t buflen,RHBelement *e)
 		strncat(buf,"_",buflen);
 	}
 
-	strncat(buf,e->id,buflen);
+	strncat(buf,e->id,buflen-1);
 }
 
 void RHBinterface::build(RHBPreprocessor *pp)
