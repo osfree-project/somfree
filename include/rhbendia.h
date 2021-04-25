@@ -73,6 +73,7 @@
 #	if  defined(__i386__) || \
 		defined(__i386) || \
 		defined(__alpha) || \
+		defined(__riscv) || \
 		defined(__arm__) || \
 		defined(__aarch64__) || \
 		defined(_M_IX86) || \
