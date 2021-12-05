@@ -36,7 +36,7 @@ vote )
 		*-netbsd* | *-openbsd* | *-freebsd* | *-dragonfly* ) 
 			echo 60
 			;;
-		*-qnx* ) 
+		*-qnx* | *-gnu* ) 
 			echo 60
 			;;
 		* )
@@ -61,7 +61,7 @@ options )
 		*-netbsdelf1.* | *-dragonfly* ) 
 			echo seh findlibs
 			;;
-		*-netbsd* | *-qnx* | *-openbsd* | *-freebsd* ) 
+		*-netbsd* | *-qnx* | *-openbsd* | *-freebsd* | *-gnu* ) 
 			echo pthread findlibs
 			;;
 		* )
