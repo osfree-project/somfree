@@ -152,7 +152,6 @@ Package: somtk-comp
 Version: $VERSION
 Architecture: $DPKGARCH
 Maintainer: somtoolkit@users.sf.net
-Recommends:
 Provides: somtk-comp
 Section: misc
 Priority: extra
