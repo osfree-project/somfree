@@ -768,7 +768,7 @@ static void rhbexecd_signal(int x)
 		{
 			char buf[1];
 			buf[0]=x;
-			pipe_write(fd,buf,sizeof(buf));
+			if (pipe_write(fd,buf,sizeof(buf))) {}
 		}
 	}
 }

@@ -349,7 +349,7 @@ int main(int argc,char **argv)
 			}
 
 			p=argv[i++];
-			strncpy(out_dir,p,sizeof(out_dir));
+			strncpy(out_dir,p,sizeof(out_dir)-1);
 		}
 		else
 		{
@@ -364,7 +364,7 @@ int main(int argc,char **argv)
 				char filestem[256];
 				fp_out=0;
 
-				get_filestem(p,filestem,sizeof(filestem));
+				get_filestem(p,filestem,sizeof(filestem)-1);
 
 				strncpy(out_file,out_dir,sizeof(out_file));
 

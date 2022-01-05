@@ -1324,7 +1324,7 @@ public:
 	dseg_bucket *parent;
 	dseg_bucket *root;
 	RHBtype *ref_tc;
-	char name[256];
+	char name[257];
 
 	dseg_bucket_base(const char *n) :
 		next(NULL),
@@ -1332,7 +1332,7 @@ public:
 		root(NULL),
 		ref_tc(NULL)
 	{
-		strncpy(name,n,sizeof(name));
+		strncpy(name,n,sizeof(name)-1);
 	}
 
 	virtual ~dseg_bucket_base() { /* just avoids a warning in later g++
@@ -1435,14 +1435,14 @@ public:
 class dseg_bucket_type_name_value : public dseg_bucket_base
 {
 public:
-	char type_name[256];
-	char value[256];
+	char type_name[255];
+	char value[513];
 
 	dseg_bucket_type_name_value(const char *t,const char *n,const char *v) : 
 			dseg_bucket_base(n) 
 	{
-		strncpy(value,v,sizeof(value));
-		strncpy(type_name,t,sizeof(type_name));
+		strncpy(value,v,sizeof(value)-1);
+		strncpy(type_name,t,sizeof(type_name)-1);
 	}
 
 	void emit_define(RHBemitter *em,RHBoutput *out,int nest)
@@ -1986,7 +1986,7 @@ dseg_bucket_base *dseg_bucket::add_TypeCode(
 	{
 		if (t2->current==t)
 		{
-			char n2[256];
+			char n2[512];
 
 			em->get_c_name(t,n,sizeof(n));
 			align_inline2(n,n2,sizeof(n2));

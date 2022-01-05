@@ -266,7 +266,7 @@ static void somdd_bootstrap(Environment *ev,int argc,char **argv)
 			seq._length=len;
 			seq._maximum=seq._length;
 			seq._buffer=SOMMalloc(seq._length);
-			fread(seq._buffer,seq._length,1,fp);
+			len=fread(seq._buffer,seq._length,1,fp);
 			fclose(fp);
 			somStream_StreamIO_set_buffer(stream,ev,&seq);
 			if (seq._buffer) SOMFree(seq._buffer);
@@ -709,10 +709,10 @@ static void SOMDD_signal_handler(int i)
 				{
 					/* as the parent, write back pid of what was started */
 
-					write(pipes[1],(void *)&i,sizeof(i));
+					int j=write(pipes[1],(void *)&i,sizeof(i));
 					close(pipes[1]);
 
-					return 0;
+					return j>0 ? 0 : 1;
 				}
 
 				close(pipes[1]);
@@ -723,8 +723,8 @@ static void SOMDD_signal_handler(int i)
 
 				i=chdir("/");
 				i=open("/dev/null",O_RDWR);
-				dup(i);
-				dup(i);
+				if (dup(i)<0) return 1;
+				if (dup(i)<0) return 1;
 			}
 
 			i=RHBProcessMgr_init(&executor);

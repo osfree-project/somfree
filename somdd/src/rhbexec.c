@@ -145,7 +145,7 @@ static boolean confirm_program(char *program,size_t proglen)
 	{
 		while (*path)
 		{
-			char buf[1024];
+			char buf[1026];
 			char *q;
 
 			q=buf;
@@ -161,14 +161,14 @@ static boolean confirm_program(char *program,size_t proglen)
 
 			if (!buf[0])
 			{
-				getcwd(buf,sizeof(buf));
+				if (!getcwd(buf,sizeof(buf)-1)) return 0;
 			}
 
 			if (buf[0])
 			{
 				if (!strcmp(buf,"."))
 				{
-					getcwd(buf,sizeof(buf));
+					if (!getcwd(buf,sizeof(buf)-1)) return 0;
 				}
 #ifdef _WIN32
 				strncat(buf,"\\",sizeof(buf)-1);
@@ -182,7 +182,7 @@ static boolean confirm_program(char *program,size_t proglen)
 #ifdef _DEBUG
 /*					stdout_somPrintf("confirm_program(%s) is %s\n",program,buf);*/
 #endif
-					strncpy(program,buf,proglen);
+					snprintf(program,proglen,"%s",buf);
 
 					return 1;
 				}
@@ -191,7 +191,7 @@ static boolean confirm_program(char *program,size_t proglen)
 	}
 
 	{
-		char buf[1024];
+		char buf[1025];
 #ifdef _WIN32
 		char *p=buf;
 		GetModuleFileName(0,buf,sizeof(buf));
@@ -206,13 +206,13 @@ static boolean confirm_program(char *program,size_t proglen)
 		}
 		strncat(buf,"\\",sizeof(buf)-1);
 #else
-		getcwd(buf,sizeof(buf));
+		if (!getcwd(buf,sizeof(buf))) return 0;
 		strncat(buf,"/",sizeof(buf)-1);
 #endif
 		strncat(buf,program,sizeof(buf)-1);
 		if (-1 != access(buf,X_OK))
 		{
-			strncpy(program,buf,proglen);
+			snprintf(program,proglen,"%s",buf);
 			return 1;
 		}
 	}
@@ -441,7 +441,7 @@ static void process_sendmsg(RHBProcessMgr *somThis,
 
 #ifdef USE_SELECT_RHBPROCESSMGR
 	#ifdef USE_THREADS
-		pipe_write(somThis->fdSignalWrite,"\000",1);
+		if (pipe_write(somThis->fdSignalWrite,"\000",1)) {}
 	#else
 		if (!somThis->childInfo->sinks[1].regData)
 		{
@@ -1110,7 +1110,7 @@ RHBProcess *RHBProcessNew(
 	op+=put_int32(op,RHBEXECD_LAUNCH);
 	op+=put_int32(op,id);
 
-	strncpy(confname,programname,sizeof(confname));
+	strncpy(confname,programname,sizeof(confname)-1);
 
 	if (confirm_program(confname,sizeof(confname)))
 	{
@@ -1512,7 +1512,7 @@ void RHBProcessMgr_end(RHBProcessMgr *somThis)
 
 #ifdef USE_SELECT_RHBPROCESSMGR
 #	ifdef USE_THREADS
-	pipe_write(somThis->fdSignalWrite,"",1);
+	if (pipe_write(somThis->fdSignalWrite,"",1)) {}
 
 	while (somThis->bQuitWrite)
 	{

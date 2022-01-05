@@ -103,7 +103,7 @@ public:
 
 					if (strcmp(p,","))
 					{
-						strncpy(buf,p,sizeof(buf));
+						strncpy(buf,p,sizeof(buf)-1);
 
 						RHBelement *e2=iface->find_named_element(NULL,buf,sizeof(buf));
 
@@ -963,7 +963,7 @@ boolean RHBkernel_emitter::generate(RHBoutput *out,char const * /* str */)
 RHBinterface *RHBkernel_emitter::get_interface(const char *b)
 {
 	char buf[256];
-	strncpy(buf,b,sizeof(buf));
+	strncpy(buf,b,sizeof(buf)-1);
 	RHBelement *e=GetRepository()->find_named_element(NULL,buf,sizeof(buf));
 	if (e) return e->is_interface();
 	return NULL;

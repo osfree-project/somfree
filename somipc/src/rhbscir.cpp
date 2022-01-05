@@ -718,7 +718,7 @@ RHBir_file::RHBir_file(const char *name)
 #	endif
 #endif
 
-	strncpy(filename,name,sizeof(filename));
+	strncpy(filename,name,sizeof(filename)-1);
 
 	freeListItems=NULL;
 	fileLength=0;
@@ -1002,7 +1002,10 @@ void RHBir_file::seek(long off)
 
 void RHBir_file::read(void *pv,unsigned long len)
 {
-	fread(pv,len,1,fp);
+	int i=fread(pv,len,1,fp);
+	if (i<0) 
+	{
+	}
 }
 
 void SOMIR_element::locate_all_children(void)

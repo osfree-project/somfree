@@ -233,7 +233,7 @@ static void somestio_read_tagged_data(
 			void *data,
 			unsigned long len)
 {
-	octet stag;
+	octet stag=0;
 
 	if (!somestio_check_tag_len(ev,tag,len))
 	{
@@ -728,7 +728,7 @@ SOM_Scope CosStream_Streamable SOMSTAR SOMLINK somestio_MemoryStreamIO_read_obje
 	somStream_MemoryStreamIOData *somThis=somStream_MemoryStreamIOGetData(somSelf);
 	CosLifeCycle_Key key={0,0,0};
 	octet tag=0;
-	octet i;
+	octet i=0;
 
 	if (ev->_major) return 0;
 

@@ -168,7 +168,7 @@ int main(int argc,char **argv)
 		char buf[256]={0};
 		const char *p=dlerror();
 		if (!p) p="unknown dlerror()";
-		strncpy(buf,p,sizeof(buf));
+		strncpy(buf,p,sizeof(buf)-1);
 		fprintf(stderr,"/* dlopen(%s), %s */\n",sz_dllname_shlb,buf);
 
 		if (fp && (fp!=stdout))

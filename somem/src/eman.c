@@ -1473,7 +1473,8 @@ SOM_Scope void SOMLINK eman_someQueueEvent(
 					}
 				}
 	#else
-				write(somThis->privdata.eman_sock_write,"2",1);
+				int x=write(somThis->privdata.eman_sock_write,"2",1);
+				if (x) {}
 	#endif
 #endif
 			}

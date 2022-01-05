@@ -58,7 +58,7 @@ fp(NULL)
 
 		if (fp)
 		{
-			strncpy(filename,name,sizeof(filename));
+			strncpy(filename,name,sizeof(filename)-1);
 		}
 		else
 		{
@@ -340,7 +340,7 @@ char RHBFile::get_char()
 
 			if (fp)
 			{
-				strncpy(filename,name,sizeof(filename));
+				strncpy(filename,name,sizeof(filename)-1);
 			}
 			else
 			{
@@ -734,7 +734,7 @@ void RHBFile::update_file_line(const char *f,int n)
 {
 	if (f)
 	{
-		strncpy(filename,f,sizeof(filename));
+		strncpy(filename,f,sizeof(filename)-1);
 	}
 
 	if (n>0)

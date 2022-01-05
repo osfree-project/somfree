@@ -833,7 +833,7 @@ RHBmodule * RHBelement::read_module(RHBPreprocessor *pp,char *buf,size_t buflen)
 
 	m=0;
 
-	strncpy(name,buf,sizeof(name));
+	strncpy(name,buf,sizeof(name)-1);
 
 	el=find_named_element(pp,buf,buflen);
 
@@ -2196,7 +2196,7 @@ void RHBelement::dump_ids(const char *p)
 
 	buf[0]=0;
 
-	if (p) strncpy(buf,p,sizeof(buf));
+	if (p) strncpy(buf,p,sizeof(buf)-1);
 
 	if (id)
 	{
@@ -2317,7 +2317,8 @@ buf[0]=0;
 			}
 		}
 
-		strncpy(mode,buf,sizeof(mode));
+		memset(mode,0,sizeof(mode));
+		memcpy(mode,buf,strlen(buf));
 
 		buf[0]=0;
 
@@ -2349,7 +2350,7 @@ buf[0]=0;
 
 		param=new RHBparameter(pp,buf);
 		param->parameter_type=t;
-		strncpy(param->mode,mode,sizeof(param->mode));
+		memcpy(param->mode,mode,sizeof(param->mode));
 		add(pp,param);
 
 		pp->get_token(buf,sizeof(buf));
@@ -2676,7 +2677,7 @@ void RHBinterface::read_implementation(RHBPreprocessor *pp,char *buf,size_t bufl
 				pp->get_token(buf,buflen);
 			}
 
-			strncpy(name,buf,sizeof(name));
+			strncpy(name,buf,sizeof(name)-1);
 	
 			if (!e)
 			{
@@ -2706,7 +2707,7 @@ void RHBinterface::read_implementation(RHBPreprocessor *pp,char *buf,size_t bufl
 			char buf2[256];
 			RHBelement *em;
 
-			strncpy(buf2,meta,sizeof(buf2));
+			strncpy(buf2,meta,sizeof(buf2)-1);
 
 			remove_quotes(buf2);
 
@@ -3523,7 +3524,7 @@ RHBtype *RHBelement::wrap_with_pointer(RHBPreprocessor *pp,char *buf,size_t bufl
 
 	t2=new RHBpointer_type(pp,0);
 
-	strncpy(t2->type,buf,sizeof(t2->type));
+	strncpy(t2->type,buf,sizeof(t2->type)-1);
 
 	buf[0]=0;
 
@@ -3741,7 +3742,7 @@ RHBvalue * RHBelement::read_number(RHBPreprocessor *pp,char *buf,size_t buflen)
 
 		RHBequation *eq=new RHBequation(pp,0);
 
-		strncpy(eq->op,buf,sizeof(eq->op));
+		strncpy(eq->op,buf,sizeof(eq->op)-1);
 
 		buf[0]=0;
 
@@ -4527,7 +4528,7 @@ void RHBelement::remove_quotes(char *buf)
 {
 	char tmp[256];
 	char *p;
-	strncpy(tmp,buf,sizeof(tmp));
+	strncpy(tmp,buf,sizeof(tmp)-1);
 	p=tmp;
 	while (*p)
 	{
@@ -4565,7 +4566,7 @@ const char *RHBelement::get_modifier_string(const char *name)
 	RHBelement *el;
 	char buf[256];
 
-	strncpy(buf,name,sizeof(buf));
+	strncpy(buf,name,sizeof(buf)-1);
 
 	el=find_named_element(0,buf,sizeof(buf));
 

@@ -183,19 +183,20 @@ SOMEXTERN char * SOMLINK somutgetenv(char *envvar, char *stanza)
 			if (!env)
 			{
 				char *base=getenv("SOMBASE");
-				size_t i=strlen(rhbsomu_somini)+2;
+				size_t baseLen,valueLen=strlen(rhbsomu_somini);
 
 				if (!base)
 				{
 					base=rhbsomu_base;
 				}
 
-				i+=strlen(base);
+				baseLen=strlen(base);
 
 				doFree=1;
-				env=malloc(i);
-				strncpy(env,base,i);
-				strncat(env,rhbsomu_somini,i);
+				env=malloc(1+baseLen+valueLen);
+				memcpy(env,base,baseLen);
+				memcpy(env+baseLen,rhbsomu_somini,valueLen);
+				env[baseLen+valueLen]=0;
 			}
 		}
 

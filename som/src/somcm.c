@@ -134,7 +134,7 @@ static		char *method="lookup_modifier";
 
 			if (data.result && (NO_EXCEPTION==ev2._major))
 			{
-				strncpy(ev->somLocateClassFile,data.result,sizeof(ev->somLocateClassFile));
+				strncpy(ev->somLocateClassFile,data.result,sizeof(ev->somLocateClassFile)-1);
 			}
 		}
 		else

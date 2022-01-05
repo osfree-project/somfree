@@ -104,7 +104,7 @@ void RHBheader_emitter::preflight_macros_from_idl_filename(const char *f)
 
 	idl_name=f;
 
-	strncpy(buf,f,sizeof(buf));
+	strncpy(buf,f,sizeof(buf)-1);
 
 	f=&buf[strlen(buf)];
 
@@ -119,7 +119,7 @@ void RHBheader_emitter::preflight_macros_from_idl_filename(const char *f)
 		}
 	}
 
-	strncpy(idl_filestem,f,sizeof(idl_filestem));
+	strncpy(idl_filestem,f,sizeof(idl_filestem)-1);
 	p=idl_filestem;
 
 	while (*p)
@@ -358,7 +358,7 @@ void RHBheader_emitter::generate_headers(RHBoutput *out,int nest)
 						char fn[256];
 						char *p;
 
-						strncpy(fn,i->id,sizeof(fn));
+						strncpy(fn,i->id,sizeof(fn)-1);
 
 						p=&fn[strlen(fn)];
 
@@ -410,7 +410,7 @@ void RHBheader_emitter::generate_headers(RHBoutput *out,int nest)
 			char fn[256];
 			char *p;
 
-			strncpy(fn,idl_name,sizeof(fn));
+			strncpy(fn,idl_name,sizeof(fn)-1);
 
 			p=&fn[strlen(fn)];
 
@@ -1872,7 +1872,7 @@ void RHBheader_emitter::generate_class_data(RHBoutput *out,RHBinterface *iface,i
 					RHBoperation *op=0;
 					RHBelement *oe;
 
-					strncpy(buf,p,sizeof(buf));
+					strncpy(buf,p,sizeof(buf)-1);
 
 					oe=iface->find_named_element(0,buf,sizeof(buf));
 					if (oe) 
@@ -1915,7 +1915,7 @@ void RHBheader_emitter::generate_class_data(RHBoutput *out,RHBinterface *iface,i
 
 			if (op)
 			{
-				strncpy(buf,op->id,sizeof(buf));
+				strncpy(buf,op->id,sizeof(buf)-1);
 
 				if (!iface->classData->find_named_element(0,buf,sizeof(buf)))
 				{
@@ -2369,7 +2369,7 @@ void RHBheader_emitter::generate_sizeof_va_list_param(RHBoutput *out,RHBparamete
 					}
 					else
 					{
-						strncpy(n,bt->id,sizeof(n));
+						strncpy(n,bt->id,sizeof(n)-1);
 
 						while (bt->is_qualified())
 						{
@@ -2618,7 +2618,7 @@ void RHBheader_emitter::generate_somMethodInfo(
 		}
 
 		{
-			char n2[256];
+			char n2[257];
 			strncpy(n2,"somMethodInfo_",sizeof(n2));
 			strncat(n2,n,sizeof(n2)-1);
 			undoublebar(out,n2);
@@ -2635,7 +2635,7 @@ void RHBheader_emitter::generate_somMethodInfo(
 				char buf[256];
 				size_t i=0;
 				int k=sizeof(type_table)/sizeof(type_table[0]);
-				strncpy(buf,ret_type->id,sizeof(buf));
+				strncpy(buf,ret_type->id,sizeof(buf)-1);
 
 				while (ret_type->is_qualified())
 				{
@@ -2779,7 +2779,7 @@ void RHBheader_emitter::generate_somMethodInfo(
 	get_c_name(op,n,sizeof(n));
 
 	{
-		char n2[256];
+		char n2[257];
 		strncpy(n2,"somApRdInfo_",sizeof(n2));
 		strncat(n2,n,sizeof(n2)-1);
 		undoublebar(out,n2);
@@ -3374,13 +3374,13 @@ void RHBheader_emitter::generate_new_class(RHBoutput *out,RHBinterface *iface,RH
 		
 		while (k < iface->_parents.length())
 		{
-			char buf[256];
+			char buf[257];
 			char n2[256];
 
 			RHBelement *el=iface->_parents.get(k);
 
 			get_c_name(iface,n2,sizeof(n2));
-			strncpy(buf,"somPCN_",sizeof(buf));
+			strncpy(buf,"somPCN_",sizeof(buf)-1);
 			strncat(buf,n2,sizeof(buf)-1);
 
 			generate_somId(out,nest,el,buf,0,0,1);
@@ -4566,7 +4566,7 @@ boolean RHBheader_emitter::do_som21_macro(RHBinterface *iface,const char *name)
 	{
 		RHBelement *el;
 		char buf[256];
-		strncpy(buf,name,sizeof(buf));
+		strncpy(buf,name,sizeof(buf)-1);
 		el=iface->find_named_element(0,buf,sizeof(buf));
 		if (!el) return 0;
 		if (!el->is_operation()) return 0;
@@ -4580,7 +4580,7 @@ boolean RHBheader_emitter::does_override(RHBinterface *iface,const char *name)
 	RHBelement *el;
 	char buf[256];
 
-	strncpy(buf,name,sizeof(buf));
+	strncpy(buf,name,sizeof(buf)-1);
 
 	el=iface->find_named_element(0,buf,sizeof(buf));
 
@@ -5317,7 +5317,7 @@ void RHBheader_emitter::generate_somId(RHBoutput *out,int nest,
 	}
 	else
 	{
-		strncpy(str,el->id,sizeof(str));
+		strncpy(str,el->id,sizeof(str)-1);
 	}
 
 	if (recurse)
@@ -5326,7 +5326,7 @@ void RHBheader_emitter::generate_somId(RHBoutput *out,int nest,
 	}
 	else
 	{
-		strncpy(var,el->id,sizeof(var));
+		strncpy(var,el->id,sizeof(var)-1);
 	}
 
 	{
@@ -5468,7 +5468,7 @@ void RHBheader_emitter::generate_somTD(RHBoutput *out,RHBinterface *iface,RHBope
 	char somTP_name[256];
 
 	{
-		char buf[256];
+		char buf[255];
 		get_c_name(iface,buf,sizeof(buf));
 		strncpy(somTP_name,"somTP_",sizeof(somTP_name));
 		strncat(somTP_name,buf,sizeof(somTP_name)-1);
@@ -5477,7 +5477,7 @@ void RHBheader_emitter::generate_somTD(RHBoutput *out,RHBinterface *iface,RHBope
 	}
 
 	{
-		char buf[256];
+		char buf[255];
 		get_c_name(iface,buf,sizeof(buf));
 		strncpy(somTD_name,"somTD_",sizeof(somTD_name));
 		strncat(somTD_name,buf,sizeof(somTD_name)-1);
@@ -7368,7 +7368,7 @@ void RHBheader_emitter::generate_parent_macro(
 			int nest)
 {
 	char buf[256];
-	char n[256];
+	char n[257];
 
 	get_c_name(op,buf,sizeof(buf));
 
@@ -7722,7 +7722,7 @@ void RHBheader_emitter::generate_versions(RHBoutput *out,RHBinterface *iface,con
 	char n[256];
 	char buf[256];
 
-	strncpy(buf,mod_name,sizeof(buf));
+	strncpy(buf,mod_name,sizeof(buf)-1);
 	el=iface->find_named_element(0,buf,sizeof(buf));
 
 	p=0;
@@ -9187,7 +9187,7 @@ int RHBheader_emitter::get_va_operations(RHBinterface *iface,RHBelement_sequence
 			{
 				RHBelement *oe;
 
-				strncpy(buf,p,sizeof(buf));
+				strncpy(buf,p,sizeof(buf)-1);
 
 				oe=iface->find_named_element(0,buf,sizeof(buf));
 
