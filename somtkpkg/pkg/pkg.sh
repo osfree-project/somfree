@@ -77,12 +77,4 @@ VERSION="$VERSION"
 BASEDIR="/opt/somtk"
 EOF
 
-../../toolbox/dir2pkg.sh "$INTDIR" "$INTDIR/somtk.tests" "$OUTDIR_DIST" <<EOF
-CATEGORY="utility"
-NAME="SOMTK tests"
-PKG="RHBsomtkz"
-VERSION="$VERSION"
-BASEDIR="/opt/somtk"
-EOF
-
 echo done
