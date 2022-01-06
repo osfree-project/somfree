@@ -304,6 +304,7 @@ static void rhbexecd_obituary(struct rhbexecd_process *ps,long rc)
 	if (rhbexecd_remove(&globals->list,ps))
 	{
 		struct rhbexecd_message *msg=calloc(sizeof(msg[0])+16,1);
+		unsigned char *data=msg->data;
 
 #ifdef _WIN32
 		ps->pinfo.dwProcessId=0;
@@ -315,10 +316,10 @@ static void rhbexecd_obituary(struct rhbexecd_process *ps,long rc)
 		ps->next=globals->deceased;
 		globals->deceased=ps;
 
-		msg->length+=put_int32(msg->data+msg->length,16);
-		msg->length+=put_int32(msg->data+msg->length,RHBEXECD_OBITUARY);
-		msg->length+=put_int32(msg->data+msg->length,ps->id);
-		msg->length+=put_int32(msg->data+msg->length,rc);
+		msg->length+=put_int32(data+msg->length,16);
+		msg->length+=put_int32(data+msg->length,RHBEXECD_OBITUARY);
+		msg->length+=put_int32(data+msg->length,ps->id);
+		msg->length+=put_int32(data+msg->length,rc);
 
 		msg->ptr=msg->data;
 

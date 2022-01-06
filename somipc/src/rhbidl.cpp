@@ -4299,7 +4299,7 @@ void RHBelement::_set_prefix(const char *buf)
 	{
 		size_t x=strlen(b)+1;
 		prefix=new char[x];
-		strncpy(prefix,b,x);
+		memcpy(prefix,b,x);
 	}
 }
 
@@ -4345,7 +4345,7 @@ void RHBelement::_set_global_id(const char *buf)
 	{
 		size_t x=strlen(b)+1;
 		global_id=new char[x];
-		strncpy(global_id,b,x);
+		memcpy(global_id,b,x);
 	}
 }
 
@@ -4379,7 +4379,7 @@ void RHBelement::_set_version(const char *buf)
 	{
 		size_t x=strlen(b)+1;
 		version=new char[x];
-		strncpy(version,b,x);
+		memcpy(version,b,x);
 	}
 
 	gen_global_id();
