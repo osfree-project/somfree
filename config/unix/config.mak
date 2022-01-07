@@ -81,7 +81,7 @@ $(CONFIG2_CPP): $(CONFIG2_C)
 	if test -f $@; then rm $@; fi
 	cp $(CONFIG2_C) $@
 
-$(CONFIG_MK): ../unix/config.mak $(ENDIAN_H) $(ENDIAN_SH) $(MAKEDEFS) $(PLATDEFS)
+$(CONFIG_MK): ../unix/config.mak $(ENDIAN_H) $(ENDIAN_SH) $(MAKEDEFS) $(PLATDEFS) $(CONFIG_H) $(CONFIG_HPP)
 	chmod +x $(ENDIAN_SH)
 	chmod +x $(CONFIG3_SH)
 	if test "$(MAKEDEFS_ORIG)" = ""; then \
