@@ -22,7 +22,17 @@
 
 if test -z "$PKGROOT"
 then
-	PKGROOT=usr/share/somtk
+	case "$PLATFORM" in
+		*-*-netbsd* )
+			PKGROOT=usr/pkg/share/somtk
+			;;
+		*-*-freebsd* | *-*-openbsd* )
+			PKGROOT=usr/local/share/somtk
+			;;
+		* )
+			PKGROOT=usr/share/somtk
+			;;
+	esac
 fi
 
 PLATFORM_TMP=$INTDIR/platform-$$.d

@@ -43,25 +43,32 @@ esac
 
 CONTROLFILE="$INTDIR/control"
 
+trap "rm -rf CONTROLFILE" 0
+
 cat >"$CONTROLFILE"
 
 APPNAME=`getField "$CONTROLFILE" Package:`
 VERSION=`getField "$CONTROLFILE" Version:`
 ARCH=`getField "$CONTROLFILE" Architecture:`
+MAINTAINER=`getField "$CONTROLFILE" Maintainer:`
 PACKAGE_NAME="$APPNAME"_"$VERSION"_"$ARCH".deb
 
-SCRIPTLIST="./preinst ./postinst ./postrm ./prerm"
-
-for d in $SCRIPTLIST
-do
-	if test ! -f "$INTDIR/$d"
+if dpkg --print-architecture
+then
+	if test "$ARCH" != "$(dpkg --print-architecture)"
 	then
-		cat >"$INTDIR/$d" <<EOF
-#!/bin/sh
-EOF
-		chmod +x "$INTDIR/$d"
+		echo Wrong architecture, $ARCH is not "$(dpkg --print-architecture)"
+		exit 0
 	fi
-done
+else
+	exit 0
+fi
+
+if test -z "$MAINTAINER"
+then
+	echo MAINTAINER must be provided >&2
+	false
+fi
 
 (
 	cd "$BASEDIR"
@@ -77,18 +84,11 @@ done
 (
 	cd "$INTDIR"
 	rm -rf "$PACKAGE_NAME"
-	$GTAR --owner=0 --group=0 --create --file control.tar ./control $SCRIPTLIST	
+	$GTAR --owner=0 --group=0 --create --file control.tar control	
 	echo "2.0" >debian-binary
 	gzip control.tar
 	ar r "$PACKAGE_NAME" debian-binary control.tar.gz data.tar.gz
 	rm -rf data.tar.gz control.tar.gz debian-binary
 )
-
-rm -rf "$CONTROLFILE"
-
-for d in $SCRIPTLIST
-do
-	rm "$INTDIR/$d"
-done
 
 mv "$INTDIR/$PACKAGE_NAME" "$DEBDIR"

@@ -151,7 +151,7 @@ DPKGARCH=`../../toolbox/pkgtool.sh dpkg-arch "$OUTDIR/bin/somipc"`
 Package: somtk-comp
 Version: $VERSION
 Architecture: $DPKGARCH
-Maintainer: somtoolkit@users.sf.net
+Maintainer: $MAINTAINER
 Provides: somtk-comp
 Section: misc
 Priority: extra
@@ -164,7 +164,7 @@ EOF
 Package: somtk-rte
 Version: $VERSION
 Architecture: $DPKGARCH
-Maintainer: somtoolkit@users.sf.net
+Maintainer: $MAINTAINER
 Provides: somtk-rte
 Section: misc
 Priority: extra
@@ -177,7 +177,7 @@ EOF
 Package: somtk-ir
 Version: $VERSION
 Architecture: $DPKGARCH
-Maintainer: somtoolkit@users.sf.net
+Maintainer: $MAINTAINER
 Depends: somtk-rte
 Provides: somtk-ir
 Section: misc
@@ -191,7 +191,7 @@ EOF
 Package: somtk-util
 Version: $VERSION
 Architecture: $DPKGARCH
-Maintainer: somtoolkit@users.sf.net
+Maintainer: $MAINTAINER
 Depends: somtk-ir
 Provides: somtk-util
 Section: misc
@@ -205,7 +205,7 @@ EOF
 Package: somtk-dsom
 Version: $VERSION
 Architecture: $DPKGARCH
-Maintainer: somtoolkit@users.sf.net
+Maintainer: $MAINTAINER
 Depends: somtk-util
 Provides: somtk-dsom
 Section: misc
@@ -219,7 +219,7 @@ EOF
 Package: somtk-dev
 Version: $VERSION
 Architecture: $DPKGARCH
-Maintainer: somtoolkit@users.sf.net
+Maintainer: $MAINTAINER
 Depends: somtk-comp
 Provides: somtk-dev
 Section: misc
@@ -229,3 +229,56 @@ Description: SOMTK Development Library
  .
 EOF
 
+../../toolbox/dir2bsd.sh "$INTDIR" "$INTDIR/somtk.rte" "$OUTDIR_DIST" <<EOF
+somtk-rte
+$VERSION
+
+$PKGROOT
+SOMTK Runtime Environment
+Runtime Environment for SOMTK
+EOF
+
+../../toolbox/dir2bsd.sh "$INTDIR" "$INTDIR/somtk.comp" "$OUTDIR_DIST" <<EOF
+somtk-comp
+$VERSION
+
+$PKGROOT
+SOMTK IDL Compiler
+IDL Compiler for SOMTK
+EOF
+
+../../toolbox/dir2bsd.sh "$INTDIR" "$INTDIR/somtk.ir" "$OUTDIR_DIST" <<EOF
+somtk-ir
+$VERSION
+somtk-rte
+$PKGROOT
+SOMTK Interface Repository
+Interface Repository for SOMTK
+EOF
+
+../../toolbox/dir2bsd.sh "$INTDIR" "$INTDIR/somtk.util" "$OUTDIR_DIST" <<EOF
+somtk-util
+$VERSION
+somtk-ir somtk-rte
+$PKGROOT
+SOMTK Utilities
+Utilities for SOMTK
+EOF
+
+../../toolbox/dir2bsd.sh "$INTDIR" "$INTDIR/somtk.dsom" "$OUTDIR_DIST" <<EOF
+somtk-dsom
+$VERSION
+somtk-util somtk-ir somtk-rte
+$PKGROOT
+SOMTK DSOM
+CORBA ORB for SOMTK
+EOF
+
+../../toolbox/dir2bsd.sh "$INTDIR" "$INTDIR/somtk.dev" "$OUTDIR_DIST" <<EOF
+somtk-dev
+$VERSION
+somtk-comp
+$PKGROOT
+SOMTK Development Library
+Library and headers for SOMTK
+EOF
