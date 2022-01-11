@@ -20,21 +20,6 @@
 # $Id$
 #
 
-if test -z "$PKGROOT"
-then
-	case "$PLATFORM" in
-		*-*-netbsd* )
-			PKGROOT=usr/pkg/share/somtk
-			;;
-		*-*-freebsd* | *-*-openbsd* )
-			PKGROOT=usr/local/share/somtk
-			;;
-		* )
-			PKGROOT=usr/share/somtk
-			;;
-	esac
-fi
-
 PLATFORM_TMP=$INTDIR/platform-$$.d
 CC_FLAG_FPIC=-fPIC
 CXX_FLAG_FPIC=-fPIC
@@ -406,6 +391,50 @@ fi
 SHLB_REF_NAME=$OUTDIR/reflib
 
 STRIP=strip
+
+if test -z "$PKGROOT"
+then
+	case "$PLATFORM" in
+		*-*-netbsd* )
+			PKGROOT=usr/pkg/somtk
+			;;
+		*-*-freebsd* | *-*-openbsd* )
+			PKGROOT=usr/local/somtk
+			;;
+		* )
+			for d in $( . /etc/os-release ; echo $ID $ID_LIKE )
+			do
+				case "$d" in
+					centos | rhel | suse | opensuse | fedora )
+						if ( platform_compile $SHARED_FPIC <<EOF
+#ifdef __LP64__
+long bogus;
+#else
+#	error is 32 bit
+#endif
+EOF
+						)
+						then
+							PKGROOT=usr/lib64/somtk
+						else
+							PKGROOT=usr/lib/somtk
+						fi
+						;;
+					* )
+						;;
+				esac
+				if test -n "$PKGROOT"
+				then
+					break
+				fi
+			done
+			if test -z "$PKGROOT"
+			then
+				PKGROOT=usr/lib/somtk
+			fi
+			;;
+	esac
+fi
 
 platform_cleanup
 

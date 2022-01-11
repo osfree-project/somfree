@@ -23,6 +23,7 @@ mkdir "$INTDIR/meta"
 
 case "$OPSYS" in
 	NetBSD )
+		PKGROOT=$(dirname $PKGROOT)
 		cat > "$INTDIR/meta/BUILD_INFO" <<EOF
 HOMEPAGE=https://sourceforge.net/projects/somfree/
 MACHINE_ARCH=$(uname -p)
@@ -81,13 +82,14 @@ EOF
 			echo MAINTAINER must be provided >&2
 			false
 		fi
+		PKGROOT=$(dirname $PKGROOT)
 		(
 			cat <<EOF
 name $PKGNAME
 version $VERSION
 comment $TITLE
 www https://sourceforge.net/projects/somfree/
-origin mist/$PKGNAME
+origin misc/$PKGNAME
 desc: <<EOD
 cat
 EOD
@@ -139,6 +141,7 @@ EOF
 			echo MAINTAINER must be provided >&2
 			false
 		fi
+		PKGROOT=$(dirname $PKGROOT)		
 		PKGDEPS=
 		for d in $PKGDEP
 		do
