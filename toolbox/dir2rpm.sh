@@ -33,6 +33,26 @@ esac
 SPECFILE="$INTDIR/rpm.spec"
 TGTPATH="$INTDIR/rpm.dir"
 
+includedir()
+{
+	RC=0
+	case "$1" in 
+	/opt )
+		RC=1		
+		;;
+	/usr | /usr/bin | /usr/lib* | /usr/local | /usr/local/lib | /usr/local/bin | /usr/local/etc | /usr/libexec | /usr/share )
+		RC=1		
+		;;
+	/etc | /etc/xinetd.d | /etc/rc.d | /etc/rc.d/init.d )
+		RC=1		
+		;;
+	* )
+		;;
+	esac
+
+	return $RC
+}
+
 cat >"$SPECFILE"
 
 (
@@ -54,11 +74,17 @@ cat >"$SPECFILE"
 		then
 			if test -d "$N"
 			then
-				echo "%dir %attr(555,root,root) $M"
+				if includedir "$M"
+				then
+					echo "%dir %attr(555,root,root) $M"
+				fi
 			else
 				if test -L "$N"
 				then
-					echo "$M"
+					if includedir "$M"
+					then
+						echo "$M"
+					fi
 				else
 					if test -f "$N"
 					then
@@ -92,7 +118,16 @@ do
 	fi
 done
 
-$RPMBUILD --buildroot "$BASEDIR" --define "_build_id_links none" --define "_rpmdir $TGTPATH" -bb "$SPECFILE"
+$RPMBUILD --buildroot "$BASEDIR" --define "_rpmdir $TGTPATH" -bb "$SPECFILE"
+
+for e in "$BASEDIR/usr/lib/.build-id"
+do
+	if test -d "$e"
+	then
+		chmod -R +w "$e"
+		rm -rf "$e"
+	fi
+done
 
 for d in usr/lib usr
 do

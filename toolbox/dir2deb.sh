@@ -43,7 +43,7 @@ esac
 
 CONTROLFILE="$INTDIR/control"
 
-trap "rm -rf CONTROLFILE" 0
+trap "rm -rf $CONTROLFILE" 0
 
 cat >"$CONTROLFILE"
 

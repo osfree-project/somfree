@@ -405,7 +405,7 @@ then
 			for d in $( . /etc/os-release ; echo $ID $ID_LIKE )
 			do
 				case "$d" in
-					centos | rhel | suse | opensuse | fedora )
+					centos | rhel | suse | opensuse | fedora | gentoo | slackware | solus | almalinux | rocky | amzn | ol )
 						if ( platform_compile $SHARED_FPIC <<EOF
 #ifdef __LP64__
 long bogus;
@@ -419,6 +419,9 @@ EOF
 						else
 							PKGROOT=usr/lib/somtk
 						fi
+						;;
+					debian | arch | alpine )
+						PKGROOT=usr/lib/somtk
 						;;
 					* )
 						;;
