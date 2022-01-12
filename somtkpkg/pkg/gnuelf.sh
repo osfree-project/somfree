@@ -282,3 +282,31 @@ $PKGROOT
 SOMTK Development Library
 Library and headers for SOMTK
 EOF
+
+
+while read BASEDIR PKGNAME
+do
+	../../toolbox/slackpkg.sh "$INTDIR" "$BASEDIR" "$OUTDIR_DIST" << EOF
+$PKGNAME
+$VERSION
+$PKGROOT
+$PKGNAME: somFree - Portable implementation of SOM
+$PKGNAME:
+$PKGNAME: A portable clean-room implementation of IBM's SOM. Includes DSOM
+$PKGNAME: capabilities with CORBA IDL and IIOP.
+$PKGNAME: 
+$PKGNAME: 
+$PKGNAME: 
+$PKGNAME: 
+$PKGNAME: 
+$PKGNAME: 
+$PKGNAME: 
+EOF
+done << EOF2
+$INTDIR/somtk.dev	somtk-dev
+$INTDIR/somtk.comp	somtk-comp
+$INTDIR/somtk.rte	somtk-rte
+$INTDIR/somtk.dsom	somtk-dsom
+$INTDIR/somtk.ir	somtk-ir
+$INTDIR/somtk.util	somtk-util
+EOF2
