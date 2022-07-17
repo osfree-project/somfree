@@ -24,6 +24,7 @@ jobs:
       - name: Run a one-line script
         run: |
           git svn clone https://svn.code.sf.net/p/somfree/code/trunk D:\a\somfree\somfree
+          git pull --progress -v --no-rebase "origin"
           git push origin master
         
 
