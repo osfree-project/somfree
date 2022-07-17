@@ -266,7 +266,7 @@ static void somdd_bootstrap(Environment *ev,int argc,char **argv)
 			seq._length=len;
 			seq._maximum=seq._length;
 			seq._buffer=SOMMalloc(seq._length);
-			len=fread(seq._buffer,seq._length,1,fp);
+			len=(unsigned long)fread(seq._buffer,seq._length,1,fp);
 			fclose(fp);
 			somStream_StreamIO_set_buffer(stream,ev,&seq);
 			if (seq._buffer) SOMFree(seq._buffer);
