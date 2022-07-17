@@ -27,7 +27,7 @@ jobs:
 
       # Runs a single command using the runners shell
       - name: Run a one-line script
-        run: git svn rebase https://svn.code.sf.net/p/somfree/code/trunk --no-auth-cache 
+        run: git svn fetch https://svn.code.sf.net/p/somfree/code/trunk \
 
 
 
