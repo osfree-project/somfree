@@ -27,7 +27,9 @@ jobs:
 
       # Runs a single command using the runners shell
       - name: Run a one-line script
-        run: git svn fetch https://svn.code.sf.net/p/somfree/code/trunk \
+        run: git svn clone https://svn.code.sf.net/p/somfree/code/trunk
+        
+
 
 
 
